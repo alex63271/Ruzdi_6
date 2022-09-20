@@ -118,10 +118,12 @@
         <StackPanel
             Grid.Row="3"
             Grid.Column="1"
-            Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <Button Command="{Binding DataContext.ToProperty, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Content=" &lt;&lt; Назад " />
+            <Button
+                Margin="0,0,50,0"
+                Command="{Binding DataContext.ToProperty, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+                Content=" &lt;&lt; Назад " />
             <Button Command="{Binding DataContext.ToApplicantCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Content=" Далее &gt;&gt; " />
         </StackPanel>
     </Grid>

@@ -40,7 +40,7 @@
                     <GroupBox
                         Grid.Row="1"
                         Grid.ColumnSpan="2"
-                        Margin="10,7,10,180"
+                        Margin="10,30,10,120"
                         Padding="0,15,0,0"
                         BorderBrush="CadetBlue"
                         BorderThickness="2"
@@ -193,7 +193,7 @@
                                 </StackPanel>
                             </UniformGrid>
 
-                            <StackPanel Margin="10,10" Orientation="Horizontal">
+                            <StackPanel Margin="10,6" Orientation="Horizontal">
                                 <TextBlock Margin="10,10" Text="* - Поля, обязательные к заполнению" />
                                 <TextBlock Margin="10,10">
                                     <Run Foreground="Coral" Text=" *" />

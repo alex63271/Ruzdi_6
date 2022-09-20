@@ -85,53 +85,53 @@ namespace Ruzdi_6.ViewModel
 
 
 
-                SelectPledgor = new PledgorOrganization
-                {
-                    RussianOrganization = new RussianOrganization
-                    {
-                        NameFull = "Рога и копыта",
-                        INN = "123456",
-                        OGRN = "1324567890",
-                        Address = new RussianOrganizationAddress
-                        {
-                            Region = "Москва",
-                            RegionCode = "",
-                            District = "район",
-                            City = "Москва",
-                            Locality = "Нас. пункт",
-                            Street = "улица",
-                            House = "Дом",
-                            Building = "строение",
-                            Apartment = "квартира",
-                        },
-                        Email = "13@kk.ru"
-                    }
-                };
-                //SelectPledgor = new PledgorPrivatePerson
+                //SelectPledgor = new PledgorOrganization
                 //{
-                //    Name = new PrivatePersonName
+                //    RussianOrganization = new RussianOrganization
                 //    {
-                //        Last = "Петров",
-                //        First = "Иван",
-                //        Middle = "Михалыч"
-                //    },
-                //    BirthDate = DateTime.Now,
-                //    PersonDocument = new PrivatePersonDocument
-                //    {
-                //        Code = 21,
-                //        Name = "паспорт",
-                //        SeriesNumber = "123456789"
-                //    },
-                //    PersonAddress = new PrivatePersonPersonAddress
-                //    {
-                //        AddressRF = new PrivatePersonPersonAddressAddressRF
+                //        NameFull = "Рога и копыта",
+                //        INN = "123456",
+                //        OGRN = "1324567890",
+                //        Address = new RussianOrganizationAddress
                 //        {
-                //            RegionCode = "10",
                 //            Region = "Москва",
-                //            City = "789"
-                //        }
+                //            RegionCode = "",
+                //            District = "район",
+                //            City = "Москва",
+                //            Locality = "Нас. пункт",
+                //            Street = "улица",
+                //            House = "Дом",
+                //            Building = "строение",
+                //            Apartment = "квартира",
+                //        },
+                //        Email = "13@kk.ru"
                 //    }
                 //};
+                SelectPledgor = new PledgorPrivatePerson
+                {
+                    Name = new PrivatePersonName
+                    {
+                        Last = "Петров",
+                        First = "Иван",
+                        Middle = "Михалыч"
+                    },
+                    BirthDate = DateTime.Now,
+                    PersonDocument = new PrivatePersonDocument
+                    {
+                        Code = 21,
+                        Name = "паспорт",
+                        SeriesNumber = "123456789"
+                    },
+                    PersonAddress = new PrivatePersonPersonAddress
+                    {
+                        AddressRF = new PrivatePersonPersonAddressAddressRF
+                        {
+                            RegionCode = "10",
+                            Region = "Москва",
+                            City = "789"
+                        }
+                    }
+                };
 
                 #region Команды залогодателя 
 
