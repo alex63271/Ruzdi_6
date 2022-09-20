@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Collections.ObjectModel;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Ruzdi_6.ViewModel;
 
@@ -21,62 +23,55 @@ public class VM_Applicant : ViewModel
     {
         if (App.DesignMode)
         {
-            DisplayApplicant = new ApplicantPrivatePerson
-            {
-                Name = new PrivatePersonName
-                {
-                    Last = "Last",
-                    First = "First",
-                    Middle = "Middle"
-                },
-                Email = "12@123.ru"
-            };
+            //DisplayApplicant = new ApplicantPrivatePerson
+            //{
+            //    Name = new PrivatePersonName
+            //    {
+            //        Last = "Last",
+            //        First = "First",
+            //        Middle = "Middle"
+            //    },
+            //    Email = "12@123.ru"
+            //};
 
-            SourceComboRegion = new List<string>
-            {
-                "Москва",
-                "Анапа",
-                "Алушта"
-            };
-
-            #region Конструкция чтения хранилища сертификатов и сохранения их перечня в коллекции
-            using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
-            {
-                List = new ArrayList();
-                ListThumbprint = new ArrayList();
-                store.Open(OpenFlags.ReadOnly);
-                // Проходим по всем сертификатам 
-                foreach (X509Certificate2 cert in store.Certificates)
-                {
-                    if (cert.NotAfter > DateTime.Now) // выбираем сертификаты с действующим сроком
-                    {
-                        string zap = ",";
-                        string otvet = cert.SubjectName.Name + zap; //добавляем запятую в конец чтобы искался последний элемент в строке
-                        if (otvet.Contains("CN=") && otvet.Contains("SN=") && otvet.Contains("G="))  //отсеиваем сертификаты без нужных атрибутов
-                        {
-                            if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
-                            {
-                                string s = "CN=";
-                                string CN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-                                s = "SN=";
-                                string SN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-                                s = "G=";
-                                string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-                                string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
-                                List.Add(stroka);   //записываем строку в лист для отображения в интерфейсе
-                                ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
-                            }
-                            else //если физ. лицо
-                            {
-                                string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
-                                List.Add(CN);   //записываем строку в лист для отображения в интерфейсе
-                                ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
-                            }
-                        }
-                    }
-                }
-            }
-            #endregion
+            //#region Конструкция чтения хранилища сертификатов и сохранения их перечня в коллекции
+            //using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
+            //{
+            //    List = new ArrayList();
+            //    ListThumbprint = new ArrayList();
+            //    store.Open(OpenFlags.ReadOnly);
+            //    // Проходим по всем сертификатам 
+            //    foreach (X509Certificate2 cert in store.Certificates)
+            //    {
+            //        if (cert.NotAfter > DateTime.Now) // выбираем сертификаты с действующим сроком
+            //        {
+            //            string zap = ",";
+            //            string otvet = cert.SubjectName.Name + zap; //добавляем запятую в конец чтобы искался последний элемент в строке
+            //            if (otvet.Contains("CN=") && otvet.Contains("SN=") && otvet.Contains("G="))  //отсеиваем сертификаты без нужных атрибутов
+            //            {
+            //                if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
+            //                {
+            //                    string s = "CN=";
+            //                    string CN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+            //                    s = "SN=";
+            //                    string SN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+            //                    s = "G=";
+            //                    string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+            //                    string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
+            //                    List.Add(stroka);   //записываем строку в лист для отображения в интерфейсе
+            //                    ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
+            //                }
+            //                else //если физ. лицо
+            //                {
+            //                    string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
+            //                    List.Add(CN);   //записываем строку в лист для отображения в интерфейсе
+            //                    ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            //#endregion
 
             #region ApplicantList - список возможных заявителей
             /*
@@ -97,70 +92,70 @@ public class VM_Applicant : ViewModel
             */
             #endregion
 
-            /* DisplayApplicant = new NotificationApplicant
-             {
-                 Role = 2,
-                 Organization = new ApplicantOrganization
-                 {
-                     NameFull = "NameFull",
-                     UINN = "INN",
-                     URN = "OGRN",
-                     //Email = ""
-                 },
-                 Attorney = new ApplicantAttorney
-                 {
-                     Name = new ApplicantAttorneyName
-                     {
-                         First = "First",
-                         Last = "Last",
-                         Middle = "Middle"
-                     },
-                     BirthDate = DateTime.Now,
-                     Authority = "основания полномочий",
-                     PersonDocument = new ApplicantAttorneyPersonDocument
-                     {
-                         Code = 21,
-                         Name = "Паспорт",
-                         SeriesNumber = "1234567890"
-                     },
-                     PersonAddress = new ApplicantAttorneyPersonAddress
-                     {
-                         AddressRF = new ApplicantAttorneyPersonAddressAddressRF
-                         {
-                             registration = true,
-                             Region = "Москва",
-                             District = "район",
-                             City = "Москва",
-                             Locality = "Нас. пункт",
-                             Street = "улица",
-                             House = "Дом",
-                             Building = "строение",
-                             Apartment = "квартира",
-                         }
-                     }
-                 }
-             };*/
+            DisplayApplicant = new NotificationApplicant
+            {
+                Role = 2,
+                Organization = new ApplicantOrganization
+                {
+                    NameFull = "NameFull",
+                    UINN = "INN",
+                    URN = "OGRN",
+                    //Email = ""
+                },
+                Attorney = new ApplicantAttorney
+                {
+                    Name = new ApplicantAttorneyName
+                    {
+                        First = "First",
+                        Last = "Last",
+                        Middle = "Middle"
+                    },
+                    BirthDate = DateTime.Now,
+                    Authority = "основания полномочий",
+                    PersonDocument = new ApplicantAttorneyPersonDocument
+                    {
+                        Code = 21,
+                        Name = "Паспорт",
+                        SeriesNumber = "1234567890"
+                    },
+                    PersonAddress = new ApplicantAttorneyPersonAddress
+                    {
+                        AddressRF = new ApplicantAttorneyPersonAddressAddressRF
+                        {
+                            registration = true,
+                            Region = "Москва",
+                            District = "район",
+                            City = "Москва",
+                            Locality = "Нас. пункт",
+                            Street = "улица",
+                            House = "Дом",
+                            Building = "строение",
+                            Apartment = "квартира",
+                        }
+                    }
+                }
+            };
         }
         else
         {
 
             #region ApplicantList - список возможных заявителей
-            /*
+
             ApplicantList = new CompositeCollection(2);
 
             CollectionContainer ApplicantPledgors = new CollectionContainer
             {
-                Collection = VM_Pledgor.Get_VM_Pledgor_UZ1().Pledgors
+                Collection = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>().Pledgors
             };
 
             CollectionContainer ApplicantPledgee = new CollectionContainer
             {
-                Collection = VM_Pledgee.GetVM_Pledgee_UZ1().Pledgee
+                Collection = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgee>().Pledgee
             };
 
             ApplicantList.Add(ApplicantPledgors);
             ApplicantList.Add(ApplicantPledgee);
-            */
+
             #endregion
 
             SourceComboRegion = App.Region_list;
@@ -206,20 +201,7 @@ public class VM_Applicant : ViewModel
         }
     }
 
-    #region Свойство для дизайнера
-    public static VM_Applicant VM_Applicant_ForDesiner
-    {
-        get
-        {
-            if (vM_Applicant_ForDesiner == null)
-            {
-                vM_Applicant_ForDesiner = new VM_Applicant();
-            }
-            return vM_Applicant_ForDesiner;
-        }
-    }
-    private static VM_Applicant vM_Applicant_ForDesiner;
-    #endregion
+  
 
     private NotificationApplicant displayApplicant;
     public NotificationApplicant DisplayApplicant
@@ -228,25 +210,6 @@ public class VM_Applicant : ViewModel
         set => Set(ref displayApplicant, value);
     }
 
-    #region Поля и методы Singletone
-    private static VM_Applicant VM_For_Applicant;
-    public static VM_Applicant Get_VM_Applicant()
-    {
-        if (VM_For_Applicant == null)
-        {
-            VM_For_Applicant = new VM_Applicant();
-        }
-        return VM_For_Applicant;
-    }
-
-    /// <summary>
-    /// Метод для сброса экземпляра VW_UZ1
-    /// </summary>
-    public static void SetNull_VM_Applicant()
-    {
-        VM_For_Applicant = null;
-    }
-    #endregion
 
     #region ApplicantList - Коллекция для отображения перечня возможных заявителей в combobx
     public CompositeCollection ApplicantList { get; set; }
@@ -332,7 +295,7 @@ public class VM_Applicant : ViewModel
                             First = PledgorPrivatePerson.Name.First,
                             Middle = PledgorPrivatePerson.Name.Middle
                         },
-                        Email = ""
+                        Email = PledgorPrivatePerson.Email
                     }
                 };
                 DisplayApplicant = NotificationApplicant.PrivatePerson; // установка значения для шаблонов в xaml
@@ -341,7 +304,7 @@ public class VM_Applicant : ViewModel
             {
                 NotificationApplicant = new NotificationApplicant
                 {
-                    Role = 2,
+                    Role = 2,                    
                     Organization = new ApplicantOrganization
                     {
                         NameFull = PledgeeOrganization.RussianOrganization.NameFull,
@@ -398,7 +361,7 @@ public class VM_Applicant : ViewModel
                             First = PledgeePrivatePerson.Name.First,
                             Middle = PledgeePrivatePerson.Name.Middle
                         },
-                        Email = ""
+                        Email = PledgeePrivatePerson.Email
                     }
                 };
                 DisplayApplicant = NotificationApplicant.PrivatePerson; // установка значения для шаблонов в xaml
@@ -409,8 +372,6 @@ public class VM_Applicant : ViewModel
     #endregion
 
     public List<string> SourceComboRegion { get; set; }
-
-
 
     #region ListThumbprint - Список, хранящий отпечатки сертификатов
 

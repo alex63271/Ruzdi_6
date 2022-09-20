@@ -1,13 +1,12 @@
-﻿using Ruzdi_Interfaces;
+﻿
 using System.ComponentModel.DataAnnotations;
 
 namespace Ruzdi_DB.Entityes
 {
-    public class Pledgor : IEntity
+    public class Pledgor 
     {
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
-        public Persons? Person { get; set; }
-        public Organizations? Organization { get; set; }    
+        public List<Notification>? Notifications { get; set; }// свойство для отношения многие ко многим
     }
 }

@@ -1,14 +1,7 @@
 ﻿using Ruzdi_6.Commands;
 using Ruzdi_6.Model.Property_Classes;
 using Ruzdi_6.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Ruzdi_6.ViewModel
@@ -82,38 +75,6 @@ namespace Ruzdi_6.ViewModel
             }
         }
 
-        #region Поля и методы Singletone
-        private static VM_Property VM_Property_UZ1;
-        public static VM_Property GetVM_Property_UZ1()
-        {
-            if (VM_Property_UZ1 == null)
-            {
-                VM_Property_UZ1 = new VM_Property();
-            }
-            return VM_Property_UZ1;
-        }
-
-        public static void SetNull_VM_Property()
-        {
-            VM_Property_UZ1 = null;
-        }
-        #endregion
-
-
-        #region Свойство для дизайнера
-        public static VM_Property VM_Property_ForDesiner
-        {
-            get
-            {
-                if (vM_Property_ForDesiner == null)
-                {
-                    vM_Property_ForDesiner = new VM_Property();
-                }
-                return vM_Property_ForDesiner;
-            }
-        }
-        private static VM_Property vM_Property_ForDesiner;
-        #endregion
 
         public ObservableCollection<PersonalProperty> PersonalProperty { get; set; }
 

@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using Ruzdi_6.Data;
 using Ruzdi_6.Services;
 using Ruzdi_6.ViewModel;
-using System;
 
 namespace Ruzdi_6
 {
@@ -22,10 +21,10 @@ namespace Ruzdi_6
             => Host.CreateDefaultBuilder(args)
                 //.ConfigureServices(App.ConfigureServices)
                 .ConfigureServices(
-                (HostBuilderContext host, IServiceCollection services) => services
-                                                                          .AddDatabase(host.Configuration.GetSection("Database")) // секция из appsettings.json
-                                                                          .AddServices()
-                                                                          .AddViewModels()
-                                                                          );                                                                                                    
+                                    (HostBuilderContext host, IServiceCollection services) => services
+                                                                                              .AddDatabase(host.Configuration.GetSection("Database")) // секция из appsettings.json
+                                                                                              .AddServices()
+                                                                                              .AddViewModels()                                                                                                
+                                                                                              );                                                                                                    
     }
 }

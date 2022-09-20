@@ -2,14 +2,7 @@
 using Ruzdi_6.Model.Other_Classes;
 using Ruzdi_6.Model.Pledgor_Classes;
 using Ruzdi_6.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Ruzdi_6.ViewModel
@@ -22,7 +15,6 @@ namespace Ruzdi_6.ViewModel
             {
                 Pledgors = new ObservableCollection<Pledgor>()
                 {
-
                     new PledgorPrivatePerson
                     {
                         Name = new PrivatePersonName
@@ -90,38 +82,8 @@ namespace Ruzdi_6.ViewModel
                               }
                           }
                 };
-                /*SelectPledgor = new PledgorPrivatePerson
-                {
-                    Name = new PrivatePersonName
-                    {
-                        Last = "Петров",
-                        First = "Иван",
-                        Middle = "Михалыч"
-                    },
-                    BirthDate = DateTime.Now,
-                    PersonDocument = new PledgorPrivatePersonPersonDocument
-                    {
-                        Code = 21,
-                        Name = "паспорт",
-                        SeriesNumber = "123456789"
-                    },
-                    PersonAddress = new PrivatePersonPersonAddress
-                    {
-                        AddressRF = new PrivatePersonPersonAddressAddressRF
-                        {
-                            registration = true,
-                            Region = "Москва",
-                            District = "район",
-                            City = "Москва",
-                            Locality = "Нас. пункт",
-                            Street = "улица",
-                            House = "Дом",
-                            Building = "строение",
-                            Apartment = "квартира",
-                        }
-                    },
-                    Email = "123456"
-                };*/
+
+
 
                 SelectPledgor = new PledgorOrganization
                 {
@@ -145,14 +107,32 @@ namespace Ruzdi_6.ViewModel
                         Email = "13@kk.ru"
                     }
                 };
+                //SelectPledgor = new PledgorPrivatePerson
+                //{
+                //    Name = new PrivatePersonName
+                //    {
+                //        Last = "Петров",
+                //        First = "Иван",
+                //        Middle = "Михалыч"
+                //    },
+                //    BirthDate = DateTime.Now,
+                //    PersonDocument = new PrivatePersonDocument
+                //    {
+                //        Code = 21,
+                //        Name = "паспорт",
+                //        SeriesNumber = "123456789"
+                //    },
+                //    PersonAddress = new PrivatePersonPersonAddress
+                //    {
+                //        AddressRF = new PrivatePersonPersonAddressAddressRF
+                //        {
+                //            RegionCode = "10",
+                //            Region = "Москва",
+                //            City = "789"
+                //        }
+                //    }
+                //};
 
-
-                SourceComboRegion = new List<string>
-                {
-                    "Москва",
-                    "Анапа",
-                    "Алушта"
-                };
                 #region Команды залогодателя 
 
                 AddCommandPersonPledgor = new RelayCommand(AddCommandPersonExecute, CanAddCommandPersonPledgorExecute);
@@ -166,7 +146,9 @@ namespace Ruzdi_6.ViewModel
             else
             {
                 Pledgors = new ObservableCollection<Pledgor>();
+
                 SourceComboRegion = App.Region_list;
+
                 #region Команды залогодателя 
 
                 AddCommandPersonPledgor = new RelayCommand(AddCommandPersonExecute, CanAddCommandPersonPledgorExecute);
@@ -179,40 +161,6 @@ namespace Ruzdi_6.ViewModel
             }
         }
 
-        #region Приватные поля и меотды синглтона
-        private static VM_Pledgor VM_Pledgor_UZ1;
-        public static VM_Pledgor Get_VM_Pledgor_UZ1()
-        {
-            if (VM_Pledgor_UZ1 == null)
-            {
-                VM_Pledgor_UZ1 = new VM_Pledgor();
-            }
-            return VM_Pledgor_UZ1;
-        }
-
-        public static void Set_Null_VM_Pledgor()
-        {
-            VM_Pledgor_UZ1 = null;
-        }
-
-
-
-        #endregion
-
-        #region Свойство для дизайнера
-        public static VM_Pledgor VM_Pledgor_ForDesiner
-        {
-            get
-            {
-                if (vM_Pledgor_ForDesiner == null)
-                {
-                    vM_Pledgor_ForDesiner = new VM_Pledgor();
-                }
-                return vM_Pledgor_ForDesiner;
-            }
-        }
-        private static VM_Pledgor vM_Pledgor_ForDesiner;
-        #endregion
 
         #region Залогодатель (Поля, св-ва и команды)
 
@@ -223,14 +171,10 @@ namespace Ruzdi_6.ViewModel
         /// команда добавления физ. лица
         /// </summary>
         public ICommand AddCommandPersonPledgor { get; }
-        public bool CanAddCommandPersonPledgorExecute(object p)
-        {
+        public bool CanAddCommandPersonPledgorExecute(object p) => !IsView;
 
-            return !IsView;
-        }
         public void AddCommandPersonExecute(object p)
         {
-
             SelectPledgor = new PledgorPrivatePerson
             {
                 Name = new PrivatePersonName
@@ -246,14 +190,14 @@ namespace Ruzdi_6.ViewModel
                     {
                         registration = true,
                         RegionCode = "",
-                        Region = ""
-                        /* District = "",
-                         Locality = "",
-                         City = "",
-                         Street = "",
-                         House = "",
-                         Building = "",
-                         Apartment = ""*/
+                        Region = "",
+                        District = "",
+                        Locality = "",
+                        City = "",
+                        Street = "",
+                        House = "",
+                        Building = "",
+                        Apartment = ""
                     }
                 },
                 PersonDocument = new PrivatePersonDocument
@@ -261,7 +205,8 @@ namespace Ruzdi_6.ViewModel
                     Code = 21,
                     Name = "Паспорт",
                     SeriesNumber = ""
-                }
+                },
+                Email = ""
             };
 
 
@@ -376,9 +321,9 @@ namespace Ruzdi_6.ViewModel
             }
 
         }
+
         public void OnSavePledgorPersonCommandExecute(object p)
         {
-
             if (Pledgors.Contains(SelectPledgor))//если объект уже есть в коллекции(т.е. идет редактирование), то вновь этот объект не добавляем в коллекцию
             {
                 IWindowService service = new ServiceWindow();
@@ -433,7 +378,7 @@ namespace Ruzdi_6.ViewModel
         /// <summary>
         /// Св-во, содержащее выбранного из списка залогодателя
         /// </summary>
-        private Pledgor selectPledgor = new Pledgor();
+        private Pledgor selectPledgor;
 
 
         public Pledgor SelectPledgor

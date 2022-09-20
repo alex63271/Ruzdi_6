@@ -6,10 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Ruzdi_6.Model.Property_Classes"
+    xmlns:vm="clr-namespace:Ruzdi_6.ViewModel"
     Title="Имущество, переданное в залог"
     Width="888"
     Height="700"
     DataContext="{Binding VM_Property, Source={StaticResource Locator}}"
+    d:DataContext="{d:DesignInstance vm:VM_Property,IsDesignTimeCreatable=True}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>

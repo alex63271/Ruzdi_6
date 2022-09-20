@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Ruzdi_Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,12 +8,17 @@ using System.Threading.Tasks;
 
 namespace Ruzdi_DB.Entityes
 {
-    public class Regions : IEntity
+    public class Regions
     {
         public string Region { get; set; }
-        [Key]
+        [Key]     
+        
         public string CodeRegion { get; set; }
         
-        public string Id { get; set; }
+        //public string Id { get; set; }
+
+        public List<Persons>? Persons { get; set; } = new();
+
+        public List<Organizations>? Organizations { get; set; } = new();
     }
 }

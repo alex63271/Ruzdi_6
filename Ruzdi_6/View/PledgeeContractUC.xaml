@@ -39,7 +39,7 @@
             <Grid.Resources>
                 <Style TargetType="TextBox">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -50,7 +50,7 @@
 
                 <Style TargetType="DatePicker">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
                     </Style.Triggers>

@@ -1,241 +1,148 @@
-﻿using Ruzdi_6.Commands;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Ruzdi_6.Commands;
 using Ruzdi_6.Model.Applicant_Classes;
 using Ruzdi_6.Model.Other_Classes;
 using Ruzdi_6.Services;
-using System;
+using Ruzdi_DB.Context;
+using Ruzdi_DB.Entityes;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Serialization;
+using UploadNotification;
 
 namespace Ruzdi_6.ViewModel
 {
     public class VM_For_Win_UP1 : ViewModel
     {
-        public VM_For_Win_UP1()
+        public VM_For_Win_UP1(DB_Ruzdi db, IWindowService service)
         {
-            if (App.DesignMode)
-            {
-                SourceComboRegion = App.Region_list;
+            SourceComboRegion = App.Region_list;
 
-                #region Объект-пустышка, который сформируется через привязку
-                UP1 = new PledgeNotificationToNotary
+            #region генерируем NotificationId
+            App.NotificationId = Guid.NewGuid().ToString(); // генеируем NotificationId 
+
+            #endregion
+
+            #region Объект-пустышка, который сформируется через привязку
+            UP1 = new PledgeNotificationToNotary
+            {
+                NotificationId = App.NotificationId,
+                version = 2.3M,
+                NotificationData = new NotificationData
                 {
-                    NotificationId = App.NotificationId,
                     version = 2.3M,
-                    NotificationData = new NotificationData
+                    FormUP1 = new FormUP1
                     {
-                        version = 2.3M,
-                        FormUP1 = new FormUP1
+                        CreationReferenceNumber = "",
+                        NotificationApplicant = new NotificationApplicant
                         {
-                            CreationReferenceNumber = "",
-                            NotificationApplicant = new NotificationApplicant
+                            Role = 2,
+                            Organization = new ApplicantOrganization
                             {
-                                Role = 2,
-                                Organization = new ApplicantOrganization
+                                NameFull = "",
+                                UINN = "",
+                                URN = "",
+                                Email = ""
+                            },
+                            Attorney = new ApplicantAttorney
+                            {
+                                Name = new ApplicantAttorneyName
                                 {
-                                    NameFull = "222",
-                                    UINN = "222",
-                                    URN = "",
-                                    Email = ""
+                                    First = "",
+                                    Last = "",
+                                    Middle = ""
                                 },
-                                Attorney = new ApplicantAttorney
+                                BirthDate = DateTime.Now,
+                                Authority = "",
+                                PersonDocument = new ApplicantAttorneyPersonDocument
                                 {
-                                    Name = new ApplicantAttorneyName
+                                    Code = 21,
+                                    Name = "Паспорт",
+                                    SeriesNumber = ""
+                                },
+                                PersonAddress = new ApplicantAttorneyPersonAddress
+                                {
+                                    AddressRF = new ApplicantAttorneyPersonAddressAddressRF
                                     {
-                                        First = "",
-                                        Last = "",
-                                        Middle = ""
-                                    },
-                                    BirthDate = DateTime.Now,
-                                    Authority = "",
-                                    PersonDocument = new ApplicantAttorneyPersonDocument
-                                    {
-                                        Code = 21,
-                                        Name = "Паспорт",
-                                        SeriesNumber = ""
-                                    },
-                                    PersonAddress = new ApplicantAttorneyPersonAddress
-                                    {
-                                        AddressRF = new ApplicantAttorneyPersonAddressAddressRF
-                                        {
-                                            RegionCode = "",
-                                            Region = "",
-                                            City = ""
-                                        }
+                                        RegionCode = "",
+                                        Region = "",
+                                        City = ""
                                     }
                                 }
                             }
                         }
                     }
-                };
-                #endregion
-                /*
-                SendNotification_UP1 = new RelayCommand(OnSendNotification_UP1CommandExecute, CanSendNotification_UP1CommandExecute);
-                */
-            }
-            else
+                }
+            };
+            #endregion
+
+            #region Конструкция чтения хранилища сертификатов и сохранения их перечня в коллекции
+            using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
             {
-                SourceComboRegion = App.Region_list;
-
-                #region генерируем NotificationId
-                App.NotificationId = Guid.NewGuid().ToString(); // генеируем NotificationId 
-
-                #endregion
-
-                #region Объект-пустышка, который сформируется через привязку
-                UP1 = new PledgeNotificationToNotary
+                List = new ArrayList();
+                ListThumbprint = new ArrayList();
+                store.Open(OpenFlags.ReadOnly);
+                // Проходим по всем сертификатам 
+                foreach (X509Certificate2 cert in store.Certificates)
                 {
-                    NotificationId = App.NotificationId,
-                    version = 2.3M,
-                    NotificationData = new NotificationData
+                    if (cert.NotAfter > DateTime.Now) // выбираем сертификаты с действующим сроком
                     {
-                        version = 2.3M,
-                        FormUP1 = new FormUP1
+                        string zap = ",";
+                        string otvet = cert.SubjectName.Name + zap; //добавляем запятую в конец чтобы искался последний элемент в строке
+                        if (otvet.Contains("CN=") && otvet.Contains("SN=") && otvet.Contains("G="))  //отсеиваем сертификаты без нужных атрибутов
                         {
-                            CreationReferenceNumber = "",
-                            NotificationApplicant = new NotificationApplicant
+                            if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
                             {
-                                Role = 2,
-                                Organization = new ApplicantOrganization
-                                {
-                                    NameFull = "",
-                                    UINN = "",
-                                    URN = "",
-                                    Email = ""
-                                },
-                                Attorney = new ApplicantAttorney
-                                {
-                                    Name = new ApplicantAttorneyName
-                                    {
-                                        First = "",
-                                        Last = "",
-                                        Middle = ""
-                                    },
-                                    BirthDate = DateTime.Now,
-                                    Authority = "",
-                                    PersonDocument = new ApplicantAttorneyPersonDocument
-                                    {
-                                        Code = 21,
-                                        Name = "Паспорт",
-                                        SeriesNumber = ""
-                                    },
-                                    PersonAddress = new ApplicantAttorneyPersonAddress
-                                    {
-                                        AddressRF = new ApplicantAttorneyPersonAddressAddressRF
-                                        {
-                                            RegionCode = "",
-                                            Region = "",
-                                            City = ""
-                                        }
-                                    }
-                                }
+                                string s = "CN=";
+                                string CN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                                s = "SN=";
+                                string SN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                                s = "G=";
+                                string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                                string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
+                                List.Add(stroka);   //записываем строку в лист для отображения в интерфейсе
+                                ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
                             }
-                        }
-                    }
-                };
-                #endregion
-
-                #region Конструкция чтения хранилища сертификатов и сохранения их перечня в коллекции
-                using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
-                {
-                    List = new ArrayList();
-                    ListThumbprint = new ArrayList();
-                    store.Open(OpenFlags.ReadOnly);
-                    // Проходим по всем сертификатам 
-                    foreach (X509Certificate2 cert in store.Certificates)
-                    {
-                        if (cert.NotAfter > DateTime.Now) // выбираем сертификаты с действующим сроком
-                        {
-                            string zap = ",";
-                            string otvet = cert.SubjectName.Name + zap; //добавляем запятую в конец чтобы искался последний элемент в строке
-                            if (otvet.Contains("CN=") && otvet.Contains("SN=") && otvet.Contains("G="))  //отсеиваем сертификаты без нужных атрибутов
+                            else //если физ. лицо
                             {
-                                if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
-                                {
-                                    string s = "CN=";
-                                    string CN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-                                    s = "SN=";
-                                    string SN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-                                    s = "G=";
-                                    string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-                                    string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
-                                    List.Add(stroka);   //записываем строку в лист для отображения в интерфейсе
-                                    ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
-                                }
-                                else //если физ. лицо
-                                {
-                                    string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
-                                    List.Add(CN);   //записываем строку в лист для отображения в интерфейсе
-                                    ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
-                                }
+                                string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
+                                List.Add(CN);   //записываем строку в лист для отображения в интерфейсе
+                                ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
                             }
                         }
                     }
                 }
-                #endregion
-                /*
-                SendNotification_UP1 = new RelayCommand(OnSendNotification_UP1CommandExecute, CanSendNotification_UP1CommandExecute);
-                */
             }
+            #endregion
+
+            SendNotification_UP1 = new RelayCommand(OnSendNotification_UP1CommandExecute, CanSendNotification_UP1CommandExecute);
+
+            this.vM_ForGlavnaya = App.Host.Services.GetRequiredService<VM_ForGlavnaya>();
+            serviceWindow = service;
+            this.db = db;
+
         }
 
-        #region Поля и методы Singletone
-        private static VM_For_Win_UP1 VM_UP1;
-
-
-        public static VM_For_Win_UP1 Get_VM_UP1()
-        {
-            if (VM_UP1 == null)
-            {
-                VM_UP1 = new VM_For_Win_UP1();
-            }
-            return VM_UP1;
-        }
-
-        /// <summary>
-        /// Метод для сброса экземпляра VW_UZ1
-        /// </summary>
-        public static void SetNull_VM_UP1()
-        {
-            VM_UP1 = null;
-        }
+        #region Поля для хранения экземпляров из DI
+        private readonly VM_ForGlavnaya vM_ForGlavnaya;
+        private readonly IWindowService serviceWindow;
+        private readonly DB_Ruzdi db;
         #endregion
 
-        #region Св-во для дизайнера
-        private static VM_For_Win_UP1 vM_UP1_ForDesiner;
+        Notification Notification; //экземпляр Entity который создастся в команде
 
-
-        public static VM_For_Win_UP1 VM_UP1_ForDesiner
-        {
-            get
-            {
-                if (vM_UP1_ForDesiner == null)
-                {
-                    vM_UP1_ForDesiner = new VM_For_Win_UP1();
-                }
-                return vM_UP1_ForDesiner;
-            }
-        }
-
-        #endregion
-
-        public bool IsView { get; set; }
+        public bool IsView { get; set; } //флаг просмотра/создания уведомления
 
         public List<string> SourceComboRegion { get; set; }
 
-
         #region UP1 Объект уведомление об исключении залога
         private PledgeNotificationToNotary uP1;
+
         public PledgeNotificationToNotary UP1
         {
             get => uP1;
@@ -285,8 +192,9 @@ namespace Ruzdi_6.ViewModel
         #endregion
 
         #region Команда отправки уведомления UP1
-        /*
+
         public ICommand SendNotification_UP1 { get; }
+
         public bool CanSendNotification_UP1CommandExecute(object p)
         {
             //должна быть логика проверки, что валидация успешна
@@ -299,7 +207,6 @@ namespace Ruzdi_6.ViewModel
 
         public async void OnSendNotification_UP1CommandExecute(object p)
         {
-            Query query = new SelectForSaveAttorneyUP1();
 
             #region создание временных папок для хранения уведомления и подписи
             string TempNotificationId = "Temp/" + App.NotificationId;    //папка для хранения уведомления и подписи
@@ -311,8 +218,13 @@ namespace Ruzdi_6.ViewModel
 
             if (!(UP1.NotificationData.FormUP1.NotificationApplicant.Attorney is null) && String.IsNullOrEmpty(UP1.NotificationData.FormUP1.NotificationApplicant.Attorney.PersonAddress.AddressRF.RegionCode))
             {
-                query.SetSelect(new GetCodeRegion());
-                UP1.NotificationData.FormUP1.NotificationApplicant.Attorney.PersonAddress.AddressRF.RegionCode = query.GetCodeRegion(UP1.NotificationData.FormUP1.NotificationApplicant.Attorney.PersonAddress.AddressRF.Region);
+                foreach (var region in db.Regions)
+                {
+                    if (region.Region == UP1.NotificationData.FormUP1.NotificationApplicant.Attorney.PersonAddress.AddressRF.Region)
+                    {
+                        UP1.NotificationData.FormUP1.NotificationApplicant.Attorney.PersonAddress.AddressRF.RegionCode = region.CodeRegion;
+                    }
+                }
             }
 
             #endregion
@@ -355,26 +267,22 @@ namespace Ruzdi_6.ViewModel
             #region формирование объекта-пакет
             uploadNotificationPackageRequest package = new uploadNotificationPackageRequest
             {
-                pledgeNotificationPackage = new pledgeNotificationPackageType     //использую инициализатор, т.к. нет перегруженного конструктора
+                pledgeNotificationPackage = new pledgeNotificationPackageType
                 {
                     packageId = App.guidp, //присваиваем пакету гуид
                     senderType = (senderTypeType)0, // присваиваем занчение senderType(0)
                     uip = "000000000000000000000TEST", //прописываем УИП
                     pledgeNotificationList = new pledgeNotificationListElementType[1]
-                        {
+                    {
                         new pledgeNotificationListElementType
                         {
                             notificationId = App.NotificationId, // прописываем гуид уведомления
                             documentAndSignature = App.array      //передаем массив байтов в тег documentAndSignature
                         }
-                        }
+                    }
                 }
             };
             #endregion
-
-            //далее записываем в БД информацию о сформированном пакете
-            query.SetSelect(new SaveInfoUP1());
-            query.SaveInfoPackageUP1(UP1.NotificationData.FormUP1.CreationReferenceNumber);
 
             //Запись сфорированного архива в БД
             using (FileStream fstream = new FileStream(compressedFile, FileMode.OpenOrCreate))
@@ -384,11 +292,21 @@ namespace Ruzdi_6.ViewModel
                 fstream.Read(array, 0, array.Length);
                 // декодируем байты в строку
                 string mystr = Convert.ToBase64String(array);
-                query.SetUpdate(new SaveArchiveNotificationAndSig());
-                query.SaveArchiveNitificationAndSig(mystr);
-            }
+                Notification = new Notification()
+                {
+                    Id = App.NotificationId,
+                    NumberNotification = UP1.NotificationData.FormUP1.CreationReferenceNumber,
+                    Packageguid = App.guidp,
+                    TypeNotification = "Исключение",
+                    ZipArchive = mystr,
+                    Status = "Первичная отправка"
+                };
 
-            // удаляем созданные файлы, т.к. более не нужны
+                db.Add(Notification);
+                db.SaveChanges();
+                vM_ForGlavnaya.SourceDatagrid.Add(Notification);
+
+            }
 
             #region удаляем созданные файлы, т.к. более не нужны
             DirectoryInfo dirInfo = new DirectoryInfo(TempNotificationId);
@@ -397,35 +315,22 @@ namespace Ruzdi_6.ViewModel
             #endregion
 
             // создаем объект, метод которого может отправить запрос к серверу
-            ruzdiUploadNotificationPackageService_v1_1PortTypeClient request = new ruzdiUploadNotificationPackageService_v1_1PortTypeClient("ruzdiUploadNotificationPackageService_v1_1HttpSoap11Endpoint");
+            ruzdiUploadNotificationPackageService_v1_1PortTypeClient request = new ruzdiUploadNotificationPackageService_v1_1PortTypeClient(ruzdiUploadNotificationPackageService_v1_1PortTypeClient.EndpointConfiguration.ruzdiUploadNotificationPackageService_v1_1HttpSoap11Endpoint);
 
             //создание объекта, который может хранить ответ от сервера и записываем в него полученный ответ с помощью метода uploadNotificationPackageAsync
             uploadNotificationPackageResponse response = await request.uploadNotificationPackageAsync(package); // отправляем пакет 
 
-            if (response.packageStateCode.code != "0")
-            {
-                MessageBox.Show($"код ошибки - {response.packageStateCode.code}");
-                MessageBox.Show($"код ошибки - {response.packageStateCode.message}");
-            }
-            query.SetUpdate(new SaveRegistrationID());
-            query.SaveRegistrationID(response.registrationId);
+            #region Сохраняем в БД ответный guid
+            Notification.Packageid = response.registrationId;
+            db.Update(Notification);
+            db.SaveChanges(); 
+            #endregion
 
             MessageBox.Show($"Пакет отправлен успешно, рег № пакета -  {response.registrationId}");
 
-            #region Обновление коллекции главного окна
-            /* query.SetSelect(new UpdateDatagrid());
-             VM_ForGlavnaya.Get_VM_ForGlavnaya().DataGridCollection.Source = query.GetCollectionForDataGrid(); // обновление коллекции 
-             VM_ForGlavnaya.Get_VM_ForGlavnaya().DataGridCollection.View.Refresh()
-            VM_ForGlavnaya.Get_VM_ForGlavnaya().UpdateCollectionDataGrid();
-            #endregion
-
-            //ниже цикл поиска открытого окна в коллекции
-
-            IWindowService service = new ServiceWindow();
-            service.CloseWindowDialog("UP1");
+            serviceWindow.CloseWindowDialog("UP1");
         }
-        */
-        #endregion
 
+        #endregion
     }
 }

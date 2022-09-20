@@ -4,6 +4,9 @@ namespace Ruzdi_6.Services
 {
     public static class ServicesRegistrator
     {
-        public static IServiceCollection AddServices(this IServiceCollection services) => services;
+        public static IServiceCollection AddServices(this IServiceCollection services) => services
+
+            .AddTransient<IWindowService, ServiceWindow>()
+            ;
     }
 }

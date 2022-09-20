@@ -11,8 +11,8 @@ using Ruzdi_DB.Context;
 namespace Ruzdi_DB.Migrations
 {
     [DbContext(typeof(DB_Ruzdi))]
-    [Migration("20220704073610_04.07")]
-    partial class _0407
+    [Migration("20220910182359_For_create_DB")]
+    partial class For_create_DB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,13 +21,28 @@ namespace Ruzdi_DB.Migrations
                 .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("NotificationPledgor", b =>
+                {
+                    b.Property<string>("NotificationsId")
+                        .HasColumnType("varchar(95)");
+
+                    b.Property<string>("PledgorsId")
+                        .HasColumnType("varchar(95)");
+
+                    b.HasKey("NotificationsId", "PledgorsId");
+
+                    b.HasIndex("PledgorsId");
+
+                    b.ToTable("NotificationPledgor");
+                });
+
             modelBuilder.Entity("Ruzdi_DB.Entityes.Contracts", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(95)");
 
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("Data")
+                        .HasColumnType("date");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -37,8 +52,8 @@ namespace Ruzdi_DB.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("TermOfContract")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("TermOfContract")
+                        .HasColumnType("date");
 
                     b.HasKey("Id");
 
@@ -50,15 +65,17 @@ namespace Ruzdi_DB.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("varchar(95)");
 
-                    b.Property<DateTime>("DataTime")
+                    b.Property<string>("ContractsID")
+                        .IsRequired()
+                        .HasColumnType("varchar(95)");
+
+                    b.Property<DateTime?>("DataTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Error")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("NumberNotification")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Packageguid")
@@ -66,12 +83,7 @@ namespace Ruzdi_DB.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Packageid")
-                        .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<string>("PledgeContractId")
-                        .IsRequired()
-                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -90,73 +102,11 @@ namespace Ruzdi_DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PledgeContractId");
+                    b.HasIndex("ContractsID");
 
                     b.HasIndex("registrationCertificateId");
 
                     b.ToTable("Notifications");
-                });
-
-            modelBuilder.Entity("Ruzdi_DB.Entityes.Organizations", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(95)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("longtext");
-
-                    b.Property<uint>("INN")
-                        .HasColumnType("int unsigned");
-
-                    b.Property<string>("NameFull")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<uint>("OGRN")
-                        .HasColumnType("int unsigned");
-
-                    b.Property<string>("RegionCodeRegion")
-                        .IsRequired()
-                        .HasColumnType("varchar(95)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RegionCodeRegion");
-
-                    b.ToTable("Organizations");
-                });
-
-            modelBuilder.Entity("Ruzdi_DB.Entityes.Persons", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(95)");
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("First")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Last")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Middle")
-                        .HasColumnType("longtext");
-
-                    b.Property<uint>("PersonDocument")
-                        .HasColumnType("int unsigned");
-
-                    b.Property<string>("RegionCodeRegion")
-                        .IsRequired()
-                        .HasColumnType("varchar(95)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RegionCodeRegion");
-
-                    b.ToTable("Persons");
                 });
 
             modelBuilder.Entity("Ruzdi_DB.Entityes.Pledgor", b =>
@@ -164,32 +114,23 @@ namespace Ruzdi_DB.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("varchar(95)");
 
-                    b.Property<string>("NotificationId")
-                        .HasColumnType("varchar(95)");
-
-                    b.Property<string>("OrganizationId")
-                        .HasColumnType("varchar(95)");
-
-                    b.Property<string>("PersonId")
-                        .HasColumnType("varchar(95)");
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NotificationId");
-
-                    b.HasIndex("OrganizationId");
-
-                    b.HasIndex("PersonId");
-
                     b.ToTable("Pledgor");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Pledgor");
                 });
 
             modelBuilder.Entity("Ruzdi_DB.Entityes.Regions", b =>
                 {
-                    b.Property<string>("CodeRegion")
+                    b.Property<string>("Id")
                         .HasColumnType("varchar(95)");
 
-                    b.Property<string>("Id")
+                    b.Property<string>("CodeRegion")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -197,7 +138,7 @@ namespace Ruzdi_DB.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("CodeRegion");
+                    b.HasKey("Id");
 
                     b.ToTable("Regions");
                 });
@@ -216,11 +157,85 @@ namespace Ruzdi_DB.Migrations
                     b.ToTable("RegistrationCertificate");
                 });
 
+            modelBuilder.Entity("Ruzdi_DB.Entityes.Organizations", b =>
+                {
+                    b.HasBaseType("Ruzdi_DB.Entityes.Pledgor");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("INN")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NameFull")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OGRN")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RegionId")
+                        .HasColumnType("varchar(95)")
+                        .HasColumnName("Organizations_RegionId");
+
+                    b.HasIndex("RegionId");
+
+                    b.HasDiscriminator().HasValue("Organizations");
+                });
+
+            modelBuilder.Entity("Ruzdi_DB.Entityes.Persons", b =>
+                {
+                    b.HasBaseType("Ruzdi_DB.Entityes.Pledgor");
+
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("First")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Last")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Middle")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PersonDocument")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RegionId")
+                        .IsRequired()
+                        .HasColumnType("varchar(95)");
+
+                    b.HasIndex("RegionId");
+
+                    b.HasDiscriminator().HasValue("Persons");
+                });
+
+            modelBuilder.Entity("NotificationPledgor", b =>
+                {
+                    b.HasOne("Ruzdi_DB.Entityes.Notification", null)
+                        .WithMany()
+                        .HasForeignKey("NotificationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ruzdi_DB.Entityes.Pledgor", null)
+                        .WithMany()
+                        .HasForeignKey("PledgorsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Ruzdi_DB.Entityes.Notification", b =>
                 {
                     b.HasOne("Ruzdi_DB.Entityes.Contracts", "PledgeContract")
-                        .WithMany()
-                        .HasForeignKey("PledgeContractId")
+                        .WithMany("Notifications")
+                        .HasForeignKey("ContractsID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -236,10 +251,8 @@ namespace Ruzdi_DB.Migrations
             modelBuilder.Entity("Ruzdi_DB.Entityes.Organizations", b =>
                 {
                     b.HasOne("Ruzdi_DB.Entityes.Regions", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionCodeRegion")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Organizations")
+                        .HasForeignKey("RegionId");
 
                     b.Navigation("Region");
                 });
@@ -247,36 +260,24 @@ namespace Ruzdi_DB.Migrations
             modelBuilder.Entity("Ruzdi_DB.Entityes.Persons", b =>
                 {
                     b.HasOne("Ruzdi_DB.Entityes.Regions", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionCodeRegion")
+                        .WithMany("Persons")
+                        .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Region");
                 });
 
-            modelBuilder.Entity("Ruzdi_DB.Entityes.Pledgor", b =>
+            modelBuilder.Entity("Ruzdi_DB.Entityes.Contracts", b =>
                 {
-                    b.HasOne("Ruzdi_DB.Entityes.Notification", null)
-                        .WithMany("Pledgors")
-                        .HasForeignKey("NotificationId");
-
-                    b.HasOne("Ruzdi_DB.Entityes.Organizations", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationId");
-
-                    b.HasOne("Ruzdi_DB.Entityes.Persons", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonId");
-
-                    b.Navigation("Organization");
-
-                    b.Navigation("Person");
+                    b.Navigation("Notifications");
                 });
 
-            modelBuilder.Entity("Ruzdi_DB.Entityes.Notification", b =>
+            modelBuilder.Entity("Ruzdi_DB.Entityes.Regions", b =>
                 {
-                    b.Navigation("Pledgors");
+                    b.Navigation("Organizations");
+
+                    b.Navigation("Persons");
                 });
 #pragma warning restore 612, 618
         }

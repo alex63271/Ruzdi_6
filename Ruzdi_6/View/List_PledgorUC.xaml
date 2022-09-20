@@ -7,6 +7,7 @@
     xmlns:model="clr-namespace:Ruzdi_6.Model.Pledgor_Classes"
     xmlns:vm="clr-namespace:Ruzdi_6.ViewModel"
     DataContext="{Binding VM_Pledgor, Source={StaticResource Locator}}"
+    d:DataContext="{d:DesignInstance vm:VM_Pledgor,IsDesignTimeCreatable=True}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -69,10 +70,10 @@
                                 <Style TargetType="Button">
                                     <Setter Property="Margin" Value="5,0" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
                                             <Setter Property="Content" Value="Просмотреть" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
                                             <Setter Property="Content" Value="Изменить" />
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -120,10 +121,10 @@
                                 <Style TargetType="Button">
                                     <Setter Property="Margin" Value="5,0" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
                                             <Setter Property="Content" Value="Просмотреть" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
                                             <Setter Property="Content" Value="Изменить" />
                                         </DataTrigger>
                                     </Style.Triggers>

@@ -10,16 +10,17 @@ namespace Ruzdi_6.Model.Property_Classes
 {
     public class OtherProperty : PersonalProperty, IDataErrorInfo
     {
-        public OtherProperty()
-        {
-        }
+        public OtherProperty() { }
+
 
         public string this[string propertyName] => !errors.ContainsKey(propertyName) ? null : errors[propertyName];
 
         public bool IsValid => !errors.Values.Any(x => x != null);
 
         Dictionary<string, string> errors = new Dictionary<string, string>();
+
         private string iD;
+
         private string description;
 
         public string ID
@@ -32,6 +33,7 @@ namespace Ruzdi_6.Model.Property_Classes
                 errors["ID"] = !Regex.IsMatch(ID, patternID) ? "Текст сообщения об ошибке" : null;
             }
         }
+
         public string Description
         {
             get => description;

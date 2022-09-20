@@ -15,9 +15,7 @@ namespace Ruzdi_6.Model.Other_Classes
         private string nameFull;
         private string email;
 
-        public RussianOrganization()
-        {
-        }
+        public RussianOrganization() { }
 
 
         public string NameFull
@@ -66,6 +64,7 @@ namespace Ruzdi_6.Model.Other_Classes
         public string Error => throw new System.NotImplementedException();
 
         public string this[string columnName] => errors.ContainsKey(columnName) ? errors[columnName] : null;
+
         public bool ShouldSerializeEmail() => !string.IsNullOrEmpty(Email);
 
         public bool IsValid => !errors.Values.Any(x => x != null);

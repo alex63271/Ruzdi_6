@@ -11,17 +11,19 @@ namespace Ruzdi_6.Model.Pledgee_Classes
 {
     public class PledgeePrivatePerson : Pledgee, IDataErrorInfo
     {
-        public PledgeePrivatePerson()
-        {
-        }
+        public PledgeePrivatePerson() { }
+
         private string email;
        
-
         public PrivatePersonName Name { get; set; }
+
         [System.Xml.Serialization.XmlElement(DataType = "date")]
         public DateTime BirthDate { get; set; }
+
         public PrivatePersonDocument PersonDocument { get; set; }
+
         public PrivatePersonPersonAddress PersonAddress { get; set; }
+
         public string Email
         {
             get => email;
@@ -34,7 +36,9 @@ namespace Ruzdi_6.Model.Pledgee_Classes
             }
         }
         public string Error => throw new NotImplementedException();
+
         public bool ShouldSerializeEmail() => !string.IsNullOrEmpty(Email);
+
         public string this[string columnName] => errors.ContainsKey(columnName) ? errors[columnName] : null;
 
         public bool IsValid => !errors.Values.Any(x => x != null);

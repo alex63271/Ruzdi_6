@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Ruzdi_6.Model.Property_Classes
 {
@@ -34,7 +29,9 @@ namespace Ruzdi_6.Model.Property_Classes
             }
         }
         public string ChassisNumber { get; set; }
+
         public string BodyNumber { get; set; }
+
         public string Description
         {
             get => description;
@@ -61,6 +58,7 @@ namespace Ruzdi_6.Model.Property_Classes
                 errors.Add(propname, error);
             }
         }
+        
         void CheckValidation()
         {
             if (string.IsNullOrEmpty(VIN) && string.IsNullOrEmpty(PIN))
@@ -89,7 +87,9 @@ namespace Ruzdi_6.Model.Property_Classes
                 }
             }
         }
+        
         private string pIN;
+        
         private string description;
 
         #region Методы для сериализатора

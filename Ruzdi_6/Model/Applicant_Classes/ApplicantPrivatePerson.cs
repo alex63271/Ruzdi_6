@@ -1,11 +1,6 @@
 ﻿using Ruzdi_6.Model.Other_Classes;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Ruzdi_6.Model.Applicant_Classes
 {

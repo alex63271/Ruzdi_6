@@ -99,6 +99,42 @@
                 Grid.Column="1"
                 Grid.ColumnSpan="3"
                 DataContext="{Binding UP1.NotificationData.FormUP1.NotificationApplicant}">
+                <Grid.Resources>
+                    <Style TargetType="ComboBox">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="Margin" Value="0,5,0,5" />
+                        <Setter Property="Padding" Value="0,3,0,3" />
+                        <Setter Property="IsEditable" Value="True" />
+                        <Setter Property="StaysOpenOnEdit" Value="True" />
+                    </Style>
+
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="Margin" Value="0,5,0,5" />
+                        <Setter Property="Padding" Value="0,3,0,3" />
+                    </Style>
+
+                    <Style TargetType="DatePicker">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="Margin" Value="0,5,0,5" />
+                        <Setter Property="Padding" Value="0,3,0,3" />
+                    </Style>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />

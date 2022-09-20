@@ -7,10 +7,13 @@
     xmlns:app="clr-namespace:Ruzdi_6"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Ruzdi_6.Model.Pledgee_Classes"
+    xmlns:vm="clr-namespace:Ruzdi_6.ViewModel"
     Title="Информация о залогодержателе"
+    WindowStartupLocation="CenterScreen"
     Width="888"
     Height="750"
     DataContext="{Binding VM_Pledgee, Source={StaticResource Locator}}"
+    d:DataContext="{d:DesignInstance vm:VM_Pledgee,IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
     <Grid>
 
@@ -37,165 +40,174 @@
                     <GroupBox
                             Grid.Row="1"
                             Grid.ColumnSpan="2"
-                            Margin="10,50,10,150"
+                            Margin="10,50,10,80"
                             Padding="0,15,0,0"
                             BorderBrush="CadetBlue"
                             BorderThickness="2"
                             Header="Залогодержатель физическое лицо">
-                        <UniformGrid Columns="2" Rows="1">
-                            <StackPanel Margin="10,0,10,0">
-                                <StackPanel.Resources>
-                                    <Style TargetType="TextBox">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
-                                                <Setter Property="IsEnabled" Value="False" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="FontSize" Value="15" />
-                                        <Setter Property="Margin" Value="0,5,0,5" />
-                                        <Setter Property="Padding" Value="0,3,0,3" />
-                                    </Style>
+                        <StackPanel>
+                            <UniformGrid Columns="2" Rows="1">
+                                <StackPanel Margin="10,0,10,0">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <Setter Property="FontSize" Value="15" />
+                                            <Setter Property="Margin" Value="0,5,0,5" />
+                                            <Setter Property="Padding" Value="0,3,0,3" />
+                                        </Style>
 
-                                    <Style TargetType="ComboBox">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
-                                                <Setter Property="IsEnabled" Value="False" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="FontSize" Value="15" />
-                                        <Setter Property="Margin" Value="0,5,0,5" />
-                                        <Setter Property="Padding" Value="0,3,0,3" />
-                                        <Setter Property="IsEditable" Value="True" />
-                                        <Setter Property="StaysOpenOnEdit" Value="True" />
-                                    </Style>
+                                        <Style TargetType="ComboBox">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <Setter Property="FontSize" Value="15" />
+                                            <Setter Property="Margin" Value="0,5,0,5" />
+                                            <Setter Property="Padding" Value="0,3,0,3" />
+                                            <Setter Property="IsEditable" Value="True" />
+                                            <Setter Property="StaysOpenOnEdit" Value="True" />
+                                        </Style>
 
-                                    <Style TargetType="DatePicker">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
-                                                <Setter Property="IsEnabled" Value="False" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="FontSize" Value="15" />
-                                        <Setter Property="Margin" Value="0,5,0,5" />
-                                        <Setter Property="Padding" Value="0,3,0,3" />
-                                    </Style>
+                                        <Style TargetType="DatePicker">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <Setter Property="FontSize" Value="15" />
+                                            <Setter Property="Margin" Value="0,5,0,5" />
+                                            <Setter Property="Padding" Value="0,3,0,3" />
+                                        </Style>
 
-                                    <Style TargetType="Label">
-                                        <Setter Property="FontSize" Value="15" />
-                                    </Style>
-                                </StackPanel.Resources>
-                                <TextBlock Text="Фамилия *" />
-                                <TextBox Text="{Binding Name.Last, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                                        <Style TargetType="Label">
+                                            <Setter Property="FontSize" Value="15" />
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <TextBlock Text="Фамилия *" />
+                                    <TextBox Text="{Binding Name.Last, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-                                <TextBlock Text="Имя *" />
-                                <TextBox Text="{Binding Name.First, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                                    <TextBlock Text="Имя *" />
+                                    <TextBox Text="{Binding Name.First, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-                                <TextBlock Text="Отчество">
+                                    <TextBlock Text="Отчество">
                                         <Run Foreground="Coral" Text=" *" />
-                                </TextBlock>
-                                <TextBox Text="{Binding Name.Middle, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                                    </TextBlock>
+                                    <TextBox Text="{Binding Name.Middle, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-                                <TextBlock Text="Дата рождения  *" />
-                                <DatePicker SelectedDate="{Binding BirthDate}" />
+                                    <TextBlock Text="Дата рождения  *" />
+                                    <DatePicker SelectedDate="{Binding BirthDate}" />
 
-                                <TextBlock Text="Серия и номер паспорта  *" />
-                                <TextBox Text="{Binding PersonDocument.SeriesNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                                    <TextBlock Text="Серия и номер паспорта  *" />
+                                    <TextBox Text="{Binding PersonDocument.SeriesNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-                                <TextBlock Text="E-mail" />
-                                <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                                    <TextBlock Text="E-mail" />
+                                    <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
 
-                                <TextBlock Text="Наименование субъекта РФ  *" />
-                                <ComboBox ItemsSource="{Binding Source={x:Static app:App.Region_list}, Mode=OneTime}" 
+                                    <TextBlock Text="Наименование субъекта РФ  *" />
+                                    <ComboBox ItemsSource="{Binding Source={x:Static app:App.Region_list}}" 
                                           SelectedValue="{Binding PersonAddress.AddressRF.Region, ValidatesOnDataErrors=True}" />
 
 
+                                </StackPanel>
+                                <StackPanel Margin="10,0,10,10">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <Setter Property="FontSize" Value="15" />
+                                            <Setter Property="Margin" Value="0,5,0,5" />
+                                            <Setter Property="Padding" Value="0,3,0,3" />
+                                        </Style>
+
+                                        <Style TargetType="ComboBox">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <Setter Property="FontSize" Value="15" />
+                                            <Setter Property="Margin" Value="0,5,0,5" />
+                                            <Setter Property="Padding" Value="0,3,0,3" />
+                                            <Setter Property="IsEditable" Value="True" />
+                                            <Setter Property="StaysOpenOnEdit" Value="True" />
+                                        </Style>
+
+                                        <Style TargetType="DatePicker">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                            <Setter Property="FontSize" Value="15" />
+                                            <Setter Property="Margin" Value="0,5,0,5" />
+                                            <Setter Property="Padding" Value="0,3,0,3" />
+                                        </Style>
+
+                                        <Style TargetType="Label">
+                                            <Setter Property="FontSize" Value="15" />
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <TextBlock Text="Район">
+                                        <Run Foreground="Coral" Text=" *" />
+                                    </TextBlock>
+                                    <TextBox Text="{Binding PersonAddress.AddressRF.District, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                                    <TextBlock Text="Город">
+                                        <Run Foreground="Coral" Text=" *" />
+                                    </TextBlock>
+                                    <TextBox Text="{Binding PersonAddress.AddressRF.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                                    <TextBlock Text="Населенный пункт (село, поселок и т.д.)">
+                                        <Run Foreground="Coral" Text=" *" />
+                                    </TextBlock>
+                                    <TextBox Text="{Binding PersonAddress.AddressRF.Locality, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                                    <TextBlock Text="Улица (проспект, переулок и т.д.)">
+                                        <Run Foreground="Coral" Text=" *" />
+                                    </TextBlock>
+                                    <TextBox Text="{Binding PersonAddress.AddressRF.Street, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                                    <TextBlock Text="Номер дома (владения)">
+                                        <Run Foreground="Coral" Text=" *" />
+                                    </TextBlock>
+                                    <TextBox Text="{Binding PersonAddress.AddressRF.House, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                                    <TextBlock Text="Номер корпуса (строения)">
+                                        <Run Foreground="Coral" Text=" *" />
+                                    </TextBlock>
+                                    <TextBox Text="{Binding PersonAddress.AddressRF.Building, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                                    <TextBlock Text="Номер квартиры (офиса)">
+                                        <Run Foreground="Coral" Text=" *" />
+                                    </TextBlock>
+                                    <TextBox Text="{Binding PersonAddress.AddressRF.Apartment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                                </StackPanel>
+                            </UniformGrid>
+
+                            <StackPanel Margin="10,10" Orientation="Horizontal">
+                                <TextBlock Margin="10,10" Text="* - Поля, обязательные к заполнению" />
+                                <TextBlock Margin="10,10">
+                                    <Run Foreground="Coral" Text=" *" />
+                                    <Run Text=" -Обязательно при наличии" />
+                                </TextBlock>
                             </StackPanel>
-                            <StackPanel Margin="10,0,10,10">
-                                <StackPanel.Resources>
-                                    <Style TargetType="TextBox">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
-                                                <Setter Property="IsEnabled" Value="False" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="FontSize" Value="15" />
-                                        <Setter Property="Margin" Value="0,5,0,5" />
-                                        <Setter Property="Padding" Value="0,3,0,3" />
-                                    </Style>
-
-                                    <Style TargetType="ComboBox">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
-                                                <Setter Property="IsEnabled" Value="False" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="FontSize" Value="15" />
-                                        <Setter Property="Margin" Value="0,5,0,5" />
-                                        <Setter Property="Padding" Value="0,3,0,3" />
-                                        <Setter Property="IsEditable" Value="True" />
-                                        <Setter Property="StaysOpenOnEdit" Value="True" />
-                                    </Style>
-
-                                    <Style TargetType="DatePicker">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
-                                                <Setter Property="IsEnabled" Value="False" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                        <Setter Property="FontSize" Value="15" />
-                                        <Setter Property="Margin" Value="0,5,0,5" />
-                                        <Setter Property="Padding" Value="0,3,0,3" />
-                                    </Style>
-
-                                    <Style TargetType="Label">
-                                        <Setter Property="FontSize" Value="15" />
-                                    </Style>
-                                </StackPanel.Resources>
-                                <TextBlock Text="Район">
-                                        <Run Foreground="Coral" Text=" *" />
-                                </TextBlock>
-                                <TextBox Text="{Binding PersonAddress.AddressRF.District, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-
-                                <TextBlock Text="Город">
-                                        <Run Foreground="Coral" Text=" *" />
-                                </TextBlock>
-                                <TextBox Text="{Binding PersonAddress.AddressRF.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-
-                                <TextBlock Text="Населенный пункт (село, поселок и т.д.)">
-                                        <Run Foreground="Coral" Text=" *" />
-                                </TextBlock>
-                                <TextBox Text="{Binding PersonAddress.AddressRF.Locality, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-
-                                <TextBlock Text="Улица (проспект, переулок и т.д.)">
-                                        <Run Foreground="Coral" Text=" *" />
-                                </TextBlock>
-                                <TextBox Text="{Binding PersonAddress.AddressRF.Street, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-
-                                <TextBlock Text="Номер дома (владения)">
-                                        <Run Foreground="Coral" Text=" *" />
-                                </TextBlock>
-                                <TextBox Text="{Binding PersonAddress.AddressRF.House, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-
-                                <TextBlock Text="Номер корпуса (строения)">
-                                        <Run Foreground="Coral" Text=" *" />
-                                </TextBlock>
-                                <TextBox Text="{Binding PersonAddress.AddressRF.Building, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-
-                                <TextBlock Text="Номер квартиры (офиса)">
-                                        <Run Foreground="Coral" Text=" *" />
-                                </TextBlock>
-                                <TextBox Text="{Binding PersonAddress.AddressRF.Apartment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-
-                            </StackPanel>
-                        </UniformGrid>
-
+                        </StackPanel>
                     </GroupBox>
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type model:PledgeeOrganization}">
                     <GroupBox
-                        Margin="0,20,0,180"
+                        Margin="0,50,0,150"
                         Padding="0,20"
                         BorderBrush="CadetBlue"
                         BorderThickness="2"
@@ -351,105 +363,7 @@
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
-                    <!--<GroupBox Header=" Залогодержатель юридическое лицо"
-                              Padding="40,8"
-                              Margin="30 0"
-                        BorderBrush="CadetBlue"
-                        BorderThickness="2">
-                        <StackPanel>
-                            <StackPanel.Resources>
-                                <Style TargetType="TextBox">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                    <Setter Property="FontSize" Value="15" />
-                                    <Setter Property="Margin" Value="0,5,0,5" />
-                                    <Setter Property="Padding" Value="0,3,0,3" />
-                                </Style>
 
-                                <Style TargetType="ComboBox">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                    <Setter Property="FontSize" Value="15" />
-                                    <Setter Property="Margin" Value="0,5,0,5" />
-                                    <Setter Property="Padding" Value="0,3,0,3" />
-                                    <Setter Property="IsEditable" Value="True" />
-                                    <Setter Property="StaysOpenOnEdit" Value="True" />
-                                </Style>
-
-                                <Style TargetType="DatePicker">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding DataContext.IsView, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                    <Setter Property="FontSize" Value="15" />
-                                    <Setter Property="Margin" Value="0,5,0,5" />
-                                    <Setter Property="Padding" Value="0,3,0,3" />
-                                </Style>
-
-                                <Style TargetType="Label">
-                                    <Setter Property="FontSize" Value="15" />
-                                </Style>
-                            </StackPanel.Resources>
-                            <TextBlock Text="Наименорвание организации" />
-                            <TextBox  Text="{Binding RussianOrganization.NameFull, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-
-
-                            <TextBlock  Text="ИНН" />
-                            <TextBox Text="{Binding RussianOrganization.INN, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-
-                            <TextBlock  Text="ОГРН" />
-                            <TextBox Text="{Binding RussianOrganization.OGRN, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-
-                            <TextBlock Text="Регион" />
-                            <ComboBox
-                            
-                            ItemsSource="{Binding DataContext.SourceComboRegion, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Mode=OneTime}"
-                            SelectedValue="{Binding RussianOrganization.Address.Region}" />
-
-                            <TextBlock Text="Район">
-                                        <Run Foreground="Coral" Text=" *" />
-                            </TextBlock>
-                            <TextBox Text="{Binding RussianOrganization.Address.District}" />
-
-                            <TextBlock Text="Город">
-                                        <Run Foreground="Coral" Text=" *" />
-                            </TextBlock>
-                            <TextBox Text="{Binding RussianOrganization.Address.City}" />
-
-                            <TextBlock Text="Населенный пункт (село, поселок и т.д.)">
-                                        <Run Foreground="Coral" Text=" *" />
-                            </TextBlock>
-                            <TextBox Text="{Binding RussianOrganization.Address.Locality}" />
-
-                            <TextBlock Text="Улица (проспект, переулок и т.д.)">
-                                        <Run Foreground="Coral" Text=" *" />
-                            </TextBlock>
-                            <TextBox Text="{Binding RussianOrganization.Address.Street}" />
-
-                            <TextBlock Text="Номер дома (владения)">
-                                        <Run Foreground="Coral" Text=" *" />
-                            </TextBlock>
-                            <TextBox Text="{Binding RussianOrganization.Address.House}" />
-
-                            <TextBlock Text="Номер корпуса (строения)">
-                                        <Run Foreground="Coral" Text=" *" />
-                            </TextBlock>
-                            <TextBox Text="{Binding RussianOrganization.Address.Building}" />
-
-                            <TextBlock Text="Номер квартиры (офиса)">
-                                        <Run Foreground="Coral" Text=" *" />
-                            </TextBlock>
-                            <TextBox Text="{Binding RussianOrganization.Address.Apartment}" />
-
-                        </StackPanel>
-                    </GroupBox>-->
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>

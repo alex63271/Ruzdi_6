@@ -23,6 +23,7 @@ namespace Ruzdi_6.Model.Other_Classes
         private string apartment;
         string pattern60 = @"^[\w \s \W]{1,60}$";
         string pattern8 = @"^[\w \s \W]{1,8}$";
+
         public string RegionCode { get; set; }
         public string Region
         {

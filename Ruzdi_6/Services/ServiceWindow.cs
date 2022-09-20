@@ -91,11 +91,11 @@ namespace Ruzdi_6.Services
                 WindowForUP1 WindowForUP1 = new WindowForUP1();
                 WindowForUP1.ShowDialog();
             }
-            /*else if (p is "Settings")
+            else if (p is "Settings")
             {
-                SettingsDB_Win dB_Win = new SettingsDB_Win();
+                Settings dB_Win = new Settings();
                 dB_Win.ShowDialog();
-            }*/
+            }
         }
     }
 }

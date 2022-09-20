@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ruzdi_DB.Migrations
 {
-    public partial class _3006 : Migration
+    public partial class For_create_DB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,12 +18,12 @@ namespace Ruzdi_DB.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(95)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Data = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Data = table.Column<DateOnly>(type: "date", nullable: false),
                     Number = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TermOfContract = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    TermOfContract = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,54 +64,45 @@ namespace Ruzdi_DB.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Organizations",
+                name: "Pledgor",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(95)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NameFull = table.Column<string>(type: "longtext", nullable: false)
+                    Discriminator = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    OGRN = table.Column<uint>(type: "int unsigned", nullable: false),
-                    INN = table.Column<uint>(type: "int unsigned", nullable: false),
+                    NameFull = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    OGRN = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    INN = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    RegionId = table.Column<string>(type: "varchar(95)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Organizations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Organizations_Regions_RegionId",
-                        column: x => x.RegionId,
-                        principalTable: "Regions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Persons",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "varchar(95)", nullable: false)
+                    Organizations_RegionId = table.Column<string>(type: "varchar(95)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Last = table.Column<string>(type: "longtext", nullable: false)
+                    Last = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    First = table.Column<string>(type: "longtext", nullable: false)
+                    First = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Middle = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    PersonDocument = table.Column<uint>(type: "int unsigned", nullable: false),
-                    RegionId = table.Column<string>(type: "varchar(95)", nullable: false)
+                    BirthDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    PersonDocument = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    RegionId = table.Column<string>(type: "varchar(95)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Persons", x => x.Id);
+                    table.PrimaryKey("PK_Pledgor", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Persons_Regions_RegionId",
+                        name: "FK_Pledgor_Regions_Organizations_RegionId",
+                        column: x => x.Organizations_RegionId,
+                        principalTable: "Regions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Pledgor_Regions_RegionId",
                         column: x => x.RegionId,
                         principalTable: "Regions",
                         principalColumn: "Id",
@@ -125,22 +116,22 @@ namespace Ruzdi_DB.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(95)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DataTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DataTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Packageguid = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Packageid = table.Column<string>(type: "longtext", nullable: false)
+                    Packageid = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PledgeContractId = table.Column<string>(type: "varchar(95)", nullable: false)
+                    ContractsID = table.Column<string>(type: "varchar(95)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ZipArchive = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NumberNotification = table.Column<string>(type: "longtext", nullable: false)
+                    NumberNotification = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TypeNotification = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Error = table.Column<string>(type: "longtext", nullable: false)
+                    Error = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     registrationCertificateId = table.Column<string>(type: "varchar(95)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
@@ -149,8 +140,8 @@ namespace Ruzdi_DB.Migrations
                 {
                     table.PrimaryKey("PK_Notifications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Notifications_Contracts_PledgeContractId",
-                        column: x => x.PledgeContractId,
+                        name: "FK_Notifications_Contracts_ContractsID",
+                        column: x => x.ContractsID,
                         principalTable: "Contracts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -163,43 +154,41 @@ namespace Ruzdi_DB.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Pledgor",
+                name: "NotificationPledgor",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(95)", nullable: false)
+                    NotificationsId = table.Column<string>(type: "varchar(95)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PersonId = table.Column<string>(type: "varchar(95)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    OrganizationId = table.Column<string>(type: "varchar(95)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    NotificationId = table.Column<string>(type: "varchar(95)", nullable: true)
+                    PledgorsId = table.Column<string>(type: "varchar(95)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pledgor", x => x.Id);
+                    table.PrimaryKey("PK_NotificationPledgor", x => new { x.NotificationsId, x.PledgorsId });
                     table.ForeignKey(
-                        name: "FK_Pledgor_Notifications_NotificationId",
-                        column: x => x.NotificationId,
+                        name: "FK_NotificationPledgor_Notifications_NotificationsId",
+                        column: x => x.NotificationsId,
                         principalTable: "Notifications",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Pledgor_Organizations_OrganizationId",
-                        column: x => x.OrganizationId,
-                        principalTable: "Organizations",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Pledgor_Persons_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Persons",
-                        principalColumn: "Id");
+                        name: "FK_NotificationPledgor_Pledgor_PledgorsId",
+                        column: x => x.PledgorsId,
+                        principalTable: "Pledgor",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notifications_PledgeContractId",
+                name: "IX_NotificationPledgor_PledgorsId",
+                table: "NotificationPledgor",
+                column: "PledgorsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_ContractsID",
                 table: "Notifications",
-                column: "PledgeContractId");
+                column: "ContractsID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notifications_registrationCertificateId",
@@ -207,44 +196,26 @@ namespace Ruzdi_DB.Migrations
                 column: "registrationCertificateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Organizations_RegionId",
-                table: "Organizations",
+                name: "IX_Pledgor_Organizations_RegionId",
+                table: "Pledgor",
+                column: "Organizations_RegionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pledgor_RegionId",
+                table: "Pledgor",
                 column: "RegionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Persons_RegionId",
-                table: "Persons",
-                column: "RegionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pledgor_NotificationId",
-                table: "Pledgor",
-                column: "NotificationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pledgor_OrganizationId",
-                table: "Pledgor",
-                column: "OrganizationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pledgor_PersonId",
-                table: "Pledgor",
-                column: "PersonId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Pledgor");
+                name: "NotificationPledgor");
 
             migrationBuilder.DropTable(
                 name: "Notifications");
 
             migrationBuilder.DropTable(
-                name: "Organizations");
-
-            migrationBuilder.DropTable(
-                name: "Persons");
+                name: "Pledgor");
 
             migrationBuilder.DropTable(
                 name: "Contracts");

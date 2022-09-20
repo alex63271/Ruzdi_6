@@ -9,7 +9,8 @@
     Title="Уведомление о возникновении залога"
     Width="1000"
     Height="800"
-    DataContext="{Binding VMWindowForUZ1, Source={StaticResource Locator}}"
+    DataContext="{Binding VMWindowForUZ1, Source={StaticResource Locator}}"  
+    d:DataContext="{d:DesignInstance vm:VMWindowForUZ1,IsDesignTimeCreatable=True}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>
@@ -198,9 +199,9 @@
                     <view:PledgeeContractUC />
                 </DataTemplate>
 
-                <!-- <DataTemplate DataType="{x:Type vm:VM_Applicant}">
+                 <DataTemplate DataType="{x:Type vm:VM_Applicant}">
                     <view:ApplicantUC />
-                </DataTemplate>-->
+                </DataTemplate>
 
             </ContentControl.Resources>
         </ContentControl>

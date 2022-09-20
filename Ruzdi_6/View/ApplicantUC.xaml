@@ -9,8 +9,8 @@
     xmlns:modelPledgee="clr-namespace:Ruzdi_6.Model.Pledgee_Classes"
     xmlns:modelPledgor="clr-namespace:Ruzdi_6.Model.Pledgor_Classes"
     xmlns:vm="clr-namespace:Ruzdi_6.ViewModel"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:Width="1000"
+    d:Height="800"
     DataContext="{Binding VM_Applicant, Source={StaticResource Locator}}"
     d:DataContext="{d:DesignInstance vm:VM_Applicant,IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
@@ -127,7 +127,7 @@
 
                 <DataTemplate DataType="{x:Type modelApplicant:ApplicantPrivatePerson}">
                     <GroupBox
-                        Margin="150,0"
+                        Margin="120,0"
                         Padding="2,15"
                         BorderBrush="CadetBlue"
                         BorderThickness="2"
@@ -149,12 +149,12 @@
                                     <Setter Property="FontSize" Value="15" />
                                 </Style>
                             </StackPanel.Resources>
-                            <TextBlock Margin="15,0,15,0" Text="Фамилия" />
-                            <TextBox Margin="15,0,15,0" Text="{Binding Name.First, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-
-
-                            <TextBlock Margin="15,3,15,0" Text="Имя" />
+                            <TextBlock Margin="15,0,15,0" Text="Фамилия *" />
                             <TextBox Margin="15,0,15,0" Text="{Binding Name.Last, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+
+                            <TextBlock Margin="15,3,15,0" Text="Имя *" />
+                            <TextBox Margin="15,0,15,0" Text="{Binding Name.First, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
                             <TextBlock Margin="15,3,15,0" Text="Отчество" />
                             <TextBox Margin="15,0,15,0" Text="{Binding Name.Middle, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
@@ -163,13 +163,17 @@
 
                             <TextBox Margin="15,0,15,0" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-                            <TextBlock Margin="15,3,15,0" Text="Выберите сертификат: " />
+                            <TextBlock Margin="15,3,15,0" Text="Выберите сертификат: *" />
 
                             <ComboBox
                                 Margin="15,0"
                                 ItemsSource="{Binding DataContext.List, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                 SelectedIndex="{Binding DataContext.SelectedCertInCombobox, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
-
+                            
+                            <StackPanel Orientation="Horizontal" Margin="10 5">
+                                <TextBlock Text="* - Поля, обязательные к заполнению" Margin="10 10"/>
+                                
+                            </StackPanel>
                         </StackPanel>
                     </GroupBox>
                 </DataTemplate>
@@ -318,6 +322,7 @@
                                         <ComboBox ItemsSource="{Binding Source={x:Static app:App.Region_list}, Mode=OneTime}" SelectedValue="{Binding Attorney.PersonAddress.AddressRF.Region, ValidatesOnDataErrors=True}" />
 
                                     </StackPanel>
+                                    
                                     <StackPanel Margin="10,0,10,7">
                                         <StackPanel.Resources>
                                             <Style TargetType="TextBox">
