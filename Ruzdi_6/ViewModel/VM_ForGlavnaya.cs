@@ -135,8 +135,6 @@ namespace Ruzdi_6.ViewModel
                         File.Delete("Temp/" + pathgzip + ".xml.sig");
                         db.Notifications.Update(not);
                         db.SaveChanges();
-                        //OnPropertyChanged(nameof(SourceDatagrid));
-                        //SourceDatagridForFilter.Refresh();
                     }
                     else    //если статус != "RESULT" то устанавлиаем в БД его значение
                     {
@@ -155,7 +153,7 @@ namespace Ruzdi_6.ViewModel
                         db.Notifications.Update(not);
                         db.SaveChanges();
                     }
-                    SourceDatagrid[SourceDatagrid.IndexOf(SourceDatagrid.FirstOrDefault(n => n.Packageid == not.Packageid))] = not;//находим объект в коллекции, вычисляем его идекс и заменяем на новый объект
+                    SourceDatagrid[SourceDatagrid.IndexOf(SourceDatagrid.FirstOrDefault(n => n.Packageid == not.Packageid))] = not;//находим объект в коллекции, вычисляем его индекс и заменяем на новый объект
                 }
 
             }
@@ -383,6 +381,7 @@ namespace Ruzdi_6.ViewModel
 
         public void OnOpenSettingsCommandExecute(object p)
         {
+            
             IWindowService service = new ServiceWindow();
             service.ShowWindowDialog("Settings");
         }

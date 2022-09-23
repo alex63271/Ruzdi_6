@@ -1,34 +1,36 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ruzdi_6.ViewModel
 {
     public class VM_Settings : ViewModel
     {
-        private readonly IConfiguration configuration;
-        private string csp_path;
+        private readonly string connstring;
 
         public VM_Settings(IConfiguration configuration)
         {
-            this.configuration = configuration;
+            connstring = configuration.GetSection("Database").GetConnectionString("MySql");
         }
 
-        public string Csp_path
+        public string Csp_path => App.GetPathCspTestFromConfig();
+
+
+        public string AdressMysql
         {
-            get => App.GetPathCspTestFromConfig();
-            set
+            get
             {
-                //configuration.
-                Set(ref csp_path, value);
+                string s = "server=";
+                return connstring.Substring(connstring.IndexOf(s) + s.Length, connstring.IndexOf(";", connstring.IndexOf(s)) - (connstring.IndexOf(s) + s.Length));
             }
         }
 
-
-
-
+        public string DbName
+        {
+            get
+            {
+                string s = "database=";
+                return connstring.Substring(connstring.IndexOf(s) + s.Length, connstring.IndexOf(";", connstring.IndexOf(s)) - (connstring.IndexOf(s) + s.Length));
+            }
+        }
     }
 }

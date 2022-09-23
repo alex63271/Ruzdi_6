@@ -25,7 +25,5 @@ namespace Ruzdi_6.Data
                 }
             })
             ;
-
-
     }
 }

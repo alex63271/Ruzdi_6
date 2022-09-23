@@ -8,12 +8,17 @@
     Title="Регистрация уведомлений о залоге (Тестовая среда)"
     Width="1500"
     Height="800"
+    MinWidth="1200"
+    MinHeight="400"
     DataContext="{Binding VM_ForGlavnaya, Source={StaticResource Locator}}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <StackPanel>
+    <DockPanel>
 
-        <Menu Height="25" VerticalAlignment="Top">
+        <Menu
+            Height="25"
+            VerticalAlignment="Top"
+            DockPanel.Dock="Top">
             <MenuItem Header="Создать уведомление ...">
                 <MenuItem Command="{Binding OpenUZ1Command}" Header="О возникновении залога" />
                 <MenuItem Command="{Binding OpenUP1Command}" Header="Об исключении залога" />
@@ -23,55 +28,74 @@
                 <MenuItem Command="{Binding OpenSettings}" Header="Настройки" />
             </MenuItem>
         </Menu>
-        <GroupBox
-            HorizontalAlignment="Center"
-            BorderBrush="CadetBlue"
-            BorderThickness="2"
-            Header="Фильтр">
-            <Grid Margin="10,5">
-                <Grid.Resources>
-                    <Style TargetType="TextBox">
-                        <Setter Property="FontSize" Value="15" />
-                        <Setter Property="Margin" Value="0,5,0,5" />
-                        <Setter Property="Padding" Value="0,3,0,3" />
-                        <Setter Property="Width" Value="450" />
-                    </Style>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="FontSize" Value="15" />
-                        <Setter Property="Margin" Value="10,5,10,5" />
-                        <Setter Property="Padding" Value="0,3,0,3" />
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
 
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox
+                Margin="10,5"
+                BorderBrush="CadetBlue"
+                BorderThickness="2"
+                DockPanel.Dock="Left"
+                Header="Фильтр">
+                <Grid Margin="10,5">
+                    <Grid.Resources>
+                        <Style TargetType="TextBox">
+                            <Setter Property="FontSize" Value="15" />
+                            <Setter Property="Margin" Value="0,5,0,5" />
+                            <Setter Property="Padding" Value="0,3,0,3" />
+
+                        </Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="15" />
+                            <Setter Property="Margin" Value="10,5,10,5" />
+                            <Setter Property="Padding" Value="0,3,0,3" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.6*"/>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="0.6*"/>
+                        <ColumnDefinition />
+
+                    </Grid.ColumnDefinitions>
+
                     <TextBlock Text="ФИО залогодателя" />
-                    <TextBox Text="{Binding FIO_FilterText, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <TextBlock Text="Номер договора:" />
+                    <TextBox Grid.Column="1" Text="{Binding FIO_FilterText, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Column="2" Text="Номер договора:" />
                     <TextBox Grid.Column="3" Text="{Binding NumberContract_FilterText, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-            </Grid>
-        </GroupBox>
+
+                </Grid>
+            </GroupBox>
+
+            <Button
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="100,15"
+                Command="{Binding RenewStatus}"
+                Content="Обновить статусы"
+                DockPanel.Dock="Right"
+                FontSize="17" />
+        </Grid>
+
         <DataGrid
-            VirtualizingStackPanel.IsVirtualizing="False"
-            Height="350"
-            Margin="5,10"
+            Margin="10,10,10,50"
             AlternatingRowBackground="#ebebeb"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ColumnWidth="*"
+            DockPanel.Dock="Bottom"
             GridLinesVisibility="Vertical"
             HeadersVisibility="Column"
             IsReadOnly="True"
             ItemsSource="{Binding SourceDatagridForFilter}"
             RowBackground="White"
             SelectedItem="{Binding SelectedItem}"
-            VerticalGridLinesBrush="DarkGray">
+            VerticalGridLinesBrush="DarkGray"
+            VirtualizingStackPanel.IsVirtualizing="False">
 
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding TypeNotification}" Header="Тип уведомления" />
@@ -80,22 +104,22 @@
                 <DataGridTemplateColumn Header="ФИО залогодателя(ей)">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox                                
-                                IsReadOnly="true"    
-                                SelectedIndex="0"
-                                ItemsSource="{Binding Pledgors}">
+                            <ComboBox
+                                IsReadOnly="true"
+                                ItemsSource="{Binding Pledgors}"
+                                SelectedIndex="0">
                                 <ComboBox.Resources>
                                     <DataTemplate DataType="{x:Type ModelPledgor:Persons}">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Last}" >
-                                                <Run Text=" "/>
-                                                <Run Text="{Binding First}"/>
-                                                <Run Text=" "/>
-                                                <Run Text="{Binding Middle}"/>
+                                            <TextBlock Text="{Binding Last}">
+                                                <Run Text=" " />
+                                                <Run Text="{Binding First}" />
+                                                <Run Text=" " />
+                                                <Run Text="{Binding Middle}" />
                                             </TextBlock>
                                         </StackPanel>
                                     </DataTemplate>
-                                    
+
                                     <DataTemplate DataType="{x:Type ModelPledgor:Organizations}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding NameFull}" />
@@ -122,22 +146,5 @@
             </DataGrid.ContextMenu>
         </DataGrid>
 
-        <Grid Height="350">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="75*" />
-                <ColumnDefinition Width="18*" />
-                <ColumnDefinition Width="7*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="6*" />
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="4*" />
-            </Grid.RowDefinitions>
-            <Button
-                Grid.Row="1"
-                Grid.Column="1"
-                Command="{Binding RenewStatus}"
-                Content="Обновить статусы" />
-        </Grid>
-    </StackPanel>
+    </DockPanel>
 </Window>

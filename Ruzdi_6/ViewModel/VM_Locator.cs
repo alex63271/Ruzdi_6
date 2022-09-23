@@ -13,7 +13,7 @@ namespace Ruzdi_6.ViewModel
 
         public VM_Settings VM_Settings => App.Host.Services.GetRequiredService<VM_Settings>();
 
-        public VMWindowForUZ1 VMWindowForUZ1 => App.Host.Services.GetRequiredService<VMWindowForUZ1>(); //Transient
+        public VMWindowForUZ1 VMWindowForUZ1 => App.Host.Services.GetRequiredService<VMWindowForUZ1>();
 
         public static void InitScopeUZ1()
         {

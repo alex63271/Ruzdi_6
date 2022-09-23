@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ruzdi_6.ViewModel;
-using System.Configuration;
 using System.IO;
 using System.Windows;
-using Ruzdi_6.Data;
 using Ruzdi_DB.Context;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 namespace Ruzdi_6
 {
@@ -15,26 +14,14 @@ namespace Ruzdi_6
     /// </summary>
     public partial class App : Application
     {
-        public App()
-        {
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(Exception);
-        }
+        public App() { }
 
         #region Host и Services
         private static IHost host;
         public static IHost Host => (host is null) ? (host = Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build()) : host;
 
         #endregion
-
-        static void Exception(object sender, UnhandledExceptionEventArgs args)
-        {
-            /*
-            ExceptionWindow ExceptionWindow = new ExceptionWindow();
-            ExceptionWindow.ExceptionText.Text = args.ExceptionObject.ToString();
-            ExceptionWindow.ShowDialog();
-            */
-        }
-
+        
         #region Статические поля для других класов
 
 
@@ -62,25 +49,31 @@ namespace Ruzdi_6
             var host = Host;
             base.OnStartup(e);
             host.Start();
-
+            
             VM_Locator.InitScopeUZ1();
             VM_Locator.InitScopeUP1();
 
-
-
             #region Получение списка регионов из БД
-            if (!Region_list.Any())
+            try
             {
-                DB_Ruzdi regions = Host.Services.GetRequiredService<DB_Ruzdi>();
-
-                foreach (var obj in regions.Regions)
+                if (!Region_list.Any())
                 {
-                    Region_list.Add(obj.Region);
+                    DB_Ruzdi regions = Host.Services.GetRequiredService<DB_Ruzdi>();
+
+                    foreach (var obj in regions.Regions)
+                    {
+                        Region_list.Add(obj.Region);
+                    }
+                    Region_list.Sort();
                 }
-                Region_list.Sort();
+            }
+            catch (Exception)
+            {
+                App.Current.Shutdown();
+                Process.GetCurrentProcess().Kill();
+                return;
             }
             #endregion
-
 
             #region Проверка наличия и создание папки Temp
             DirectoryInfo dirInfo = new DirectoryInfo("Temp");
@@ -90,17 +83,16 @@ namespace Ruzdi_6
             }
             #endregion
 
-
             if (!ExistCspTestPathFromConfig())
             {
-                MessageBox.Show("На компьютере не обнаружена утилита csptest.exe\nУстановите ПО КриптоПро CSP или укажите путь к утилите csptest.exe", "Ошибка проверки csptest.exe!");
+                MessageBox.Show("На компьютере не обнаружена утилита csptest.exe\nУстановите ПО КриптоПро CSP.", "Ошибка проверки csptest.exe!");
                 //SettingsDB_Win Settings = new SettingsDB_Win
                 //{
                 //    DataContext = VM_SettingsDB.GetVM_SettingsDB(GetPathCspTestFromConfig())
                 //};
                 //Settings.ShowDialog();
             }
-            
+
 
         }
 
@@ -122,13 +114,7 @@ namespace Ruzdi_6
             VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().IsView = true;
         }
 
-
-
-        public static string GetPathCspTestFromConfig()
-        {
-            IConfiguration configuration = host.Services.GetRequiredService<IConfiguration>();
-            return configuration.GetSection("CSP_Path").Value;
-        }
+        public static string GetPathCspTestFromConfig() => host.Services.GetRequiredService<IConfiguration>().GetSection("CSP_Path").Value;
 
         public static bool ExistCspTestPathFromConfig()
         {

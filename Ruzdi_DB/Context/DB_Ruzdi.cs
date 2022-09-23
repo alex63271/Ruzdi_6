@@ -15,9 +15,19 @@ namespace Ruzdi_DB.Context
     {
 
         public DB_Ruzdi(DbContextOptions<DB_Ruzdi> options) : base(options)
-        {            
-            Database.Migrate();
+        {
+            
+            try
+            {
+                Database.Migrate();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
+
+
 
 
         public DbSet<Notification> Notifications { get; set; }
