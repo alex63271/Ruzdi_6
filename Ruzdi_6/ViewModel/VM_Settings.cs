@@ -14,7 +14,6 @@ namespace Ruzdi_6.ViewModel
 
         public string Csp_path => App.GetPathCspTestFromConfig();
 
-
         public string AdressMysql
         {
             get
