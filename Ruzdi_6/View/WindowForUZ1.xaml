@@ -6,11 +6,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:view="clr-namespace:Ruzdi_6.View"
     xmlns:vm="clr-namespace:Ruzdi_6.ViewModel"
+    xmlns:vmdd="clr-namespace:Ruzdi_6.ViewModel_DesignData"
     Title="Уведомление о возникновении залога"
     Width="1000"
     Height="800"
     DataContext="{Binding VMWindowForUZ1, Source={StaticResource Locator}}"  
-    d:DataContext="{d:DesignInstance vm:VMWindowForUZ1,IsDesignTimeCreatable=True}"
+    d:DataContext="{d:DesignInstance vmdd:VMWindowForUZ1DD,IsDesignTimeCreatable=True}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>

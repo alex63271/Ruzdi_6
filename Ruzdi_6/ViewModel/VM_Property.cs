@@ -10,70 +10,20 @@ namespace Ruzdi_6.ViewModel
     {
         public VM_Property(IWindowService service)
         {
-            if (App.DesignMode)
-            {
-                PersonalProperty = new ObservableCollection<PersonalProperty>
-                {
-                     new VehicleProperty
-                     {
-                         VIN = "vin-number",
-                         PIN="PIN",
-                         BodyNumber = "BodyNumber",
-                         ChassisNumber = "ChassisNumber",
-                         Description = "decript"
-                     },
-                     new OtherProperty
-                     {
-                         ID="Id-объекта",
-                         Description ="описание иного имущества"
-                     }
-                };
+            PersonalProperty = new ObservableCollection<PersonalProperty>();
 
-                SelectProperty = new OtherProperty
-                {
-                    ID = "Id-объекта",
-                    Description = "описание иного имущества"
-                };
-                /*SelectProperty = new VehicleProperty
-                {
-                    VIN = "vin-number",
-                    PIN = "PIN",
-                    BodyNumber = "BodyNumber",
-                    ChassisNumber = "ChassisNumber",
-                    Description = "decript"
-                };*/
+            #region Команды имущества
 
+            AddVehiclePropertyCommand = new RelayCommand(AddAddVehiclePropertyCommandExecute, CanAddVehiclePropertyCommandExecute);
 
-                #region Команды имущества
+            EditPropertyCommand = new RelayCommand(EditPropertyCommandExecute, CanEditPropertyCommandExecute);
 
-                AddVehiclePropertyCommand = new RelayCommand(AddAddVehiclePropertyCommandExecute, CanAddVehiclePropertyCommandExecute);
+            RemovePropertyCommand = new RelayCommand(OnRemovePropertyCommandExecute, CanRemovePropertyCommandExecute);
 
-                EditPropertyCommand = new RelayCommand(EditPropertyCommandExecute, CanEditPropertyCommandExecute);
+            SavePropertyCommand = new RelayCommand(OnSavePropertyCommandExecute, CanSavePropertyCommandExecute);
 
-                RemovePropertyCommand = new RelayCommand(OnRemovePropertyCommandExecute, CanRemovePropertyCommandExecute);
-
-                SavePropertyCommand = new RelayCommand(OnSavePropertyCommandExecute, CanSavePropertyCommandExecute);
-
-                AddOtherPropertyCommand = new RelayCommand(AddOtherPropertyCommandExecute, CanAddOtherPropertyCommandExecute);
-                #endregion
-            }
-            else
-            {
-                PersonalProperty = new ObservableCollection<PersonalProperty>();
-
-                #region Команды имущества
-
-                AddVehiclePropertyCommand = new RelayCommand(AddAddVehiclePropertyCommandExecute, CanAddVehiclePropertyCommandExecute);
-
-                EditPropertyCommand = new RelayCommand(EditPropertyCommandExecute, CanEditPropertyCommandExecute);
-
-                RemovePropertyCommand = new RelayCommand(OnRemovePropertyCommandExecute, CanRemovePropertyCommandExecute);
-
-                SavePropertyCommand = new RelayCommand(OnSavePropertyCommandExecute, CanSavePropertyCommandExecute);
-
-                AddOtherPropertyCommand = new RelayCommand(AddOtherPropertyCommandExecute, CanAddOtherPropertyCommandExecute);
-                #endregion
-            }
+            AddOtherPropertyCommand = new RelayCommand(AddOtherPropertyCommandExecute, CanAddOtherPropertyCommandExecute);
+            #endregion
 
             this.service = service;
         }
@@ -113,7 +63,7 @@ namespace Ruzdi_6.ViewModel
                 ChassisNumber = "",
                 Description = ""
             };
-            
+
             service.ShowWindowDialog(SelectProperty);
         }
         #endregion
@@ -133,7 +83,7 @@ namespace Ruzdi_6.ViewModel
                 ID = "",
                 Description = ""
             };
-            
+
             service.ShowWindowDialog(SelectProperty);
         }
         #endregion
@@ -182,13 +132,13 @@ namespace Ruzdi_6.ViewModel
         public void OnSavePropertyCommandExecute(object p)
         {
             if (PersonalProperty.Contains(SelectProperty))//если объект уже есть в коллекции(т.е. идет редактирование), то вновь этот объект не добавляем в коллекцию
-            {                
+            {
                 service.CloseWindowDialog(SelectProperty);
             }
             else
             {
                 PersonalProperty.Insert(0, SelectProperty); //если объекта нет, то добавляем его в коллекцию
-                
+
                 service.CloseWindowDialog(SelectProperty);
             }
         }

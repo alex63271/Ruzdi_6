@@ -8,12 +8,12 @@
     xmlns:vmdd="clr-namespace:Ruzdi_6.ViewModel_DesignData"
     DataContext="{Binding VM_Pledgor, Source={StaticResource Locator}}"
     d:DataContext="{d:DesignInstance vmdd:VM_PledgorDD,IsDesignTimeCreatable=True}"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="741"
+    d:DesignWidth="882"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontSize" Value="13" />
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="14" />
@@ -141,8 +141,8 @@
                                 <ColumnDefinition Width="100" />
                             </Grid.ColumnDefinitions>
                             <TextBlock FontSize="18" Text="{Binding RussianOrganization.NameFull}" />
-                            <TextBlock Grid.Row="1" Text="{Binding RussianOrganization.INN}" />
-                            <TextBlock Grid.Row="2" Text="{Binding RussianOrganization.OGRN}" />
+                            <TextBlock Grid.Row="1" Text="{Binding StringFormat=ИНН - {0}, Path=RussianOrganization.INN}" />
+                            <TextBlock Grid.Row="2" Text="{Binding StringFormat=ОГРН - {0}, Path=RussianOrganization.OGRN}" />
 
                             <Button
                                 Grid.RowSpan="3"
@@ -158,7 +158,6 @@
                         </Grid>
                     </GroupBox>
                 </DataTemplate>
-
             </ListBox.Resources>
         </ListBox>
 
@@ -177,8 +176,6 @@
                 </Style>
             </StackPanel.Resources>
         </StackPanel>
-
-
 
     </Grid>
 </UserControl>

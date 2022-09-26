@@ -6,194 +6,75 @@ using System.Collections;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Data;
 using Microsoft.Extensions.DependencyInjection;
-
 namespace Ruzdi_6.ViewModel;
 
 public class VM_Applicant : ViewModel
 {
     public VM_Applicant()
     {
-        if (App.DesignMode)
+
+        #region ApplicantList - список возможных заявителей
+
+        ApplicantList = new CompositeCollection(2);
+
+        CollectionContainer ApplicantPledgors = new CollectionContainer
         {
-            //DisplayApplicant = new ApplicantPrivatePerson
-            //{
-            //    Name = new PrivatePersonName
-            //    {
-            //        Last = "Last",
-            //        First = "First",
-            //        Middle = "Middle"
-            //    },
-            //    Email = "12@123.ru"
-            //};
+            Collection = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>().Pledgors
+        };
 
-            //#region Конструкция чтения хранилища сертификатов и сохранения их перечня в коллекции
-            //using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
-            //{
-            //    List = new ArrayList();
-            //    ListThumbprint = new ArrayList();
-            //    store.Open(OpenFlags.ReadOnly);
-            //    // Проходим по всем сертификатам 
-            //    foreach (X509Certificate2 cert in store.Certificates)
-            //    {
-            //        if (cert.NotAfter > DateTime.Now) // выбираем сертификаты с действующим сроком
-            //        {
-            //            string zap = ",";
-            //            string otvet = cert.SubjectName.Name + zap; //добавляем запятую в конец чтобы искался последний элемент в строке
-            //            if (otvet.Contains("CN=") && otvet.Contains("SN=") && otvet.Contains("G="))  //отсеиваем сертификаты без нужных атрибутов
-            //            {
-            //                if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
-            //                {
-            //                    string s = "CN=";
-            //                    string CN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-            //                    s = "SN=";
-            //                    string SN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-            //                    s = "G=";
-            //                    string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-            //                    string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
-            //                    List.Add(stroka);   //записываем строку в лист для отображения в интерфейсе
-            //                    ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
-            //                }
-            //                else //если физ. лицо
-            //                {
-            //                    string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
-            //                    List.Add(CN);   //записываем строку в лист для отображения в интерфейсе
-            //                    ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-            //#endregion
+        CollectionContainer ApplicantPledgee = new CollectionContainer
+        {
+            Collection = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgee>().Pledgee
+        };
 
-            #region ApplicantList - список возможных заявителей
-            /*
-            ApplicantList = new CompositeCollection(2);
+        ApplicantList.Add(ApplicantPledgors);
+        ApplicantList.Add(ApplicantPledgee);
 
-            CollectionContainer ApplicantPledgors = new CollectionContainer
+        #endregion
+
+        SourceComboRegion = App.Region_list;
+
+        #region Конструкция чтения хранилища сертификатов и сохранения их перечня в коллекции
+        using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
+        {
+            List = new ArrayList();
+            ListThumbprint = new ArrayList();
+            store.Open(OpenFlags.ReadOnly);
+            // Проходим по всем сертификатам 
+            foreach (X509Certificate2 cert in store.Certificates)
             {
-                Collection = VM_Pledgor.Get_VM_Pledgor_UZ1().Pledgors
-            };
-
-            CollectionContainer ApplicantPledgee = new CollectionContainer
-            {
-                Collection = VM_Pledgee.GetVM_Pledgee_UZ1().Pledgee
-            };
-
-            ApplicantList.Add(ApplicantPledgors);
-            ApplicantList.Add(ApplicantPledgee);
-            */
-            #endregion
-
-            DisplayApplicant = new NotificationApplicant
-            {
-                Role = 2,
-                Organization = new ApplicantOrganization
+                if (cert.NotAfter > DateTime.Now) // выбираем сертификаты с действующим сроком
                 {
-                    NameFull = "NameFull",
-                    UINN = "INN",
-                    URN = "OGRN",
-                    //Email = ""
-                },
-                Attorney = new ApplicantAttorney
-                {
-                    Name = new ApplicantAttorneyName
+                    string zap = ",";
+                    string otvet = cert.SubjectName.Name + zap; //добавляем запятую в конец чтобы искался последний элемент в строке
+                    if (otvet.Contains("CN=") && otvet.Contains("SN=") && otvet.Contains("G="))  //отсеиваем сертификаты без нужных атрибутов
                     {
-                        First = "First",
-                        Last = "Last",
-                        Middle = "Middle"
-                    },
-                    BirthDate = DateTime.Now,
-                    Authority = "основания полномочий",
-                    PersonDocument = new ApplicantAttorneyPersonDocument
-                    {
-                        Code = 21,
-                        Name = "Паспорт",
-                        SeriesNumber = "1234567890"
-                    },
-                    PersonAddress = new ApplicantAttorneyPersonAddress
-                    {
-                        AddressRF = new ApplicantAttorneyPersonAddressAddressRF
+                        if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
                         {
-                            registration = true,
-                            Region = "Москва",
-                            District = "район",
-                            City = "Москва",
-                            Locality = "Нас. пункт",
-                            Street = "улица",
-                            House = "Дом",
-                            Building = "строение",
-                            Apartment = "квартира",
+                            string s = "CN=";
+                            string CN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                            s = "SN=";
+                            string SN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                            s = "G=";
+                            string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                            string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
+                            List.Add(stroka);   //записываем строку в лист для отображения в интерфейсе
+                            ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
                         }
-                    }
-                }
-            };
-        }
-        else
-        {
-
-            #region ApplicantList - список возможных заявителей
-
-            ApplicantList = new CompositeCollection(2);
-
-            CollectionContainer ApplicantPledgors = new CollectionContainer
-            {
-                Collection = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>().Pledgors
-            };
-
-            CollectionContainer ApplicantPledgee = new CollectionContainer
-            {
-                Collection = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgee>().Pledgee
-            };
-
-            ApplicantList.Add(ApplicantPledgors);
-            ApplicantList.Add(ApplicantPledgee);
-
-            #endregion
-
-            SourceComboRegion = App.Region_list;
-
-            #region Конструкция чтения хранилища сертификатов и сохранения их перечня в коллекции
-            using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
-            {
-                List = new ArrayList();
-                ListThumbprint = new ArrayList();
-                store.Open(OpenFlags.ReadOnly);
-                // Проходим по всем сертификатам 
-                foreach (X509Certificate2 cert in store.Certificates)
-                {
-                    if (cert.NotAfter > DateTime.Now) // выбираем сертификаты с действующим сроком
-                    {
-                        string zap = ",";
-                        string otvet = cert.SubjectName.Name + zap; //добавляем запятую в конец чтобы искался последний элемент в строке
-                        if (otvet.Contains("CN=") && otvet.Contains("SN=") && otvet.Contains("G="))  //отсеиваем сертификаты без нужных атрибутов
+                        else //если физ. лицо
                         {
-                            if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
-                            {
-                                string s = "CN=";
-                                string CN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-                                s = "SN=";
-                                string SN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-                                s = "G=";
-                                string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-                                string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
-                                List.Add(stroka);   //записываем строку в лист для отображения в интерфейсе
-                                ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
-                            }
-                            else //если физ. лицо
-                            {
-                                string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
-                                List.Add(CN);   //записываем строку в лист для отображения в интерфейсе
-                                ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
-                            }
+                            string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
+                            List.Add(CN);   //записываем строку в лист для отображения в интерфейсе
+                            ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
                         }
                     }
                 }
             }
-            #endregion
         }
+        #endregion
     }
 
-  
+
 
     private NotificationApplicant displayApplicant;
     public NotificationApplicant DisplayApplicant
@@ -296,7 +177,7 @@ public class VM_Applicant : ViewModel
             {
                 NotificationApplicant = new NotificationApplicant
                 {
-                    Role = 2,                    
+                    Role = 2,
                     Organization = new ApplicantOrganization
                     {
                         NameFull = PledgeeOrganization.RussianOrganization.NameFull,

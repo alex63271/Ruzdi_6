@@ -6,8 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Ruzdi_6.Model.Pledgee_Classes"
     xmlns:vmdd="clr-namespace:Ruzdi_6.ViewModel_DesignData"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="741"
+    d:DesignWidth="882"
     d:DataContext="{d:DesignInstance vmdd:VM_PledgeeDD,IsDesignTimeCreatable=True}"
     DataContext="{Binding VM_Pledgee, Source={StaticResource Locator}}"
     mc:Ignorable="d">

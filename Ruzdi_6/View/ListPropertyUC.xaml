@@ -8,8 +8,8 @@
     xmlns:model="clr-namespace:Ruzdi_6.Model.Property_Classes"
     d:DataContext="{d:DesignInstance vmdd:VM_PropertyDD,IsDesignTimeCreatable=True}"
     DataContext="{Binding VM_Property, Source={StaticResource Locator}}"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="741"
+    d:DesignWidth="882"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Style TargetType="TextBlock">

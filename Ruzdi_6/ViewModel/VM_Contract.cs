@@ -6,29 +6,14 @@ namespace Ruzdi_6.ViewModel
     {
         public VM_Contract()
         {
-            if (App.DesignMode)
+            Contract = new PledgeContract
             {
-                Contract = new PledgeContract
-                {
-                    Date = DateTime.Now,
-                    Name = "Наименование",
-                    Number = "Номер договора",
-                    TermOfContract = DateTime.Now
-                };
-            }
-            else
-            {
-                Contract = new PledgeContract
-                {
-                    Date = DateTime.Now,
-                    TermOfContract = DateTime.Now,
-                    Number = "",
-                    Name = ""
-                };
-            }
+                Date = DateTime.Now,
+                TermOfContract = DateTime.Now,
+                Number = "",
+                Name = ""
+            };
         }
-
-        
 
         private PledgeContract contract;
         public PledgeContract Contract
@@ -39,6 +24,5 @@ namespace Ruzdi_6.ViewModel
 
         public bool IsView { get; set; }
 
-        
     }
 }

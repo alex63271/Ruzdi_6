@@ -12,7 +12,6 @@ using Ruzdi_6.Services;
 using Ruzdi_DB.Context;
 using Ruzdi_DB.Entityes;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.IO.Compression;
@@ -25,7 +24,6 @@ namespace Ruzdi_6.ViewModel
 {
     public class VM_ForGlavnaya : ViewModel
     {
-
         public VM_ForGlavnaya(DB_Ruzdi db, IWindowService service)
         {
             SourceDatagrid = new ObservableCollection<Notification>(db.Notifications.Include(p => p.Pledgors).Include(c => c.PledgeContract));
