@@ -134,13 +134,14 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding PledgeContract.Number}" Header="Номер договора залога" />
                 <DataGridTextColumn Binding="{Binding Status}" Header="Статус" />
-
             </DataGrid.Columns>
+            
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <TextBlock HorizontalAlignment="Right" Text="{Binding Error}"/>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
+            
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Command="{Binding ViewNotificationCommand}" Header="Просмотреть" />
@@ -148,6 +149,7 @@
                     <MenuItem Command="{Binding SaveMessageCommand}" Header="Скачать свидетельство" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
+            
         </DataGrid>
 
     </DockPanel>

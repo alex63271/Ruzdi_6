@@ -11,148 +11,18 @@ namespace Ruzdi_6.ViewModel
     {
         public VM_Pledgee(IWindowService service)
         {
+            Pledgee = new ObservableCollection<Pledgee>();
 
-            if (App.DesignMode)
-            {
-                Pledgee = new ObservableCollection<Pledgee>()
-                {
-                    new PledgeeOrganization
-                     {
-                        RussianOrganization= new RussianOrganization
-                        {
-                            NameFull="Какой-то залогодержатель",
-                            INN="132456",
-                            OGRN = "1234567890",
-                            Email = "14546",
-                            Address = new RussianOrganizationAddress
-                            {
-                                Region = "Москва",
-                                RegionCode = "77",
-                                City = "Город",
-                                Locality = "",
-                                Street="",
-                                District="",
-                                House="",
-                                Building ="",
-                                Apartment=""
-                            },
-                        }
-                     },
-                    new PledgeePrivatePerson
-                     {
-                          Name = new PrivatePersonName
-                          {
-                              Last ="Кирриллов",
-                              First="Киррилл",
-                              Middle="Иваныч"
-                          },
-                          BirthDate = DateTime.Now,
-                          PersonDocument= new PrivatePersonDocument
-                          {
-                              Code=21,
-                              Name="паспорт",
-                              SeriesNumber="1234567890"
-                          },
-                          PersonAddress = new PrivatePersonPersonAddress
-                          {
-                              AddressRF= new PrivatePersonPersonAddressAddressRF
-                              {
-                                Region = "Москва",
-                                RegionCode = "77",
-                                City = "Город",
-                                Locality = "",
-                                Street="",
-                                District="",
-                                House="",
-                                Building ="",
-                                Apartment=""
-                              }
-                          }
-                     }
-                };
-                SourceComboRegion = App.Region_list;
+            SourceComboRegion = App.Region_list;
 
+            #region Команды
 
-                SelectPledgee = new PledgeeOrganization
-                {
-                    RussianOrganization = new RussianOrganization
-                    {
-                        NameFull = "Какой-то залогодержатель",
-                        INN = "132456",
-                        OGRN = "1234567890",
-                        Email = "14546",
-                        Address = new RussianOrganizationAddress
-                        {
-                            Region = "Москва",
-                            RegionCode = "77",
-                            City = "Город",
-                            Locality = "нас. пункт",
-                            Street = "улица",
-                            District = "округ",
-                            House = "дом",
-                            Building = "строение",
-                            Apartment = "квартира"
-                        },
-                    }
-                };
-                //SelectPledgee = new PledgeePrivatePerson
-                //{
-                //    Name = new PrivatePersonName
-                //    {
-                //        Last = "last",
-                //        First = "first",
-                //        Middle = "middle"
-                //    },
-                //    BirthDate = DateTime.Now,
-                //    PersonAddress = new PrivatePersonPersonAddress
-                //    {
-                //        AddressRF = new PrivatePersonPersonAddressAddressRF
-                //        {
-                //            Region = "Москва",
-                //            RegionCode = "77",
-                //            City = "Город",
-                //            Locality = "нас. пункт",
-                //            Street = "улица",
-                //            District = "округ",
-                //            House = "дом",
-                //            Building = "строение",
-                //            Apartment = "квартира"
-                //        }
-                //    },
-                //    // Email = "123@132.ru",
-                //    PersonDocument = new PrivatePersonDocument
-                //    {
-                //        Code = 21,
-                //        Name = "Паспорт",
-                //        SeriesNumber = "123456790"
-
-                //    }
-                //};
-
-                #region Команды
-
-                AddCommandPledgeeOrganization = new RelayCommand(AddCommandPledgeeOrganizationExecute, CanAddCommandPledgeeOrganizationExecute);
-                AddCommandPersonPledgee = new RelayCommand(AddCommandPersonPledgeeExecute, CanAddCommandPersonPledgeeExecute);
-                SavePledgeeCommand = new RelayCommand(OnSavePledgeeCommandExecute, CanSavePledgeeCommandExecute);
-                EditCommandPledgee = new RelayCommand(EditCommandPledgeeExecute, CanEditCommandPledgeeExecute);
-                RemoveCommandPledgee = new RelayCommand(OnRemoveCommandPledgeeExecute, CanRemoveCommandPledgeeExecute);
-                #endregion
-            }
-            else
-            {
-                Pledgee = new ObservableCollection<Pledgee>();
-
-                SourceComboRegion = App.Region_list;
-
-                #region Команды
-
-                AddCommandPledgeeOrganization = new RelayCommand(AddCommandPledgeeOrganizationExecute, CanAddCommandPledgeeOrganizationExecute);
-                AddCommandPersonPledgee = new RelayCommand(AddCommandPersonPledgeeExecute, CanAddCommandPersonPledgeeExecute);
-                SavePledgeeCommand = new RelayCommand(OnSavePledgeeCommandExecute, CanSavePledgeeCommandExecute);
-                EditCommandPledgee = new RelayCommand(EditCommandPledgeeExecute, CanEditCommandPledgeeExecute);
-                RemoveCommandPledgee = new RelayCommand(OnRemoveCommandPledgeeExecute, CanRemoveCommandPledgeeExecute);
-                #endregion
-            }
+            AddCommandPledgeeOrganization = new RelayCommand(AddCommandPledgeeOrganizationExecute, CanAddCommandPledgeeOrganizationExecute);
+            AddCommandPersonPledgee = new RelayCommand(AddCommandPersonPledgeeExecute, CanAddCommandPersonPledgeeExecute);
+            SavePledgeeCommand = new RelayCommand(OnSavePledgeeCommandExecute, CanSavePledgeeCommandExecute);
+            EditCommandPledgee = new RelayCommand(EditCommandPledgeeExecute, CanEditCommandPledgeeExecute);
+            RemoveCommandPledgee = new RelayCommand(OnRemoveCommandPledgeeExecute, CanRemoveCommandPledgeeExecute);
+            #endregion
 
             this.service = service;
         }
@@ -217,7 +87,7 @@ namespace Ruzdi_6.ViewModel
                     },
                 },
             };
-            
+
             service.ShowWindowDialog(SelectPledgee);
 
         }
@@ -258,7 +128,7 @@ namespace Ruzdi_6.ViewModel
                 },
                 Email = ""
             };
-            
+
             service.ShowWindowDialog(SelectPledgee);
         }
         #endregion 
@@ -287,13 +157,13 @@ namespace Ruzdi_6.ViewModel
         public void OnSavePledgeeCommandExecute(object p)
         {
             if (Pledgee.Contains(SelectPledgee))//если объект уже есть в коллекции(т.е. идет редактирование), то вновь этото объект не добавляем в коллекцию
-            {                
+            {
                 service.CloseWindowDialog(SelectPledgee);
             }
             else
             {
                 Pledgee.Insert(0, SelectPledgee);
-                
+
                 service.CloseWindowDialog(SelectPledgee);
             }
         }

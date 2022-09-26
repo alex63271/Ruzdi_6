@@ -11,154 +11,20 @@ namespace Ruzdi_6.ViewModel
     {
         public VM_Pledgor(IWindowService service)
         {
-            if (App.DesignMode)
-            {
-                Pledgors = new ObservableCollection<Pledgor>()
-                {
-                    new PledgorPrivatePerson
-                    {
-                        Name = new PrivatePersonName
-                        {
-                            Last = "Петров",
-                            First = "Иван",
-                            Middle = "Михалыч"
-                        },
-                        BirthDate = DateTime.Now,
-                        PersonDocument = new PrivatePersonDocument
-                        {
-                            Code = 21,
-                            Name = "паспорт",
-                            SeriesNumber = "123456789"
-                        },
-                        PersonAddress = new PrivatePersonPersonAddress
-                        {
-                            AddressRF = new PrivatePersonPersonAddressAddressRF
-                            {
-                                RegionCode = "10",
-                                Region = "Москва",
-                                City = "789"
-                            }
-                        }
-                    },
-                    new PledgorPrivatePerson
-                              {
-                                  Name = new PrivatePersonName
-                                  {
-                                      Last = "Никифоров",
-                                      First = "Петр",
-                                      Middle = "Захарыч"
-                                  },
-                                  BirthDate = DateTime.Now,
-                                  PersonDocument = new PrivatePersonDocument
-                                  {
-                                      Code = 21,
-                                      Name = "паспорт",
-                                      SeriesNumber = "123456789"
-                                  },
-                                  PersonAddress = new PrivatePersonPersonAddress
-                                  {
-                                      AddressRF = new PrivatePersonPersonAddressAddressRF
-                                      {
-                                          RegionCode = "10",
-                                          Region = "Москва",
-                                          City = "789"
-                                      }
-                                  },
-                              },
-                    new PledgorOrganization
-                          {
-                              RussianOrganization = new RussianOrganization
-                              {
-                                  NameFull = "Рога и копыта",
-                                  INN = "123456",
-                                  OGRN = "1324567890",
-                                  Address = new RussianOrganizationAddress
-                                  {
-                                      Region = "Москва",
-                                      RegionCode = "10",
-                                      City = "Город"
-                                  },
-                                  Email = "13@kk.ru"
-                              }
-                          }
-                };
 
+            Pledgors = new ObservableCollection<Pledgor>();
 
+            SourceComboRegion = App.Region_list;
 
-                //SelectPledgor = new PledgorOrganization
-                //{
-                //    RussianOrganization = new RussianOrganization
-                //    {
-                //        NameFull = "Рога и копыта",
-                //        INN = "123456",
-                //        OGRN = "1324567890",
-                //        Address = new RussianOrganizationAddress
-                //        {
-                //            Region = "Москва",
-                //            RegionCode = "",
-                //            District = "район",
-                //            City = "Москва",
-                //            Locality = "Нас. пункт",
-                //            Street = "улица",
-                //            House = "Дом",
-                //            Building = "строение",
-                //            Apartment = "квартира",
-                //        },
-                //        Email = "13@kk.ru"
-                //    }
-                //};
-                SelectPledgor = new PledgorPrivatePerson
-                {
-                    Name = new PrivatePersonName
-                    {
-                        Last = "Петров",
-                        First = "Иван",
-                        Middle = "Михалыч"
-                    },
-                    BirthDate = DateTime.Now,
-                    PersonDocument = new PrivatePersonDocument
-                    {
-                        Code = 21,
-                        Name = "паспорт",
-                        SeriesNumber = "123456789"
-                    },
-                    PersonAddress = new PrivatePersonPersonAddress
-                    {
-                        AddressRF = new PrivatePersonPersonAddressAddressRF
-                        {
-                            RegionCode = "10",
-                            Region = "Москва",
-                            City = "789"
-                        }
-                    }
-                };
+            #region Команды залогодателя 
 
-                #region Команды залогодателя 
-
-                AddCommandPersonPledgor = new RelayCommand(AddCommandPersonExecute, CanAddCommandPersonPledgorExecute);
-                AddOrganizationRFPledgor = new RelayCommand(OnAddOrganizationRFExecute, CanAddOrganizationRFExecute);
-                RemoveCommand = new RelayCommand(OnRemoveExecute, CanRemoveExecute);
-                SavePledgorPersonCommand = new RelayCommand(OnSavePledgorPersonCommandExecute, CanSavePledgorPersonCommandExecute);
-                SavePledgorOrganizationCommand = new RelayCommand(OnSavePledgorOrganizationCommandExecute, CanSavePledgorOrganizationCommandExecute);
-                EditCommandPerson = new RelayCommand(EditCommandPersonExecute, CanEditCommandPersonExecute);
-                #endregion
-            }
-            else
-            {
-                Pledgors = new ObservableCollection<Pledgor>();
-
-                SourceComboRegion = App.Region_list;
-
-                #region Команды залогодателя 
-
-                AddCommandPersonPledgor = new RelayCommand(AddCommandPersonExecute, CanAddCommandPersonPledgorExecute);
-                AddOrganizationRFPledgor = new RelayCommand(OnAddOrganizationRFExecute, CanAddOrganizationRFExecute);
-                RemoveCommand = new RelayCommand(OnRemoveExecute, CanRemoveExecute);
-                SavePledgorPersonCommand = new RelayCommand(OnSavePledgorPersonCommandExecute, CanSavePledgorPersonCommandExecute);
-                SavePledgorOrganizationCommand = new RelayCommand(OnSavePledgorOrganizationCommandExecute, CanSavePledgorOrganizationCommandExecute);
-                EditCommandPerson = new RelayCommand(EditCommandPersonExecute, CanEditCommandPersonExecute);
-                #endregion
-            }
+            AddCommandPersonPledgor = new RelayCommand(AddCommandPersonExecute, CanAddCommandPersonPledgorExecute);
+            AddOrganizationRFPledgor = new RelayCommand(OnAddOrganizationRFExecute, CanAddOrganizationRFExecute);
+            RemoveCommand = new RelayCommand(OnRemoveExecute, CanRemoveExecute);
+            SavePledgorPersonCommand = new RelayCommand(OnSavePledgorPersonCommandExecute, CanSavePledgorPersonCommandExecute);
+            SavePledgorOrganizationCommand = new RelayCommand(OnSavePledgorOrganizationCommandExecute, CanSavePledgorOrganizationCommandExecute);
+            EditCommandPerson = new RelayCommand(EditCommandPersonExecute, CanEditCommandPersonExecute);
+            #endregion
 
             this.service = service;
         }
@@ -212,7 +78,7 @@ namespace Ruzdi_6.ViewModel
                 Email = ""
             };
 
-            
+
             service.ShowWindowDialog(SelectPledgor);
         }
         #endregion
@@ -270,7 +136,7 @@ namespace Ruzdi_6.ViewModel
                     },
                 },
             };
-            
+
             service.ShowWindowDialog(SelectPledgor);
         }
         #endregion
@@ -288,7 +154,7 @@ namespace Ruzdi_6.ViewModel
 
         }
         public void EditCommandPersonExecute(object p)
-        {            
+        {
             service.ShowWindowDialog(SelectPledgor);
         }
         #endregion
@@ -319,12 +185,12 @@ namespace Ruzdi_6.ViewModel
         public void OnSavePledgorPersonCommandExecute(object p)
         {
             if (Pledgors.Contains(SelectPledgor))//если объект уже есть в коллекции(т.е. идет редактирование), то вновь этот объект не добавляем в коллекцию
-            {                
+            {
                 service.CloseWindowDialog(SelectPledgor);
             }
             else
             {
-                Pledgors.Insert(0, SelectPledgor);                
+                Pledgors.Insert(0, SelectPledgor);
                 service.CloseWindowDialog(SelectPledgor);
             }
 
@@ -346,12 +212,12 @@ namespace Ruzdi_6.ViewModel
         {
 
             if (Pledgors.Contains(SelectPledgor))//если объект уже есть в коллекции(т.е. идет редактирование), то вновь этото объект не добавляем в коллекцию
-            {                
+            {
                 service.CloseWindowDialog(SelectPledgor);
             }
             else
             {
-                Pledgors.Insert(0, SelectPledgor);                
+                Pledgors.Insert(0, SelectPledgor);
                 service.CloseWindowDialog(SelectPledgor);
             }
 
@@ -369,7 +235,7 @@ namespace Ruzdi_6.ViewModel
         /// Св-во, содержащее выбранного из списка залогодателя
         /// </summary>
         private Pledgor selectPledgor;
-        
+
 
         public Pledgor SelectPledgor
         {

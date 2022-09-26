@@ -6,11 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Ruzdi_6.Model.Pledgor_Classes"
-    xmlns:vm="clr-namespace:Ruzdi_6.ViewModel"
+    xmlns:vmdd="clr-namespace:Ruzdi_6.ViewModel_DesignData"
     Title="Информация о залогодателе"
     Width="888"
     Height="750"
-    d:DataContext="{d:DesignInstance vm:VM_Pledgor,
+    d:DataContext="{d:DesignInstance vmdd:VM_PledgorDD,
                                      IsDesignTimeCreatable=True}"
     DataContext="{Binding VM_Pledgor, Source={StaticResource Locator}}"
     WindowStartupLocation="CenterScreen"
@@ -95,7 +95,7 @@
                                     <TextBox Text="{Binding Name.First, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
                                     <TextBlock Text="Отчество">
-                                    <Run Foreground="Coral" Text=" *" />
+                                        <Run Foreground="Coral" Text=" *" />
                                     </TextBlock>
                                     <TextBox Text="{Binding Name.Middle, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
@@ -156,37 +156,37 @@
                                         </Style>
                                     </StackPanel.Resources>
                                     <TextBlock Text="Район">
-                                    <Run Foreground="Coral" Text=" *" />
+                                        <Run Foreground="Coral" Text=" *" />
                                     </TextBlock>
                                     <TextBox Text="{Binding PersonAddress.AddressRF.District, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
                                     <TextBlock Text="Город">
-                                    <Run Foreground="Coral" Text=" *" />
+                                        <Run Foreground="Coral" Text=" *" />
                                     </TextBlock>
                                     <TextBox Text="{Binding PersonAddress.AddressRF.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
                                     <TextBlock Text="Населенный пункт (село, поселок и т.д.)">
-                                    <Run Foreground="Coral" Text=" *" />
+                                        <Run Foreground="Coral" Text=" *" />
                                     </TextBlock>
                                     <TextBox Text="{Binding PersonAddress.AddressRF.Locality, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
                                     <TextBlock Text="Улица (проспект, переулок и т.д.)">
-                                    <Run Foreground="Coral" Text=" *" />
+                                        <Run Foreground="Coral" Text=" *" />
                                     </TextBlock>
                                     <TextBox Text="{Binding PersonAddress.AddressRF.Street, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
                                     <TextBlock Text="Номер дома (владения)">
-                                    <Run Foreground="Coral" Text=" *" />
+                                        <Run Foreground="Coral" Text=" *" />
                                     </TextBlock>
                                     <TextBox Text="{Binding PersonAddress.AddressRF.House, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
                                     <TextBlock Text="Номер корпуса (строения)">
-                                    <Run Foreground="Coral" Text=" *" />
+                                        <Run Foreground="Coral" Text=" *" />
                                     </TextBlock>
                                     <TextBox Text="{Binding PersonAddress.AddressRF.Building, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
                                     <TextBlock Text="Номер квартиры (офиса)">
-                                    <Run Foreground="Coral" Text=" *" />
+                                        <Run Foreground="Coral" Text=" *" />
                                     </TextBlock>
                                     <TextBox Text="{Binding PersonAddress.AddressRF.Apartment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 

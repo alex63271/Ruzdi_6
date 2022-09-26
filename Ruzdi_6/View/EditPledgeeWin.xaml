@@ -7,13 +7,13 @@
     xmlns:app="clr-namespace:Ruzdi_6"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Ruzdi_6.Model.Pledgee_Classes"
-    xmlns:vm="clr-namespace:Ruzdi_6.ViewModel"
+    xmlns:vmdd="clr-namespace:Ruzdi_6.ViewModel_DesignData"
     Title="Информация о залогодержателе"
     WindowStartupLocation="CenterScreen"
     Width="888"
     Height="750"
     DataContext="{Binding VM_Pledgee, Source={StaticResource Locator}}"
-    d:DataContext="{d:DesignInstance vm:VM_Pledgee,IsDesignTimeCreatable=True}"
+    d:DataContext="{d:DesignInstance vmdd:VM_PledgeeDD,IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
     <Grid>
 
