@@ -19,6 +19,7 @@ namespace Ruzdi_6.Model.Property_Classes
                 CheckValidation();
             }
         }
+
         public string PIN
         {
             get => pIN;
@@ -28,6 +29,7 @@ namespace Ruzdi_6.Model.Property_Classes
                 CheckValidation();
             }
         }
+
         public string ChassisNumber { get; set; }
 
         public string BodyNumber { get; set; }

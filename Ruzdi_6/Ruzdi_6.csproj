@@ -86,6 +86,12 @@
 	<ItemGroup>
 	  <SplashScreen Include="SplashScreen.png" />
 	</ItemGroup>
+
+
+
+
+
+	<ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 	
 	
 

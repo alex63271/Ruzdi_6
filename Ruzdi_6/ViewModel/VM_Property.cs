@@ -8,7 +8,7 @@ namespace Ruzdi_6.ViewModel
 {
     public class VM_Property : ViewModel
     {
-        public VM_Property()
+        public VM_Property(IWindowService service)
         {
             if (App.DesignMode)
             {
@@ -73,8 +73,10 @@ namespace Ruzdi_6.ViewModel
                 AddOtherPropertyCommand = new RelayCommand(AddOtherPropertyCommandExecute, CanAddOtherPropertyCommandExecute);
                 #endregion
             }
-        }
 
+            this.service = service;
+        }
+        private readonly IWindowService service;
 
         public ObservableCollection<PersonalProperty> PersonalProperty { get; set; }
 
@@ -82,6 +84,8 @@ namespace Ruzdi_6.ViewModel
 
         #region SelectProperty- поле и св-во выбранного из списка имущества
         private PersonalProperty selectProperty;
+
+
         public PersonalProperty SelectProperty
         {
             get => selectProperty;
@@ -112,7 +116,7 @@ namespace Ruzdi_6.ViewModel
                 Description = ""
             };
 
-            IWindowService service = new ServiceWindow();
+            //IWindowService service = new ServiceWindow();
             service.ShowWindowDialog(SelectProperty);
         }
         #endregion
@@ -133,7 +137,7 @@ namespace Ruzdi_6.ViewModel
                 ID = "",
                 Description = ""
             };
-            IWindowService service = new ServiceWindow();
+            //IWindowService service = new ServiceWindow();
             service.ShowWindowDialog(SelectProperty);
 
             /*EditPropertyWin PropertyWin = new EditPropertyWin
@@ -156,7 +160,7 @@ namespace Ruzdi_6.ViewModel
         public void EditPropertyCommandExecute(object p)
         {
 
-            IWindowService service = new ServiceWindow();
+            //IWindowService service = new ServiceWindow();
             service.ShowWindowDialog(SelectProperty);
 
         }
@@ -199,14 +203,14 @@ namespace Ruzdi_6.ViewModel
         {
             if (PersonalProperty.Contains(SelectProperty))//если объект уже есть в коллекции(т.е. идет редактирование), то вновь этот объект не добавляем в коллекцию
             {
-                IWindowService service = new ServiceWindow();
+                //IWindowService service = new ServiceWindow();
                 service.CloseWindowDialog(SelectProperty);
 
             }
             else
             {
                 PersonalProperty.Insert(0, SelectProperty); //если объекта нет, то добавляем его в коллекцию
-                IWindowService service = new ServiceWindow();
+                //IWindowService service = new ServiceWindow();
                 service.CloseWindowDialog(SelectProperty);
             }
         }
