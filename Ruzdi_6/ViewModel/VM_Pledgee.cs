@@ -9,7 +9,7 @@ namespace Ruzdi_6.ViewModel
 {
     public class VM_Pledgee : ViewModel
     {
-        public VM_Pledgee()
+        public VM_Pledgee(IWindowService service)
         {
 
             if (App.DesignMode)
@@ -153,7 +153,12 @@ namespace Ruzdi_6.ViewModel
                 RemoveCommandPledgee = new RelayCommand(OnRemoveCommandPledgeeExecute, CanRemoveCommandPledgeeExecute);
                 #endregion
             }
+
+            this.service = service;
         }
+
+        private readonly IWindowService service;
+
         public bool IsView { get; set; }
 
         public List<string> SourceComboRegion { get; set; }
@@ -185,10 +190,9 @@ namespace Ruzdi_6.ViewModel
         /// команда добавления физ. лица
         /// </summary>
         public ICommand AddCommandPledgeeOrganization { get; }
-        public bool CanAddCommandPledgeeOrganizationExecute(object p)
-        {
-            return !IsView;
-        }
+
+        public bool CanAddCommandPledgeeOrganizationExecute(object p) => !IsView;
+
         public void AddCommandPledgeeOrganizationExecute(object p)
         {
             SelectPledgee = new PledgeeOrganization
@@ -213,7 +217,7 @@ namespace Ruzdi_6.ViewModel
                     },
                 },
             };
-            IWindowService service = new ServiceWindow();
+            
             service.ShowWindowDialog(SelectPledgee);
 
         }
@@ -224,10 +228,8 @@ namespace Ruzdi_6.ViewModel
         /// команда добавления физ. лица
         /// </summary>
         public ICommand AddCommandPersonPledgee { get; }
-        public bool CanAddCommandPersonPledgeeExecute(object p)
-        {
-            return !IsView;
-        }
+        public bool CanAddCommandPersonPledgeeExecute(object p) => !IsView;
+
         public void AddCommandPersonPledgeeExecute(object p)
         {
             SelectPledgee = new PledgeePrivatePerson
@@ -256,10 +258,8 @@ namespace Ruzdi_6.ViewModel
                 },
                 Email = ""
             };
-
-            IWindowService service = new ServiceWindow();
+            
             service.ShowWindowDialog(SelectPledgee);
-
         }
         #endregion 
 
@@ -287,14 +287,13 @@ namespace Ruzdi_6.ViewModel
         public void OnSavePledgeeCommandExecute(object p)
         {
             if (Pledgee.Contains(SelectPledgee))//если объект уже есть в коллекции(т.е. идет редактирование), то вновь этото объект не добавляем в коллекцию
-            {
-                IWindowService service = new ServiceWindow();
+            {                
                 service.CloseWindowDialog(SelectPledgee);
             }
             else
             {
                 Pledgee.Insert(0, SelectPledgee);
-                IWindowService service = new ServiceWindow();
+                
                 service.CloseWindowDialog(SelectPledgee);
             }
         }
@@ -305,21 +304,10 @@ namespace Ruzdi_6.ViewModel
         /// команда изменения физ. лица
         /// </summary>
         public ICommand EditCommandPledgee { get; }
-        public bool CanEditCommandPledgeeExecute(object p)
-        {
-            return Pledgee.Count > 0;
-        }
-        public void EditCommandPledgeeExecute(object p)
-        {
-            IWindowService service = new ServiceWindow();
-            service.ShowWindowDialog(SelectPledgee);
 
-            /*EditPledgeeWin pledgorPersonWin = new EditPledgeeWin
-            {
-                DataContext = GetVM_Pledgee_UZ1()
-            };
-            pledgorPersonWin.ShowDialog();*/
-        }
+        public bool CanEditCommandPledgeeExecute(object p) => Pledgee.Count > 0;
+
+        public void EditCommandPledgeeExecute(object p) => service.ShowWindowDialog(SelectPledgee);
         #endregion
 
         #region RemoveCommandPledgee - команда удаления из списка залогодержателей
@@ -327,14 +315,10 @@ namespace Ruzdi_6.ViewModel
         /// команда удаления
         /// </summary>
         public ICommand RemoveCommandPledgee { get; }
-        public bool CanRemoveCommandPledgeeExecute(object p)
-        {
-            return (Pledgee.Count > 0) && (!IsView);
-        }
-        public void OnRemoveCommandPledgeeExecute(object p)
-        {
-            Pledgee.Remove(p as Pledgee);
-        }
+
+        public bool CanRemoveCommandPledgeeExecute(object p) => (Pledgee.Count > 0) && (!IsView);
+
+        public void OnRemoveCommandPledgeeExecute(object p) => Pledgee.Remove(p as Pledgee);
         #endregion
 
         #endregion

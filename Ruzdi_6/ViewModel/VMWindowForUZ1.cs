@@ -186,11 +186,9 @@ namespace Ruzdi_6.ViewModel
         /// команда сохранения залогодателя юр. лица РФ
         /// </summary>
         public ICommand ToPledgorsCommand { get; }
-        public bool CanToPledgorsCommandExecute(object p)
-        {
-            //должна быть логика проверки, что валидация успешна
-            return true;
-        }
+
+        public bool CanToPledgorsCommandExecute(object p) => true;
+
         public void OnToPledgorsCommandExecute(object p)
         {
             CurrentContentVM = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>();

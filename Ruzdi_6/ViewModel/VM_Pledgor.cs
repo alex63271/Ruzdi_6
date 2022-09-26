@@ -9,7 +9,7 @@ namespace Ruzdi_6.ViewModel
 {
     public class VM_Pledgor : ViewModel
     {
-        public VM_Pledgor()
+        public VM_Pledgor(IWindowService service)
         {
             if (App.DesignMode)
             {
@@ -159,8 +159,11 @@ namespace Ruzdi_6.ViewModel
                 EditCommandPerson = new RelayCommand(EditCommandPersonExecute, CanEditCommandPersonExecute);
                 #endregion
             }
+
+            this.service = service;
         }
 
+        private readonly IWindowService service;
 
         #region Залогодатель (Поля, св-ва и команды)
 
@@ -209,8 +212,7 @@ namespace Ruzdi_6.ViewModel
                 Email = ""
             };
 
-
-            IWindowService service = new ServiceWindow();
+            
             service.ShowWindowDialog(SelectPledgor);
         }
         #endregion
@@ -268,15 +270,8 @@ namespace Ruzdi_6.ViewModel
                     },
                 },
             };
-
-            IWindowService service = new ServiceWindow();
+            
             service.ShowWindowDialog(SelectPledgor);
-
-            /* PledgorPersonWin pledgorPersonWin = new PledgorPersonWin
-             {
-                 DataContext = Get_VM_Pledgor_UZ1()
-             };
-             pledgorPersonWin.ShowDialog();*/
         }
         #endregion
 
@@ -293,8 +288,7 @@ namespace Ruzdi_6.ViewModel
 
         }
         public void EditCommandPersonExecute(object p)
-        {
-            IWindowService service = new ServiceWindow();
+        {            
             service.ShowWindowDialog(SelectPledgor);
         }
         #endregion
@@ -325,14 +319,12 @@ namespace Ruzdi_6.ViewModel
         public void OnSavePledgorPersonCommandExecute(object p)
         {
             if (Pledgors.Contains(SelectPledgor))//если объект уже есть в коллекции(т.е. идет редактирование), то вновь этот объект не добавляем в коллекцию
-            {
-                IWindowService service = new ServiceWindow();
+            {                
                 service.CloseWindowDialog(SelectPledgor);
             }
             else
             {
-                Pledgors.Insert(0, SelectPledgor);
-                IWindowService service = new ServiceWindow();
+                Pledgors.Insert(0, SelectPledgor);                
                 service.CloseWindowDialog(SelectPledgor);
             }
 
@@ -354,14 +346,12 @@ namespace Ruzdi_6.ViewModel
         {
 
             if (Pledgors.Contains(SelectPledgor))//если объект уже есть в коллекции(т.е. идет редактирование), то вновь этото объект не добавляем в коллекцию
-            {
-                IWindowService service = new ServiceWindow();
+            {                
                 service.CloseWindowDialog(SelectPledgor);
             }
             else
             {
-                Pledgors.Insert(0, SelectPledgor);
-                IWindowService service = new ServiceWindow();
+                Pledgors.Insert(0, SelectPledgor);                
                 service.CloseWindowDialog(SelectPledgor);
             }
 
@@ -379,7 +369,7 @@ namespace Ruzdi_6.ViewModel
         /// Св-во, содержащее выбранного из списка залогодателя
         /// </summary>
         private Pledgor selectPledgor;
-
+        
 
         public Pledgor SelectPledgor
         {
