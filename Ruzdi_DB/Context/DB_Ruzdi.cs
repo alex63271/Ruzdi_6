@@ -1,13 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ruzdi_DB.Entityes;
-using System.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace Ruzdi_DB.Context
 {
@@ -15,8 +7,7 @@ namespace Ruzdi_DB.Context
     {
 
         public DB_Ruzdi(DbContextOptions<DB_Ruzdi> options) : base(options)
-        {
-            
+        {            
             try
             {
                 Database.Migrate();
@@ -28,8 +19,6 @@ namespace Ruzdi_DB.Context
         }
 
 
-
-
         public DbSet<Notification> Notifications { get; set; }
 
         public DbSet<Regions> Regions { get; set; }
@@ -37,7 +26,6 @@ namespace Ruzdi_DB.Context
         public DbSet<Persons> Persons { get; set; }
 
         public DbSet<Organizations> Organizations { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

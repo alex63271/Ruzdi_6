@@ -31,7 +31,7 @@
 
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2.2*" />
+                <ColumnDefinition Width="2.4*" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <GroupBox
@@ -136,7 +136,11 @@
                 <DataGridTextColumn Binding="{Binding Status}" Header="Статус" />
 
             </DataGrid.Columns>
-
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding Error}"/>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Command="{Binding ViewNotificationCommand}" Header="Просмотреть" />

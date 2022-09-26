@@ -29,7 +29,7 @@ namespace Ruzdi_6.ViewModel
         public VM_ForGlavnaya(DB_Ruzdi db, IWindowService service)
         {
             SourceDatagrid = new ObservableCollection<Notification>(db.Notifications.Include(p => p.Pledgors).Include(c => c.PledgeContract));
-  
+
             DataGridCollection = new CollectionViewSource
             {
                 Source = SourceDatagrid
@@ -66,7 +66,9 @@ namespace Ruzdi_6.ViewModel
         /// команда обновления статусов
         /// </summary>
         public ICommand RenewStatus { get; }
+
         public bool CanRenewStatusCommandExecute(object p) => true;
+
         public async void OnRenewStatusCommandExecute(object p)
         {
             App.packageid_list.Clear(); // очищаем список(в случае повторного нажатия кнопки "обновить")
@@ -157,7 +159,7 @@ namespace Ruzdi_6.ViewModel
                 }
 
             }
-           SourceDatagridForFilter.Refresh();
+            SourceDatagridForFilter.Refresh();
         }
 
         #endregion
@@ -354,8 +356,7 @@ namespace Ruzdi_6.ViewModel
                 VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VMWindowForUZ1>().CurrentContentVM = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>();
                 App.SetFlag_True();
 
-                IWindowService service = new ServiceWindow();
-                service.ShowWindowDialog("Create_UZ1");
+                serviceWindow.ShowWindowDialog("Create_UZ1");
 
             }
             else //если это уведомление об исключении
@@ -367,7 +368,6 @@ namespace Ruzdi_6.ViewModel
                 VM_Locator.scopeUP1.ServiceProvider.GetRequiredService<VM_For_Win_UP1>().IsView = true;
 
                 serviceWindow.ShowWindowDialog("Create_UP1");
-
             }
         }
 
@@ -379,18 +379,14 @@ namespace Ruzdi_6.ViewModel
         /// </summary>
         public ICommand OpenSettings { get; }
 
-        public void OnOpenSettingsCommandExecute(object p)
-        {
-            
-            IWindowService service = new ServiceWindow();
-            service.ShowWindowDialog("Settings");
-        }
+        public void OnOpenSettingsCommandExecute(object p) => serviceWindow.ShowWindowDialog("Settings");
         #endregion
 
         #endregion
 
         #region SelectedItem - объект, выбранный в Datagrid
         private Notification selectedItem;
+
         public Notification SelectedItem
         {
             get => selectedItem;
@@ -484,12 +480,9 @@ namespace Ruzdi_6.ViewModel
         #endregion
 
         #region SourceDatagrid - Список-источник для DataGrid
-        private ObservableCollection<Notification> sourceDatagrid;
-        public ObservableCollection<Notification> SourceDatagrid
-        {
-            get => sourceDatagrid;
-            set => Set(ref sourceDatagrid, value);
-        }
+
+        public ObservableCollection<Notification> SourceDatagrid { get; set; }
+
         #endregion
 
         #region SourceDatagridForFilter - Список, отображаемый в DataGrid после фильтрации (обёртка над SourceDatagrid)
