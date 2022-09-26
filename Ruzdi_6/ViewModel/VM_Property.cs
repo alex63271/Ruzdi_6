@@ -86,7 +86,6 @@ namespace Ruzdi_6.ViewModel
         #region SelectProperty- поле и св-во выбранного из списка имущества
         private PersonalProperty selectProperty;
 
-
         public PersonalProperty SelectProperty
         {
             get => selectProperty;
@@ -102,10 +101,8 @@ namespace Ruzdi_6.ViewModel
         /// </summary>
         public ICommand AddVehiclePropertyCommand { get; }
 
-        public bool CanAddVehiclePropertyCommandExecute(object p)
-        {
-            return !IsView;
-        }
+        public bool CanAddVehiclePropertyCommandExecute(object p) => !IsView;
+
         public void AddAddVehiclePropertyCommandExecute(object p)
         {
             SelectProperty = new VehicleProperty
@@ -126,10 +123,9 @@ namespace Ruzdi_6.ViewModel
         /// команда добавления иного имущества
         /// </summary>
         public ICommand AddOtherPropertyCommand { get; }
-        public bool CanAddOtherPropertyCommandExecute(object p)
-        {
-            return !IsView;
-        }
+
+        public bool CanAddOtherPropertyCommandExecute(object p) => !IsView;
+
         public void AddOtherPropertyCommandExecute(object p)
         {
             SelectProperty = new OtherProperty
@@ -147,17 +143,10 @@ namespace Ruzdi_6.ViewModel
         /// команда добавления физ. лица
         /// </summary>
         public ICommand EditPropertyCommand { get; }
-        public bool CanEditPropertyCommandExecute(object p)
-        {
-            return PersonalProperty.Count > 0;
-        }
-        public void EditPropertyCommandExecute(object p)
-        {
 
-            
-            service.ShowWindowDialog(SelectProperty);
+        public bool CanEditPropertyCommandExecute(object p) => PersonalProperty.Count > 0;
 
-        }
+        public void EditPropertyCommandExecute(object p) => service.ShowWindowDialog(SelectProperty);
         #endregion
 
         #region RemovePropertyCommand - команда удаления из списка имущества
@@ -165,14 +154,10 @@ namespace Ruzdi_6.ViewModel
         /// команда удаления
         /// </summary>
         public ICommand RemovePropertyCommand { get; }
-        public bool CanRemovePropertyCommandExecute(object p)
-        {
-            return (PersonalProperty.Count > 0) && (!IsView);
-        }
-        public void OnRemovePropertyCommandExecute(object p)
-        {
-            PersonalProperty.Remove(p as PersonalProperty);
-        }
+
+        public bool CanRemovePropertyCommandExecute(object p) => (PersonalProperty.Count > 0) && (!IsView);
+
+        public void OnRemovePropertyCommandExecute(object p) => PersonalProperty.Remove(p as PersonalProperty);
         #endregion
 
         #region SavePropertyCommand - команда сохранения имущества
@@ -180,6 +165,7 @@ namespace Ruzdi_6.ViewModel
         /// команда сохранения имущества
         /// </summary>
         public ICommand SavePropertyCommand { get; }
+
         public bool CanSavePropertyCommandExecute(object p)
         {
             //должна быть логика проверки, что валидация успешна
@@ -196,10 +182,8 @@ namespace Ruzdi_6.ViewModel
         public void OnSavePropertyCommandExecute(object p)
         {
             if (PersonalProperty.Contains(SelectProperty))//если объект уже есть в коллекции(т.е. идет редактирование), то вновь этот объект не добавляем в коллекцию
-            {
-                
+            {                
                 service.CloseWindowDialog(SelectProperty);
-
             }
             else
             {

@@ -201,10 +201,9 @@ namespace Ruzdi_6.ViewModel
         /// команда перехода к залогодержателю
         /// </summary>
         public ICommand ToPledgeeCommand { get; }
-        public bool CanToPledgeeCommandExecute(object p)
-        {
-            return (VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>().Pledgors.Count > 0 && !IsView) || IsView;
-        }
+
+        public bool CanToPledgeeCommandExecute(object p) => (VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>().Pledgors.Count > 0 && !IsView) || IsView;
+
         public void OnToPledgeeCommandExecute(object p)
         {
             CurrentContentVM = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgee>();
@@ -234,11 +233,9 @@ namespace Ruzdi_6.ViewModel
         /// команда перехода к договору залога
         /// </summary>
         public ICommand ToContractCommand { get; }
-        public bool CanToContractCommandExecute(object p)
-        {
-            //должна быть логика проверки, что валидация успешна
-            return (VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Property>().PersonalProperty.Count > 0 && !IsView) || IsView;
-        }
+
+        public bool CanToContractCommandExecute(object p) => (VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Property>().PersonalProperty.Count > 0 && !IsView) || IsView;
+
         public void OnToContractCommandExecute(object p)
         {
             CurrentContentVM = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Contract>();
@@ -421,7 +418,7 @@ namespace Ruzdi_6.ViewModel
                     };
                     pledgorentity.Id = pledgorentity.GetHashCode().ToString();
 
-                    Pledgors.Add(pledgorentity); //внесение в список для репозитория Notification
+                    Pledgors.Add(pledgorentity); //внесение в список Notification
                 }
                 else //если юр. лицо
                 {
