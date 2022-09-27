@@ -299,7 +299,8 @@ namespace Ruzdi_6.ViewModel
                     Packageguid = App.guidp,
                     TypeNotification = "Исключение",
                     ZipArchive = mystr,
-                    Status = "Первичная отправка"
+                    Status = "Первичная отправка",
+                    ThumbprintCert = ListThumbprint[SelectedCertInCombobox].ToString()
                 };
 
                 db.Add(Notification);

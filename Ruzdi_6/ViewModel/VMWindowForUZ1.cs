@@ -719,7 +719,8 @@ namespace Ruzdi_6.ViewModel
                     ZipArchive = mystr,
                     PledgeContract = contract,
                     Pledgors = Pledgors,
-                    Status = "Первичная отправка"
+                    Status = "Первичная отправка",
+                    ThumbprintCert= VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListThumbprint[VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().SelectedCertInCombobox].ToString()
                 };
 
                 contextNotification.Add(Notification);
