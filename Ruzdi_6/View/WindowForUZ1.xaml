@@ -200,9 +200,15 @@
                     <view:PledgeeContractUC />
                 </DataTemplate>
 
-                 <DataTemplate DataType="{x:Type vm:VM_Applicant}">
+                <DataTemplate DataType="{x:Type vm:VM_Applicant}">
                     <view:ApplicantUC />
                 </DataTemplate>
+
+                <!--#region Шаблон для дизайнера xaml d: -->
+                <d:DataTemplate DataType="{x:Type vmdd:VM_ApplicantDD}">
+                    <view:ApplicantUC />
+                </d:DataTemplate>
+                <!--#endregion-->
 
             </ContentControl.Resources>
         </ContentControl>

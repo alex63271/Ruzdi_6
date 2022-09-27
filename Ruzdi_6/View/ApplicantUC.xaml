@@ -8,7 +8,6 @@
     xmlns:modelApplicant="clr-namespace:Ruzdi_6.Model.Applicant_Classes"
     xmlns:modelPledgee="clr-namespace:Ruzdi_6.Model.Pledgee_Classes"
     xmlns:modelPledgor="clr-namespace:Ruzdi_6.Model.Pledgor_Classes"
-    xmlns:vm="clr-namespace:Ruzdi_6.ViewModel"
     xmlns:vmdd="clr-namespace:Ruzdi_6.ViewModel_DesignData"
     d:DesignHeight="741"
     d:DesignWidth="882"
