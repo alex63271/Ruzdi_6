@@ -14,12 +14,12 @@ namespace Ruzdi_DB.Entityes
         public string Id { get; set; }
 
 
-        public List<Pledgor>? Pledgors { get; set; } //= new();
+        public List<Pledgor>? Pledgors { get; set; } 
 
         #region свойства связи один-ко многим PledgeContract
         public string? ContractsID { get; set; }
 
-        public Contracts? PledgeContract { get; set; }// = new();
+        public Contracts? PledgeContract { get; set; }
         #endregion
 
         public string ZipArchive { get; set; }
@@ -27,6 +27,7 @@ namespace Ruzdi_DB.Entityes
         public string TypeNotification { get; set; }
         public string Status { get; set; }
         public string? Error { get; set; }
+        public string ThumbprintCert { get; set; }  
         public RegistrationCertificate? registrationCertificate { get; set; }
 
     }
