@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.IO.Compression;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -342,11 +343,70 @@ namespace Ruzdi_6.ViewModel
                     {
                         PrivatePerson = new ApplicantPrivatePerson()
                     };
-                    VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().DisplayApplicant = xml.NotificationData.FormUZ1.NotificationApplicant.PrivatePerson;
+                    VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().DisplayApplicant = xml.NotificationData.FormUZ1.NotificationApplicant.PrivatePerson;                   
+                    
+                    VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListCert.Clear();
+
+                    #region Получение из БД отпечатка, поиск по нему серта на компе, внесение в список данных о серте
+                    using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
+                    {
+                        store.Open(OpenFlags.ReadOnly);
+
+                        X509Certificate2 cert = store.Certificates.FirstOrDefault(c => c.Thumbprint == db.Notifications.FirstOrDefault(a => a.Id == SelectedItem.Id).ThumbprintCert);
+                        string otvet = cert.SubjectName.Name;
+                        string zap = ",";
+                        if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
+                        {
+                            string s = "CN=";
+                            string CN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                            s = "SN=";
+                            string SN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                            s = "G=";
+                            string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                            string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
+                            VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListCert.Add(stroka);
+                        }
+                        else //если физ. лицо
+                        {
+                            string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
+                            VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListCert.Add(CN);
+                        }
+                    } 
+                    #endregion
+
                 }
                 else
                 {
                     VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().DisplayApplicant = xml.NotificationData.FormUZ1.NotificationApplicant;
+
+                    VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListCert.Clear();
+
+                    #region Получение из БД отпечатка, поиск по нему серта на компе, внесение в список данных о серте
+                    using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
+                    {
+                        store.Open(OpenFlags.ReadOnly);
+
+                        X509Certificate2 cert = store.Certificates.FirstOrDefault(c => c.Thumbprint == db.Notifications.FirstOrDefault(a => a.Id == SelectedItem.Id).ThumbprintCert);
+                        string otvet = cert.SubjectName.Name;
+                        string zap = ",";
+                        if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
+                        {
+                            string s = "CN=";
+                            string CN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                            s = "SN=";
+                            string SN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                            s = "G=";
+                            string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                            string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
+                            VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListCert.Add(stroka);
+                        }
+                        else //если физ. лицо
+                        {
+                            string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
+                            VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListCert.Add(CN);
+                        }
+                    }
+                    #endregion
                 }
                 #endregion
 

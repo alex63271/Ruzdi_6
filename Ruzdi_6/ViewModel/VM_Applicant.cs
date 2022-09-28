@@ -37,8 +37,7 @@ public class VM_Applicant : ViewModel
         #region Конструкция чтения хранилища сертификатов и сохранения их перечня в коллекции
         using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
         {
-            //List = new ArrayList();
-            //ListThumbprint = new ArrayList();
+            ListCert = new();
             store.Open(OpenFlags.ReadOnly);
             // Проходим по всем сертификатам 
             foreach (X509Certificate2 cert in store.Certificates)
@@ -104,6 +103,7 @@ public class VM_Applicant : ViewModel
     #region SelectedApplicant - Выбранный из списка заявитель используется тип класса родителя для upcast
 
     private FormUZ1 selectedapplicant;
+    
     public FormUZ1 SelectedApplicant
     {
         get => selectedapplicant;
@@ -256,13 +256,17 @@ public class VM_Applicant : ViewModel
     public List<string> ListThumbprint { get; set; } = new();
     #endregion
 
-    #region List - Список сертфикатов
-
-    public List<string> ListCert { get; set; } = new();
+    #region ListCert - Список сертфикатов
+    private List<string> listCert;
+    public List<string> ListCert
+    {
+        get => listCert; 
+        set => listCert = value; 
+    }
     #endregion
 
     #region IndexSelectedCert - индекс выбранного из списка сертифката
-    public int IndexSelectedCert { get; set; } = -1;
+    public int IndexSelectedCert { get; set; }
     #endregion
 
 }
