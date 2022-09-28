@@ -186,6 +186,7 @@ namespace Ruzdi_6.ViewModel
 
         public void OnOpenUP1CommandExecute(object p)
         {
+            VM_Locator.InitScopeUP1();
             serviceWindow.ShowWindowDialog("Create_UP1");
         }
         #endregion       
