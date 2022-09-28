@@ -347,9 +347,7 @@ namespace Ruzdi_6.ViewModel
                 }
                 else
                 {
-                    VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().DisplayApplicant = xml.NotificationData.FormUZ1.NotificationApplicant;
-
-                    VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListCert.Clear();                    
+                    VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().DisplayApplicant = xml.NotificationData.FormUZ1.NotificationApplicant;                    
                 }
 
 
