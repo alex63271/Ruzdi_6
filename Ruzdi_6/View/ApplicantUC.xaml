@@ -9,17 +9,18 @@
     xmlns:modelPledgee="clr-namespace:Ruzdi_6.Model.Pledgee_Classes"
     xmlns:modelPledgor="clr-namespace:Ruzdi_6.Model.Pledgor_Classes"
     xmlns:vmdd="clr-namespace:Ruzdi_6.ViewModel_DesignData"
+    d:DataContext="{d:DesignInstance vmdd:VM_ApplicantDD,
+                                     IsDesignTimeCreatable=True}"
     d:DesignHeight="741"
     d:DesignWidth="882"
     DataContext="{Binding VM_Applicant, Source={StaticResource Locator}}"
-    d:DataContext="{d:DesignInstance vmdd:VM_ApplicantDD,IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition  />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -167,12 +168,12 @@
 
                             <ComboBox
                                 Margin="15,0"
-                                ItemsSource="{Binding DataContext.List, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                                SelectedIndex="{Binding DataContext.SelectedCertInCombobox, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
-                            
-                            <StackPanel Orientation="Horizontal" Margin="10 5">
-                                <TextBlock Text="* - Поля, обязательные к заполнению" Margin="10 10"/>
-                                
+                                ItemsSource="{Binding DataContext.ListCert, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                SelectedIndex="{Binding DataContext.IndexSelectedCert, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+
+                            <StackPanel Margin="10,5" Orientation="Horizontal">
+                                <TextBlock Margin="10,10" Text="* - Поля, обязательные к заполнению" />
+
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -322,7 +323,7 @@
                                         <ComboBox ItemsSource="{Binding Source={x:Static app:App.Region_list}, Mode=OneTime}" SelectedValue="{Binding Attorney.PersonAddress.AddressRF.Region, ValidatesOnDataErrors=True}" />
 
                                     </StackPanel>
-                                    
+
                                     <StackPanel Margin="10,0,10,7">
                                         <StackPanel.Resources>
                                             <Style TargetType="TextBox">
@@ -426,8 +427,9 @@
                                     <ComboBox
                                         Grid.Column="1"
                                         Margin="0,0,150,0"
-                                        ItemsSource="{Binding DataContext.List, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                                        SelectedIndex="{Binding DataContext.SelectedCertInCombobox, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                                        ItemsSource="{Binding DataContext.ListCert, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                        SelectedIndex="{Binding DataContext.IndexSelectedCert, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                        />
                                 </Grid>
                             </StackPanel>
                         </GroupBox>

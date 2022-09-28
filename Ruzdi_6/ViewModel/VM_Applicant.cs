@@ -37,8 +37,8 @@ public class VM_Applicant : ViewModel
         #region Конструкция чтения хранилища сертификатов и сохранения их перечня в коллекции
         using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
         {
-            List = new ArrayList();
-            ListThumbprint = new ArrayList();
+            //List = new ArrayList();
+            //ListThumbprint = new ArrayList();
             store.Open(OpenFlags.ReadOnly);
             // Проходим по всем сертификатам 
             foreach (X509Certificate2 cert in store.Certificates)
@@ -58,13 +58,13 @@ public class VM_Applicant : ViewModel
                             s = "G=";
                             string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
                             string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
-                            List.Add(stroka);   //записываем строку в лист для отображения в интерфейсе
+                            ListCert.Add(stroka);   //записываем строку в лист для отображения в интерфейсе
                             ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
                         }
                         else //если физ. лицо
                         {
                             string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
-                            List.Add(CN);   //записываем строку в лист для отображения в интерфейсе
+                            ListCert.Add(CN);   //записываем строку в лист для отображения в интерфейсе
                             ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
                         }
                     }
@@ -74,7 +74,12 @@ public class VM_Applicant : ViewModel
         #endregion
     }
 
-
+    private string selectedValueCert;
+    public string SelectedValueCert
+    {
+        get => selectedValueCert;
+        set => Set(ref selectedValueCert, value);
+    }
 
     private NotificationApplicant displayApplicant;
     public NotificationApplicant DisplayApplicant
@@ -248,27 +253,16 @@ public class VM_Applicant : ViewModel
 
     #region ListThumbprint - Список, хранящий отпечатки сертификатов
 
-    private ArrayList listThumbprint;
-    public ArrayList ListThumbprint
-    {
-        get => listThumbprint;
-        set => listThumbprint = value;
-    }
+    public List<string> ListThumbprint { get; set; } = new();
     #endregion
 
     #region List - Список сертфикатов
-    private ArrayList list;
 
-
-    public ArrayList List
-    {
-        get => list;
-        set => list = value;
-    }
+    public List<string> ListCert { get; set; } = new();
     #endregion
 
-    #region SelectedCertInCombobox - индекс выбранного из списка сертифката
-    public int SelectedCertInCombobox { get; set; }
+    #region IndexSelectedCert - индекс выбранного из списка сертифката
+    public int IndexSelectedCert { get; set; } = -1;
     #endregion
 
 }

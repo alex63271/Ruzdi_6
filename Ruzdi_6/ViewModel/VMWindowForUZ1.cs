@@ -23,7 +23,7 @@ using UploadNotification;
 namespace Ruzdi_6.ViewModel
 {
     public class VMWindowForUZ1 : ViewModel
-    {       
+    {
         public VMWindowForUZ1(VM_ForGlavnaya vM_ForGlavnaya, DB_Ruzdi db, IWindowService service)
         {
             this.vM_ForGlavnaya = vM_ForGlavnaya;
@@ -272,7 +272,7 @@ namespace Ruzdi_6.ViewModel
         #endregion
 
         #region метод подписания уведомления 
-        bool Signxml(ArrayList list2)
+        bool Signxml(List<string> list2)
         {
             //подписание уведомления
             string csp = "\"C:/Program Files/Crypto Pro/CSP/csptest.exe\"";
@@ -303,7 +303,7 @@ namespace Ruzdi_6.ViewModel
             Process Process = Process.Start(new ProcessStartInfo
             {
                 FileName = "cmd.exe",
-                Arguments = "/C " + csp + " -sfsign -sign -detached -add -in " + putxml + ".xml -out " + putxml + ".xml.sig -my " + list2[VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().SelectedCertInCombobox].ToString(),
+                Arguments = "/C " + csp + " -sfsign -sign -detached -add -in " + putxml + ".xml -out " + putxml + ".xml.sig -my " + list2[VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().IndexSelectedCert].ToString(),
                 WindowStyle = ProcessWindowStyle.Hidden,
                 UseShellExecute = false,
                 CreateNoWindow = true,
@@ -475,14 +475,19 @@ namespace Ruzdi_6.ViewModel
                 && VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().NotificationApplicant.Organization.IsValid
                 && VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().NotificationApplicant.Attorney.IsValid
                 && VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().NotificationApplicant.Attorney.Name.IsValid
-                && VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().NotificationApplicant.Attorney.PersonAddress.AddressRF.IsValid;
+                && VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().NotificationApplicant.Attorney.PersonAddress.AddressRF.IsValid
+                && VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().IndexSelectedCert != -1
+                && VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListCert.Count != 0
+                ;
             }
             else
             {
                 return (VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().SelectedApplicant != null)
                 && (!IsView)
                 && VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().NotificationApplicant.PrivatePerson.IsValid
-                && VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().NotificationApplicant.PrivatePerson.Name.IsValid;
+                && VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().NotificationApplicant.PrivatePerson.Name.IsValid
+                && VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().IndexSelectedCert != -1
+                && VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListCert.Count != 0;
             }
 
         }
@@ -694,7 +699,7 @@ namespace Ruzdi_6.ViewModel
                         {
                             notificationId = App.NotificationId, // прописываем гуид уведомления
                             documentAndSignature = App.array      //передаем массив байтов в тег documentAndSignature
-                        }                                          
+                        }
                     }
                 }
             };
@@ -720,7 +725,7 @@ namespace Ruzdi_6.ViewModel
                     PledgeContract = contract,
                     Pledgors = Pledgors,
                     Status = "Первичная отправка",
-                    ThumbprintCert= VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListThumbprint[VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().SelectedCertInCombobox].ToString()
+                    ThumbprintCert = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListThumbprint[VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().IndexSelectedCert].ToString()
                 };
 
                 contextNotification.Add(Notification);
@@ -753,7 +758,7 @@ namespace Ruzdi_6.ViewModel
             else
             {
                 MessageBox.Show($"response1.packageStateCode.message - {response1.packageStateCode.message}");
-            }                        
+            }
 
             #endregion
 
