@@ -84,7 +84,7 @@ namespace Ruzdi_6.ViewModel
             #region Конструкция чтения хранилища сертификатов и сохранения их перечня в коллекции
             using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
             {
-                List = new ArrayList();
+               ListCert = new();
                 ListThumbprint = new ArrayList();
                 store.Open(OpenFlags.ReadOnly);
                 // Проходим по всем сертификатам 
@@ -105,13 +105,13 @@ namespace Ruzdi_6.ViewModel
                                 s = "G=";
                                 string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
                                 string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
-                                List.Add(stroka);   //записываем строку в лист для отображения в интерфейсе
+                                ListCert.Add(stroka);   //записываем строку в лист для отображения в интерфейсе
                                 ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
                             }
                             else //если физ. лицо
                             {
                                 string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
-                                List.Add(CN);   //записываем строку в лист для отображения в интерфейсе
+                                ListCert.Add(CN);   //записываем строку в лист для отображения в интерфейсе
                                 ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
                             }
                         }
@@ -138,7 +138,7 @@ namespace Ruzdi_6.ViewModel
 
         public bool IsView { get; set; } //флаг просмотра/создания уведомления
 
-        public List<string> SourceComboRegion { get; set; }
+        public List<string> SourceComboRegion { get; set; } 
 
         #region UP1 Объект уведомление об исключении залога
         private PledgeNotificationToNotary uP1;
@@ -150,8 +150,8 @@ namespace Ruzdi_6.ViewModel
         }
         #endregion
 
-        #region List - Список сертфикатов
-        public ArrayList List { get; set; }
+        #region ListCert - Список сертфикатов
+        public List<string> ListCert { get; set; }
         #endregion
 
         #region ListThumbprint - Список, хранящий отпечатки сертификатов
@@ -202,7 +202,9 @@ namespace Ruzdi_6.ViewModel
                 && UP1.NotificationData.FormUP1.NotificationApplicant.Organization.IsValid
                 && UP1.NotificationData.FormUP1.NotificationApplicant.Attorney.IsValid
                 && UP1.NotificationData.FormUP1.NotificationApplicant.Attorney.PersonAddress.AddressRF.IsValid
-                && UP1.NotificationData.FormUP1.IsValid;
+                && UP1.NotificationData.FormUP1.IsValid
+                && SelectedCertInCombobox != -1
+                ;
         }
 
         public async void OnSendNotification_UP1CommandExecute(object p)
@@ -327,7 +329,7 @@ namespace Ruzdi_6.ViewModel
             db.SaveChanges(); 
             #endregion
 
-            MessageBox.Show($"Пакет отправлен успешно, рег № пакета -  {response.registrationId}");
+            MessageBox.Show($"Пакет отправлен успешно.");
 
             serviceWindow.CloseWindowDialog("UP1");
         }

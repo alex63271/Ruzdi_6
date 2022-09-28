@@ -343,17 +343,20 @@ namespace Ruzdi_6.ViewModel
                     {
                         PrivatePerson = new ApplicantPrivatePerson()
                     };
-                    VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().DisplayApplicant = xml.NotificationData.FormUZ1.NotificationApplicant.PrivatePerson;                                       
+                    VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().DisplayApplicant = xml.NotificationData.FormUZ1.NotificationApplicant.PrivatePerson;
                 }
                 else
                 {
-                    VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().DisplayApplicant = xml.NotificationData.FormUZ1.NotificationApplicant;                    
+                    VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().DisplayApplicant = xml.NotificationData.FormUZ1.NotificationApplicant;
                 }
 
 
-                VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListCert.Clear();
+
+                #endregion
 
                 #region Получение из БД отпечатка, поиск по нему серта на компе, внесение в список данных о серте
+                VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListCert.Clear();
+
                 using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
                 {
                     store.Open(OpenFlags.ReadOnly);
@@ -379,7 +382,7 @@ namespace Ruzdi_6.ViewModel
                     }
                 }
                 #endregion
-                #endregion
+
 
                 VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VMWindowForUZ1>().IsCheckedPledgor = true;
                 VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VMWindowForUZ1>().CurrentContentVM = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>();
@@ -395,6 +398,35 @@ namespace Ruzdi_6.ViewModel
                 VM_Locator.scopeUP1.ServiceProvider.GetRequiredService<VM_For_Win_UP1>().UP1.NotificationData.FormUP1 = xml.NotificationData.FormUP1;
 
                 VM_Locator.scopeUP1.ServiceProvider.GetRequiredService<VM_For_Win_UP1>().IsView = true;
+
+
+                #region Получение из БД отпечатка, поиск сертфиката, чтение его и формирование списка на отображение
+                VM_Locator.scopeUP1.ServiceProvider.GetRequiredService<VM_For_Win_UP1>().ListCert.Clear();
+                using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
+                {
+                    store.Open(OpenFlags.ReadOnly);
+
+                    X509Certificate2 cert = store.Certificates.FirstOrDefault(c => c.Thumbprint == db.Notifications.FirstOrDefault(a => a.Id == SelectedItem.Id).ThumbprintCert);
+                    string otvet = cert.SubjectName.Name;
+                    string zap = ",";
+                    if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
+                    {
+                        string s = "CN=";
+                        string CN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                        s = "SN=";
+                        string SN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                        s = "G=";
+                        string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
+                        string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
+                        VM_Locator.scopeUP1.ServiceProvider.GetRequiredService<VM_For_Win_UP1>().ListCert.Add(stroka);
+                    }
+                    else //если физ. лицо
+                    {
+                        string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
+                        VM_Locator.scopeUP1.ServiceProvider.GetRequiredService<VM_For_Win_UP1>().ListCert.Add(CN);
+                    }
+                    #endregion
+                }
 
                 serviceWindow.ShowWindowDialog("Create_UP1");
             }
