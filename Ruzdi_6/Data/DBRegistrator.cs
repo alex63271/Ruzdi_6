@@ -11,6 +11,7 @@ namespace Ruzdi_6.Data
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration) => services
             .AddDbContext<DB_Ruzdi>(opt =>
             {
+
                 try
                 {
                     opt.UseMySql(configuration.GetConnectionString("MySql"), ServerVersion.AutoDetect(configuration.GetConnectionString("MySql")));

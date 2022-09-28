@@ -96,6 +96,13 @@ namespace Ruzdi_6.Services
                 Settings dB_Win = new Settings();
                 dB_Win.ShowDialog();
             }
+            else if (p is "ExceptionWindow")
+            {
+                ExceptionWindow ExceptionWindow = new ExceptionWindow();
+                ExceptionWindow.ShowDialog();
+            }
+
+            
         }
     }
 }

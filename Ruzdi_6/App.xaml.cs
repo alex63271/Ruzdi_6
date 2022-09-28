@@ -6,6 +6,7 @@ using System.Windows;
 using Ruzdi_DB.Context;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
+using Ruzdi_6.Services;
 
 namespace Ruzdi_6
 {
@@ -14,7 +15,16 @@ namespace Ruzdi_6
     /// </summary>
     public partial class App : Application
     {
-        public App() { }
+        public App() => AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(Exception);
+
+        static void Exception(object sender, UnhandledExceptionEventArgs args)
+        {                        
+            ExceptionText = args.ExceptionObject.ToString();
+            Host.Services.GetRequiredService<IWindowService>().ShowWindowDialog("ExceptionWindow");
+        }
+
+
+
 
         #region Host и Services
         private static IHost host;
@@ -32,6 +42,8 @@ namespace Ruzdi_6
         public static string NotificationId;
 
         public static string guidp;
+
+        public static string ExceptionText;
 
         public static string Temp = "Temp/";
 
@@ -54,8 +66,7 @@ namespace Ruzdi_6
             VM_Locator.InitScopeUP1();
 
             #region Получение списка регионов из БД
-            try
-            {
+            
                 if (!Region_list.Any())
                 {
                     DB_Ruzdi regions = Host.Services.GetRequiredService<DB_Ruzdi>();
@@ -66,13 +77,7 @@ namespace Ruzdi_6
                     }
                     Region_list.Sort();
                 }
-            }
-            catch (Exception)
-            {
-                App.Current.Shutdown();
-                Process.GetCurrentProcess().Kill();
-                return;
-            }
+            
             #endregion
 
             #region Проверка наличия и создание папки Temp

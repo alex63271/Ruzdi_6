@@ -7,15 +7,8 @@ namespace Ruzdi_DB.Context
     {
 
         public DB_Ruzdi(DbContextOptions<DB_Ruzdi> options) : base(options)
-        {            
-            try
-            {
-                Database.Migrate();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+        {   
+            Database.Migrate();            
         }
 
 
