@@ -69,11 +69,11 @@ namespace Ruzdi_6
             
                 if (!Region_list.Any())
                 {
-                    DB_Ruzdi regions = Host.Services.GetRequiredService<DB_Ruzdi>();
+                    DB_Ruzdi db = Host.Services.GetRequiredService<DB_Ruzdi>();
 
-                    foreach (var obj in regions.Regions)
+                    foreach (var region in db.Regions)
                     {
-                        Region_list.Add(obj.Region);
+                        Region_list.Add(region.Region);
                     }
                     Region_list.Sort();
                 }
@@ -91,11 +91,6 @@ namespace Ruzdi_6
             if (!ExistCspTestPathFromConfig())
             {
                 MessageBox.Show("На компьютере не обнаружена утилита csptest.exe\nУстановите ПО КриптоПро CSP.", "Ошибка проверки csptest.exe!");
-                //SettingsDB_Win Settings = new SettingsDB_Win
-                //{
-                //    DataContext = VM_SettingsDB.GetVM_SettingsDB(GetPathCspTestFromConfig())
-                //};
-                //Settings.ShowDialog();
             }
 
 

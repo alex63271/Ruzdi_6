@@ -101,8 +101,15 @@ namespace Ruzdi_6.Services
                 ExceptionWindow ExceptionWindow = new ExceptionWindow();
                 ExceptionWindow.ShowDialog();
             }
-
+            else if (p is "Word")
+            {
+                WordDocument word = new WordDocument();
+                word.ShowDialog();
+            }
             
+
+
+
         }
     }
 }

@@ -15,6 +15,8 @@ namespace Ruzdi_6.ViewModel
 
         public VMWindowForUZ1 VMWindowForUZ1 => App.Host.Services.GetRequiredService<VMWindowForUZ1>();
 
+        public WorkofWord WorkofWord => App.Host.Services.GetRequiredService<WorkofWord>();
+
         public static void InitScopeUZ1()
         {
             scopeUZ1?.Dispose();

@@ -45,6 +45,10 @@ namespace Ruzdi_6.ViewModel
             ViewNotificationCommand = new RelayCommand(OnViewNotificationCommandExecute);
 
             OpenSettings = new RelayCommand(OnOpenSettingsCommandExecute);
+
+
+            OpenWord = new RelayCommand(OpenWin);
+
             #endregion
 
             DataGridCollection.Filter += OnFIOfilter;
@@ -444,6 +448,14 @@ namespace Ruzdi_6.ViewModel
         public void OnOpenSettingsCommandExecute(object p) => serviceWindow.ShowWindowDialog("Settings");
         #endregion
 
+        public ICommand OpenWord { get; }
+        public void OpenWin(object p)
+        {
+            serviceWindow.ShowWindowDialog("Word");
+        }
+
+
+
         #endregion
 
         #region SelectedItem - объект, выбранный в Datagrid
@@ -553,5 +565,10 @@ namespace Ruzdi_6.ViewModel
         public ICollectionView SourceDatagridForFilter => DataGridCollection?.View;
 
         #endregion
+
+
+
+
+
     }
 }
