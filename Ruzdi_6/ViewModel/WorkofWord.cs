@@ -5,6 +5,7 @@ using Ruzdi_6.Commands;
 using Ruzdi_6.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace Ruzdi_6.ViewModel
 
 
         private OpenXmlElementList childElementsTable;
-        public OpenXmlElementList ChildElementsTable  => SelectedTable?.ChildElements;  
+        public OpenXmlElementList ChildElementsTable => SelectedTable?.ChildElements;
 
 
 
@@ -58,7 +59,18 @@ namespace Ruzdi_6.ViewModel
             set => Set(ref selectedChildTable, value);
         }
 
+
+
+
+
         
+
+
+
+
+
+
+
 
 
 

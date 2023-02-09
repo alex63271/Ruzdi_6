@@ -139,11 +139,11 @@ namespace Ruzdi_6.ViewModel
                         File.Delete("Temp/" + pathgzip + ".xml");
                         File.Delete("Temp/" + pathgzip + ".xml.sig");
                         db.Notifications.Update(not);
-                        db.SaveChanges();
+                       await db.SaveChangesAsync();
                     }
                     else    //если статус != "RESULT" то устанавлиаем в БД его значение
                     {
-                        not = db.Notifications.FirstOrDefault(p => p.Packageid == packageid);
+                        not =  db.Notifications.Include(p => p.Pledgors).Include(c => c.PledgeContract).FirstOrDefault(p => p.Packageid == packageid);
 
                         GetNotification.StateType stateType = (GetNotification.StateType)response.pledgeNotificationStatePackage.pledgeNotificationStateList[0].Item;
                         if (stateType.code != "0")
@@ -160,7 +160,6 @@ namespace Ruzdi_6.ViewModel
                     }
                     SourceDatagrid[SourceDatagrid.IndexOf(SourceDatagrid.FirstOrDefault(n => n.Packageid == not.Packageid))] = not;//находим объект в коллекции, вычисляем его индекс и заменяем на новый объект
                 }
-
             }
             SourceDatagridForFilter.Refresh();
         }
@@ -220,7 +219,7 @@ namespace Ruzdi_6.ViewModel
             .Include(r => r.registrationCertificate)
             .FirstOrDefault(n => n.Id == SelectedItem.Id).registrationCertificate != null;
 
-        public void OnSaveMessageCommandExecute(object p)
+        public async void OnSaveMessageCommandExecute(object p)
         {
             string base64_registration = db.Notifications
                 .Include(r => r.registrationCertificate)
@@ -236,7 +235,7 @@ namespace Ruzdi_6.ViewModel
             {
                 using (FileStream fstream = new FileStream(SaveFile.FileName, FileMode.OpenOrCreate))
                 {
-                    fstream.Write(App.array, 0, App.array.Length);
+                   await fstream.WriteAsync(App.array, 0, App.array.Length);
                 }
                 MessageBox.Show("Архив сохранен!", "Ok!", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -251,12 +250,13 @@ namespace Ruzdi_6.ViewModel
         /// </summary>
         public ICommand ViewNotificationCommand { get; }
 
-        public void OnViewNotificationCommandExecute(object p)
+        public async void OnViewNotificationCommandExecute(object p)
         {
 
             #region Получаем из БД архив по значению App.NotificationId и записываем его в массив байтов
-
-            string base64 = db.Notifications.FirstOrDefault(a => a.Id == SelectedItem.Id).ZipArchive;
+            Task<Notification> t = db.Notifications.FirstOrDefaultAsync(a => a.Id == SelectedItem.Id);
+            await t;
+            string base64 = t.Result.ZipArchive;
             App.array = Convert.FromBase64String(base64);// читаем из БД архив и записываем его в массив байтов
             #endregion
 
@@ -264,7 +264,7 @@ namespace Ruzdi_6.ViewModel
             using (FileStream fstream = new FileStream("Temp/" + SelectedItem.Id + ".zip", FileMode.OpenOrCreate))
             {
                 // запись массива байтов в поток файла
-                fstream.Write(App.array, 0, App.array.Length);  //читаем массив байтив и записываем его в файл архива
+               await fstream.WriteAsync(App.array, 0, App.array.Length);  //читаем массив байтив и записываем его в файл архива
             }
             #endregion
 

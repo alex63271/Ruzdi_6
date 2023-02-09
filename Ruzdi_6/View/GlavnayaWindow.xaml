@@ -114,12 +114,11 @@
                                 <ComboBox.Resources>
                                     <DataTemplate DataType="{x:Type ModelPledgor:Persons}">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Last}">
-                                                <Run Text=" " />
-                                                <Run Text="{Binding First}" />
-                                                <Run Text=" " />
-                                                <Run Text="{Binding Middle}" />
-                                            </TextBlock>
+                                            <TextBlock Text="{Binding Last}"/>
+                                            <TextBlock Margin="5 0 0 0" Text="{Binding First}"/>
+                                            <TextBlock Margin="5 0 0 0" Text="{Binding Middle}"/>
+                                            
+
                                         </StackPanel>
                                     </DataTemplate>
 

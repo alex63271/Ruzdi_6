@@ -24,7 +24,7 @@ namespace Ruzdi_6.Data
                     }
                     return;
                 }
-            })
+            }, ServiceLifetime.Transient)
             ;
     }
 }

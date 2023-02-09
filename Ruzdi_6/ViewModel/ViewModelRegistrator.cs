@@ -8,7 +8,7 @@ namespace Ruzdi_6.ViewModel
 
            .AddScoped<VM_ForGlavnaya>()
 
-           .AddTransient<VMWindowForUZ1>()
+           .AddScoped<VMWindowForUZ1>()
 
            .AddScoped<VM_For_Win_UP1>()
 
@@ -21,7 +21,7 @@ namespace Ruzdi_6.ViewModel
 
 
            .AddTransient<VM_Settings>()
-            .AddTransient<WorkofWord>()
+           .AddTransient<WorkofWord>()
 
            ;
     }

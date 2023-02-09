@@ -9,8 +9,13 @@ namespace Ruzdi_6.Services
 {
     public class  ServiceWindow : IWindowService
     {
+
+        public event Action OnCloseWindow;
+        
+        
+
         public void CloseWindowDialog(object p)
-        {
+        {           
             if (p is PersonalProperty)
             {
                 foreach (Window window in Application.Current.Windows)
@@ -30,8 +35,7 @@ namespace Ruzdi_6.Services
                         (window as EditPledgorWin).DialogResult = true;
                     }
                 }
-            }
-           
+            }           
             else if (p is Pledgee)
             {
                 foreach (Window window in Application.Current.Windows)

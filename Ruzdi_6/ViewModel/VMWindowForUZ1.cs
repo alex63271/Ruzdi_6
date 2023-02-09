@@ -326,15 +326,15 @@ namespace Ruzdi_6.ViewModel
         #endregion
 
         #region Метод проверки наличия в БД залогодателей и формирование списка объектов залогодателей Entity
-        void CheckAndSavePledgorDB(ObservableCollection<Model.Pledgor_Classes.Pledgor> ListPledgor)
+        async Task CheckAndSavePledgorDBAsync(ObservableCollection<Model.Pledgor_Classes.Pledgor> ListPledgor)
         {
             foreach (Model.Pledgor_Classes.Pledgor pledgor in ListPledgor) //перебираем коллекцию залогодателей
             {
                 if (pledgor.PrivatePerson != null) //если это физ. лицо
                 {
                     #region Поиск залогодателя в БД
-                    Persons person = contextNotification.Persons.Include(p => p.Region)
-                                      .FirstOrDefault(p => p.First == pledgor.PrivatePerson.Name.First
+                    Persons person = await contextNotification.Persons.Include(p => p.Region)
+                                      .FirstOrDefaultAsync(p => p.First == pledgor.PrivatePerson.Name.First
                                       && p.Last == pledgor.PrivatePerson.Name.Last
                                       && p.Middle == pledgor.PrivatePerson.Name.Middle
                                       && p.BirthDate == DateOnly.FromDateTime(pledgor.PrivatePerson.BirthDate)
@@ -342,7 +342,7 @@ namespace Ruzdi_6.ViewModel
                     #endregion
 
                     #region Поиск региона в БД
-                    Regions reg = contextNotification.Regions.FirstOrDefault(r => r.Region == pledgor.PrivatePerson.PersonAddress.AddressRF.Region);
+                    Regions reg = await contextNotification.Regions.FirstOrDefaultAsync(r => r.Region == pledgor.PrivatePerson.PersonAddress.AddressRF.Region);
                     #endregion
 
                     Ruzdi_DB.Entityes.Pledgor pledgorentity;
@@ -368,15 +368,15 @@ namespace Ruzdi_6.ViewModel
                 else //если юр. лицо
                 {
                     #region Поиск залогодателя в БД
-                    Organizations organization = contextNotification.Organizations.Include(p => p.Region)
-                                      .FirstOrDefault(p => p.NameFull == pledgor.Organization.RussianOrganization.NameFull
+                    Organizations organization = await contextNotification.Organizations.Include(p => p.Region)
+                                      .FirstOrDefaultAsync(p => p.NameFull == pledgor.Organization.RussianOrganization.NameFull
                                       && p.INN == pledgor.Organization.RussianOrganization.INN
                                       && p.OGRN == pledgor.Organization.RussianOrganization.OGRN
                                       && p.Region.Region == pledgor.Organization.RussianOrganization.Address.Region);
                     #endregion
 
                     #region Поиск региона в БД
-                    Regions reg = contextNotification.Regions.FirstOrDefault(r => r.Region == pledgor.Organization.RussianOrganization.Address.Region);
+                    Regions reg = await contextNotification.Regions.FirstOrDefaultAsync(r => r.Region == pledgor.Organization.RussianOrganization.Address.Region);
                     #endregion
 
                     Ruzdi_DB.Entityes.Pledgor pledgorentity;
@@ -559,7 +559,7 @@ namespace Ruzdi_6.ViewModel
             #endregion
 
             #region Вызов метода проверки наличия в БД залогодателя 
-            CheckAndSavePledgorDB(VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>().Pledgors);
+            await CheckAndSavePledgorDBAsync(VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>().Pledgors);
             #endregion
 
             #region преобразование коллекции залогодержателей
@@ -729,8 +729,9 @@ namespace Ruzdi_6.ViewModel
                 };
 
                 contextNotification.Add(Notification);
-                contextNotification.SaveChanges();
+                await contextNotification.SaveChangesAsync();
                 vM_ForGlavnaya.SourceDatagrid.Add(Notification);
+
             }
             #endregion
 
@@ -766,7 +767,7 @@ namespace Ruzdi_6.ViewModel
 
             Notification.Packageid = response1.registrationId;
             contextNotification.Update(Notification);
-            contextNotification.SaveChanges();
+            await contextNotification.SaveChangesAsync();
 
             #endregion
 
