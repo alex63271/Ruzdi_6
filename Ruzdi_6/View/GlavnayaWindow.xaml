@@ -27,9 +27,6 @@
             <MenuItem Header="Настройки">
                 <MenuItem Command="{Binding OpenSettings}" Header="Настройки" />
             </MenuItem>
-            <MenuItem Header="Word">
-                <MenuItem Command="{Binding OpenWord}" Header="Настройки" />
-            </MenuItem>
         </Menu>
 
         <Grid DockPanel.Dock="Top">

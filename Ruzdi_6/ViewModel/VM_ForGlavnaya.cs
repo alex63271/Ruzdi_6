@@ -46,9 +46,6 @@ namespace Ruzdi_6.ViewModel
 
             OpenSettings = new RelayCommand(OnOpenSettingsCommandExecute);
 
-
-            OpenWord = new RelayCommand(OpenWin);
-
             #endregion
 
             DataGridCollection.Filter += OnFIOfilter;
@@ -79,6 +76,7 @@ namespace Ruzdi_6.ViewModel
             var Notifications_inwork = db.Notifications.Where(s => s.Status != "FAULT")
                 .Where(s => s.Status != "RESULT (зарегистрировано)")
                 .Where(s => s.Status != "RESULT (отказ в регистрации)");
+
             foreach (var notification in Notifications_inwork)
             {
                 App.packageid_list.Add(notification.Packageid);
@@ -448,11 +446,6 @@ namespace Ruzdi_6.ViewModel
         public void OnOpenSettingsCommandExecute(object p) => serviceWindow.ShowWindowDialog("Settings");
         #endregion
 
-        public ICommand OpenWord { get; }
-        public void OpenWin(object p)
-        {
-            serviceWindow.ShowWindowDialog("Word");
-        }
 
 
 
@@ -565,10 +558,6 @@ namespace Ruzdi_6.ViewModel
         public ICollectionView SourceDatagridForFilter => DataGridCollection?.View;
 
         #endregion
-
-
-
-
 
     }
 }

@@ -348,7 +348,7 @@ namespace Ruzdi_6.ViewModel
                     Ruzdi_DB.Entityes.Pledgor pledgorentity;
 
 
-                    pledgorentity = (person != null) ? person : new Persons
+                    pledgorentity = (person != null) ? person : new Persons //если в БД был найден такой залогодатель, то используем его, иначе формируем нового
                     {
                         BirthDate = DateOnly.FromDateTime(pledgor.PrivatePerson.BirthDate),
                         First = pledgor.PrivatePerson.Name.First,

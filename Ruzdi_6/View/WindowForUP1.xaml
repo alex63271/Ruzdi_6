@@ -192,7 +192,7 @@
                 <TextBox
                     Grid.Row="4"
                     Grid.Column="1"
-                    MaxLength="13"
+                    MaxLength="60"
                     Text="{Binding Organization.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
 
