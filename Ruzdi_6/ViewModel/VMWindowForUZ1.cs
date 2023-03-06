@@ -213,7 +213,7 @@ namespace Ruzdi_6.ViewModel
 
         #region Поля и св-ва выбранного Radiobutton
 
-        private bool isCheckedPledgor = true;
+        private bool isCheckedPledgor;
         public bool IsCheckedPledgor
         {
             get => isCheckedPledgor;
@@ -401,7 +401,7 @@ namespace Ruzdi_6.ViewModel
         #endregion
 
         #region Метод создания объекта договора залога Entity для БД
-        void CheckContractAndSaveDB(PledgeContract PledgeContract)
+        void CreateObj_Contract(PledgeContract PledgeContract)
         {
             contract = new Contracts
             {
@@ -496,7 +496,7 @@ namespace Ruzdi_6.ViewModel
         {
 
             #region Вызов метода создания объекта договора залога Entity для БД
-            CheckContractAndSaveDB(VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Contract>().Contract);
+            CreateObj_Contract(VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Contract>().Contract);
             #endregion
 
             #region преобразование коллекции имущества

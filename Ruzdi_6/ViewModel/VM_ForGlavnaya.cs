@@ -287,7 +287,7 @@ namespace Ruzdi_6.ViewModel
 
             if (xml.NotificationData.FormUZ1 != null) // определяем тип уведомления
             {
-                VM_Locator.InitScopeUZ1(); // очищаем дочерние VM, затем их заполняем
+                //VM_Locator.InitScopeUZ1(); // очищаем дочерние VM, затем их заполняем
 
                 #region Заполняем коллекцию имущества
                 foreach (PersonalProperty Property in xml.NotificationData.FormUZ1.PersonalProperties)
@@ -394,7 +394,7 @@ namespace Ruzdi_6.ViewModel
             }
             else //если это уведомление об исключении
             {
-                VM_Locator.InitScopeUP1();
+                //VM_Locator.InitScopeUP1();
 
                 VM_Locator.scopeUP1.ServiceProvider.GetRequiredService<VM_For_Win_UP1>().UP1.NotificationData.FormUP1 = xml.NotificationData.FormUP1;
 

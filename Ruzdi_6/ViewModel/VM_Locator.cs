@@ -13,16 +13,14 @@ namespace Ruzdi_6.ViewModel
 
         public VM_Settings VM_Settings => App.Host.Services.GetRequiredService<VM_Settings>();
 
-        public VMWindowForUZ1 VMWindowForUZ1 => App.Host.Services.GetRequiredService<VMWindowForUZ1>();
-
-        public WorkofWord WorkofWord => App.Host.Services.GetRequiredService<WorkofWord>();
+        
 
         public static void InitScopeUZ1()
         {
             scopeUZ1?.Dispose();
             scopeUZ1 = App.Host.Services.CreateScope();
         }
-
+        public VMWindowForUZ1 VMWindowForUZ1 => scopeUZ1.ServiceProvider.GetRequiredService<VMWindowForUZ1>();
         public VM_Pledgor VM_Pledgor => scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>();
         public VM_Pledgee VM_Pledgee => scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgee>();
         public VM_Property VM_Property => scopeUZ1.ServiceProvider.GetRequiredService<VM_Property>();
