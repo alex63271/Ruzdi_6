@@ -173,7 +173,7 @@ namespace Ruzdi_6.ViewModel
 
         public void OnOpenUZ1CommandExecute(object p)
         {
-            VM_Locator.InitScopeUZ1();
+            //VM_Locator.InitScopeUZ1();
             serviceWindow.ShowWindowDialog("Create_UZ1");
         }
         #endregion
@@ -187,7 +187,7 @@ namespace Ruzdi_6.ViewModel
 
         public void OnOpenUP1CommandExecute(object p)
         {
-            VM_Locator.InitScopeUP1();
+            //VM_Locator.InitScopeUP1();
             serviceWindow.ShowWindowDialog("Create_UP1");
         }
         #endregion       

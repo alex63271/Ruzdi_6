@@ -53,6 +53,7 @@ namespace Ruzdi_6.Services
                     if (window.GetType() == typeof(WindowForUZ1))    //находим нужное окно и устаонвливаем значение в сво-во
                     {
                         (window as WindowForUZ1).DialogResult = true;
+                        break;
                     }
                 }
             }
@@ -63,6 +64,7 @@ namespace Ruzdi_6.Services
                     if (window.GetType() == typeof(WindowForUP1))    //находим нужное окно и устаонвливаем значение в сво-во
                     {
                         (window as WindowForUP1).DialogResult = true;
+                        break;
                     }
                 }
             }
@@ -88,11 +90,14 @@ namespace Ruzdi_6.Services
             else if (p is "Create_UZ1")
             {
                 WindowForUZ1 WindowForUZ1 = new WindowForUZ1();
+                WindowForUZ1.Closed += WindowForUZ1_Closed;
                 WindowForUZ1.ShowDialog();
+                
             }           
             else if (p is "Create_UP1")
             {
                 WindowForUP1 WindowForUP1 = new WindowForUP1();
+                WindowForUP1.Closed += WindowForUP1_Closed;
                 WindowForUP1.ShowDialog();
             }
             else if (p is "Settings")
@@ -114,6 +119,16 @@ namespace Ruzdi_6.Services
 
 
 
+        }
+
+        private void WindowForUP1_Closed(object sender, EventArgs e)
+        {
+            VM_Locator.InitScopeUP1();
+        }
+
+        private void WindowForUZ1_Closed(object sender, EventArgs e)
+        {
+            VM_Locator.InitScopeUZ1();
         }
     }
 }
