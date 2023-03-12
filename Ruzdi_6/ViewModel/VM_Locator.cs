@@ -9,17 +9,11 @@ namespace Ruzdi_6.ViewModel
         public static IServiceScope scopeUZ1;
         public static IServiceScope scopeUP1;
 
-        public VM_ForGlavnaya VM_ForGlavnaya => App.Host.Services.GetRequiredService<VM_ForGlavnaya>(); 
+        public VM_ForGlavnaya VM_ForGlavnaya => App.Host.Services.GetRequiredService<VM_ForGlavnaya>();
 
         public VM_Settings VM_Settings => App.Host.Services.GetRequiredService<VM_Settings>();
 
-        
 
-        public static void InitScopeUZ1()
-        {
-            scopeUZ1?.Dispose();
-            scopeUZ1 = App.Host.Services.CreateScope();
-        }
         public VMWindowForUZ1 VMWindowForUZ1 => scopeUZ1.ServiceProvider.GetRequiredService<VMWindowForUZ1>();
         public VM_Pledgor VM_Pledgor => scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>();
         public VM_Pledgee VM_Pledgee => scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgee>();
@@ -32,6 +26,12 @@ namespace Ruzdi_6.ViewModel
         {
             scopeUP1?.Dispose();
             scopeUP1 = App.Host.Services.CreateScope();
+        }
+
+        public static void InitScopeUZ1()
+        {
+            scopeUZ1?.Dispose();
+            scopeUZ1 = App.Host.Services.CreateScope();
         }
 
         public VM_For_Win_UP1 VM_For_Win_UP1 => scopeUP1.ServiceProvider.GetRequiredService<VM_For_Win_UP1>();

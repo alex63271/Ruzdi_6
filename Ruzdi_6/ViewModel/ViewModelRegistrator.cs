@@ -6,7 +6,7 @@ namespace Ruzdi_6.ViewModel
     {
         public static IServiceCollection AddViewModels(this IServiceCollection services) => services
 
-           .AddScoped<VM_ForGlavnaya>()
+           .AddSingleton<VM_ForGlavnaya>()
 
            .AddScoped<VMWindowForUZ1>()
 
