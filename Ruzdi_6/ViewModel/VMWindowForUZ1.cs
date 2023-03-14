@@ -512,7 +512,7 @@ namespace Ruzdi_6.ViewModel
                 }
                 else if (VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Property>().PersonalProperty[i] is OtherProperty otherProperty)
                 {
-                    #region проcтановка null для пустых свойств(чтобы не было проблем сериализацией)
+                    #region проcтановка null для пустых свойств(чтобы не было проблем с сериализацией)
                     if (otherProperty.ID == "")
                     {
                         otherProperty.ID = null;

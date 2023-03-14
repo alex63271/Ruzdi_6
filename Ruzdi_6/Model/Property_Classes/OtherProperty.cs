@@ -25,8 +25,10 @@ namespace Ruzdi_6.Model.Property_Classes
             {
                 iD = value;
                 string patternID = @"^[\w \s \W]{0,25}$";
-                if(ID!=null)
-                errors["ID"] = !Regex.IsMatch(ID, patternID) ? "Текст сообщения об ошибке" : null;
+                if (ID != null)
+                { 
+                    errors["ID"] = !Regex.IsMatch(ID, patternID) ? "Текст сообщения об ошибке" : null; 
+                }
             }
         }
 

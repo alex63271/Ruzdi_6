@@ -41,7 +41,10 @@ namespace Ruzdi_6.Model.Property_Classes
             {
                 description = value;
                 string patternDescription = @"^[\w \s \W]{1,1000}$";
-                errors["Description"] = !Regex.IsMatch(Description, patternDescription) ? "Текст сообщения об ошибке" : null;
+                if (Description != null)
+                {
+                    errors["Description"] = !Regex.IsMatch(Description, patternDescription) ? "Текст сообщения об ошибке" : null;
+                }
             }
         }
 
@@ -60,7 +63,7 @@ namespace Ruzdi_6.Model.Property_Classes
                 errors.Add(propname, error);
             }
         }
-        
+
         void CheckValidation()
         {
             if (string.IsNullOrEmpty(VIN) && string.IsNullOrEmpty(PIN))
@@ -89,9 +92,9 @@ namespace Ruzdi_6.Model.Property_Classes
                 }
             }
         }
-        
+
         private string pIN;
-        
+
         private string description;
 
         #region Методы для сериализатора

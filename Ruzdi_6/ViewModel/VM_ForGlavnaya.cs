@@ -7,6 +7,7 @@ using Ruzdi_6.Model.Applicant_Classes;
 using Ruzdi_6.Model.Other_Classes;
 using Ruzdi_6.Model.Pledgee_Classes;
 using Ruzdi_6.Model.Property_Classes;
+using Ruzdi_6.Model.RegistrationCertificate;
 using Ruzdi_6.Model.RegistrationRejectMessage;
 using Ruzdi_6.Services;
 using Ruzdi_DB.Context;
@@ -41,7 +42,7 @@ namespace Ruzdi_6.ViewModel
 
             CopyPackageidCommand = new RelayCommand(OnCopyPackageidCommandExecute, CanCopyPackageidCommandExecute);
 
-            SaveMessageCommand = new RelayCommand(OnSaveMessageCommandExecute, CanSaveMessageCommandExecute);
+            SaveMessageCommand = new RelayCommand(OnSaveMessageCommandExecuteAsync, CanSaveMessageCommandExecute);
             ViewNotificationCommand = new RelayCommand(OnViewNotificationCommandExecute);
 
             OpenSettings = new RelayCommand(OnOpenSettingsCommandExecute);
@@ -104,7 +105,7 @@ namespace Ruzdi_6.ViewModel
                             fstream.Write(Doc.Value, 0, Doc.Value.Length);
                             string mystr = Convert.ToBase64String(Doc.Value);
                             not = db.Notifications.FirstOrDefault(p => p.Packageid == packageid);
-                            RegistrationCertificate registrationCertificate = new RegistrationCertificate
+                            Ruzdi_DB.Entityes.RegistrationCertificate registrationCertificate = new Ruzdi_DB.Entityes.RegistrationCertificate
                             {
                                 documentAndSignature = mystr
                             };
@@ -211,12 +212,15 @@ namespace Ruzdi_6.ViewModel
         /// команда сохранения св-ва о регистрации
         /// </summary>
         public ICommand SaveMessageCommand { get; }
-        public bool CanSaveMessageCommandExecute(object p) => db.Notifications
+
+        public  bool CanSaveMessageCommandExecute(object p) =>  db.Notifications
             .Include(r => r.registrationCertificate)
             .FirstOrDefault(n => n.Id == SelectedItem.Id).registrationCertificate != null;
 
-        public async void OnSaveMessageCommandExecute(object p)
+        public async void OnSaveMessageCommandExecuteAsync(object p)
         {
+
+
             string base64_registration = db.Notifications
                 .Include(r => r.registrationCertificate)
                 .FirstOrDefault(r => r.Id == SelectedItem.Id).registrationCertificate.documentAndSignature;
