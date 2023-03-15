@@ -254,9 +254,8 @@ namespace Ruzdi_6.ViewModel
         {
 
             #region Получаем из БД архив по значению App.NotificationId и записываем его в массив байтов
-            Task<Notification> t = db.Notifications.FirstOrDefaultAsync(a => a.Id == SelectedItem.Id);
-            await t;
-            string base64 = t.Result.ZipArchive;
+            Notification t = await db.Notifications.FirstOrDefaultAsync(a => a.Id == SelectedItem.Id);
+            string base64 = t.ZipArchive;
             App.array = Convert.FromBase64String(base64);// читаем из БД архив и записываем его в массив байтов
             #endregion
 
@@ -291,7 +290,6 @@ namespace Ruzdi_6.ViewModel
 
             if (xml.NotificationData.FormUZ1 != null) // определяем тип уведомления
             {
-                //VM_Locator.InitScopeUZ1(); // очищаем дочерние VM, затем их заполняем
 
                 #region Заполняем коллекцию имущества
                 foreach (PersonalProperty Property in xml.NotificationData.FormUZ1.PersonalProperties)
@@ -365,8 +363,9 @@ namespace Ruzdi_6.ViewModel
                 using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
                 {
                     store.Open(OpenFlags.ReadOnly);
+                    Notification Notification = await db.Notifications.FirstOrDefaultAsync(a => a.Id == SelectedItem.Id);
 
-                    X509Certificate2 cert = store.Certificates.FirstOrDefault(c => c.Thumbprint == db.Notifications.FirstOrDefault(a => a.Id == SelectedItem.Id).ThumbprintCert);
+                    X509Certificate2 cert = store.Certificates.FirstOrDefault(c => c.Thumbprint == Notification.ThumbprintCert);
                     string otvet = cert.SubjectName.Name;
                     string zap = ",";
                     if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
@@ -398,8 +397,6 @@ namespace Ruzdi_6.ViewModel
             }
             else //если это уведомление об исключении
             {
-                //VM_Locator.InitScopeUP1();
-
                 VM_Locator.scopeUP1.ServiceProvider.GetRequiredService<VM_For_Win_UP1>().UP1.NotificationData.FormUP1 = xml.NotificationData.FormUP1;
 
                 VM_Locator.scopeUP1.ServiceProvider.GetRequiredService<VM_For_Win_UP1>().IsView = true;
@@ -410,8 +407,9 @@ namespace Ruzdi_6.ViewModel
                 using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
                 {
                     store.Open(OpenFlags.ReadOnly);
+                    Notification Notification = await db.Notifications.FirstOrDefaultAsync(a => a.Id == SelectedItem.Id);
 
-                    X509Certificate2 cert = store.Certificates.FirstOrDefault(c => c.Thumbprint == db.Notifications.FirstOrDefault(a => a.Id == SelectedItem.Id).ThumbprintCert);
+                    X509Certificate2 cert = store.Certificates.FirstOrDefault(c => c.Thumbprint == Notification.ThumbprintCert);
                     string otvet = cert.SubjectName.Name;
                     string zap = ",";
                     if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо

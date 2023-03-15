@@ -752,27 +752,27 @@ namespace Ruzdi_6.ViewModel
             #region Создаем запрос и запускаем задачу выполнения данного запроса
             ruzdiUploadNotificationPackageService_v1_1PortTypeClient request = new ruzdiUploadNotificationPackageService_v1_1PortTypeClient(ruzdiUploadNotificationPackageService_v1_1PortTypeClient.EndpointConfiguration.ruzdiUploadNotificationPackageService_v1_1HttpSoap11Endpoint);
 
-            Task<uploadNotificationPackageResponse> Zapros = Task.Run(() => request.uploadNotificationPackageAsync(package));
+            uploadNotificationPackageResponse response = await request.uploadNotificationPackageAsync(package);
             #endregion
 
             #region Ожидаем завершения задачи и отображаем ответ от сервиса
 
-            uploadNotificationPackageResponse response1 = await Zapros;
+            //uploadNotificationPackageResponse response = await Zapros;
 
-            if (!string.IsNullOrEmpty(response1.registrationId))
+            if (!string.IsNullOrEmpty(response.registrationId))
             {
                 MessageBox.Show("Уведомление успешно отправлено");
             }
             else
             {
-                MessageBox.Show($"response1.packageStateCode.message - {response1.packageStateCode.message}");
+                MessageBox.Show($"response.packageStateCode.message - {response.packageStateCode.message}");
             }
 
             #endregion
 
             #region Сохранение registrationId в БД
 
-            Notification.Packageid = response1.registrationId;
+            Notification.Packageid = response.registrationId;
             contextNotification.Update(Notification);
             await contextNotification.SaveChangesAsync();
 
