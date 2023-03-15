@@ -757,8 +757,6 @@ namespace Ruzdi_6.ViewModel
 
             #region Ожидаем завершения задачи и отображаем ответ от сервиса
 
-            //uploadNotificationPackageResponse response = await Zapros;
-
             if (!string.IsNullOrEmpty(response.registrationId))
             {
                 MessageBox.Show("Уведомление успешно отправлено");
