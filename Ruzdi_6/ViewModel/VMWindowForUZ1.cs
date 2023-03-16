@@ -43,7 +43,7 @@ namespace Ruzdi_6.ViewModel
 
 
 
-            SendNotification = new RelayCommand(OnSendNotificationCommandExecute, CanSendNotificationCommandExecute);
+            SendNotification = new RelayCommand(OnSendNotificationCommandExecuteAsync, CanSendNotificationCommandExecute);
 
             #endregion
 
@@ -465,6 +465,7 @@ namespace Ruzdi_6.ViewModel
 
         #region SendNotification - Команда отправки уведомления
         public ICommand SendNotification { get; }
+
         public bool CanSendNotificationCommandExecute(object p)
         {
             //должна быть логика проверки, что валидация успешна
@@ -492,7 +493,7 @@ namespace Ruzdi_6.ViewModel
 
         }
 
-        public async void OnSendNotificationCommandExecute(object p)
+        public async void OnSendNotificationCommandExecuteAsync(object p)
         {
 
             #region Вызов метода создания объекта договора залога Entity для БД
@@ -738,7 +739,6 @@ namespace Ruzdi_6.ViewModel
                 contextNotification.Add(Notification);
                 await contextNotification.SaveChangesAsync();
                 vM_ForGlavnaya.SourceDatagrid.Add(Notification);
-
             }
             #endregion
 
@@ -749,13 +749,13 @@ namespace Ruzdi_6.ViewModel
             File.Delete(compressedFile);
             #endregion
 
-            #region Создаем запрос и запускаем задачу выполнения данного запроса
+            #region Создаем запрос и ожидаем выполнения данного запроса
             ruzdiUploadNotificationPackageService_v1_1PortTypeClient request = new ruzdiUploadNotificationPackageService_v1_1PortTypeClient(ruzdiUploadNotificationPackageService_v1_1PortTypeClient.EndpointConfiguration.ruzdiUploadNotificationPackageService_v1_1HttpSoap11Endpoint);
 
             uploadNotificationPackageResponse response = await request.uploadNotificationPackageAsync(package);
             #endregion
 
-            #region Ожидаем завершения задачи и отображаем ответ от сервиса
+            #region Выводим результат отправки
 
             if (!string.IsNullOrEmpty(response.registrationId))
             {

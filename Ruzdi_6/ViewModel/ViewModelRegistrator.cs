@@ -21,7 +21,6 @@ namespace Ruzdi_6.ViewModel
 
 
            .AddTransient<VM_Settings>()
-           .AddTransient<WorkofWord>()
 
            ;
     }
