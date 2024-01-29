@@ -27,7 +27,7 @@ namespace Ruzdi_DB.Entityes
         public string TypeNotification { get; set; }
         public string Status { get; set; }
         public string? Error { get; set; }
-        public string ThumbprintCert { get; set; }  
+        public string CertInfo { get; set; }  
         public RegistrationCertificate? registrationCertificate { get; set; }
 
     }

@@ -302,7 +302,7 @@ namespace Ruzdi_6.ViewModel
                     TypeNotification = "Исключение",
                     ZipArchive = mystr,
                     Status = "Первичная отправка",
-                    ThumbprintCert = ListThumbprint[SelectedCertInCombobox].ToString()
+                    CertInfo = ListThumbprint[SelectedCertInCombobox].ToString()
                 };
 
                 db.Add(Notification);

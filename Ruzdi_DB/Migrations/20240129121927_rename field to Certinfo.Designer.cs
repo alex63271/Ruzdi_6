@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ruzdi_DB.Context;
 
@@ -10,9 +11,10 @@ using Ruzdi_DB.Context;
 namespace Ruzdi_DB.Migrations
 {
     [DbContext(typeof(DB_Ruzdi))]
-    partial class DB_RuzdiModelSnapshot : ModelSnapshot
+    [Migration("20240129121927_rename field to Certinfo")]
+    partial class renamefieldtoCertinfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

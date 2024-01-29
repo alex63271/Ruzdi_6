@@ -26,10 +26,10 @@ namespace Ruzdi_6.ViewModel
 {
     public class VM_ForGlavnaya : ViewModel
     {
-        public VM_ForGlavnaya(DB_Ruzdi db, IWindowService service)
+        public VM_ForGlavnaya(IWindowService service)
         {
 
-            this.db = db;
+            this.db = App.Host.Services.GetRequiredService<DB_Ruzdi>();
             serviceWindow = service;
 
             SourceDatagrid = new ObservableCollection<Notification>(db.Notifications.Include(p => p.Pledgors).Include(c => c.PledgeContract));
@@ -370,7 +370,7 @@ namespace Ruzdi_6.ViewModel
                     store.Open(OpenFlags.ReadOnly);
                     Notification Notification = await db.Notifications.FirstOrDefaultAsync(a => a.Id == SelectedItem.Id);
 
-                    X509Certificate2 cert = store.Certificates.FirstOrDefault(c => c.Thumbprint == Notification.ThumbprintCert);
+                    X509Certificate2 cert = store.Certificates.FirstOrDefault(c => c.Thumbprint == Notification.CertInfo);
                     string otvet = cert.SubjectName.Name;
                     string zap = ",";
                     if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
@@ -414,7 +414,7 @@ namespace Ruzdi_6.ViewModel
                     store.Open(OpenFlags.ReadOnly);
                     Notification Notification = await db.Notifications.FirstOrDefaultAsync(a => a.Id == SelectedItem.Id);
 
-                    X509Certificate2 cert = store.Certificates.FirstOrDefault(c => c.Thumbprint == Notification.ThumbprintCert);
+                    X509Certificate2 cert = store.Certificates.FirstOrDefault(c => c.Thumbprint == Notification.CertInfo);
                     string otvet = cert.SubjectName.Name;
                     string zap = ",";
                     if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо

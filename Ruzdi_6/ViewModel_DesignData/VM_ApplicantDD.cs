@@ -7,15 +7,58 @@ namespace Ruzdi_6.ViewModel_DesignData
     {
         public VM_ApplicantDD()
         {
-            //DisplayApplicant = new ApplicantPrivatePerson
+            DisplayApplicant = new ApplicantPrivatePerson
+            {
+                Name = new PrivatePersonName
+                {
+                    Last = "Last",
+                    First = "First",
+                    Middle = "Middle"
+                },
+                Email = "12@123.ru"
+            };
+            //DisplayApplicant = new NotificationApplicant
             //{
-            //    Name = new PrivatePersonName
+            //    Role = 2,
+            //    Organization = new ApplicantOrganization
             //    {
-            //        Last = "Last",
-            //        First = "First",
-            //        Middle = "Middle"
+            //        NameFull = "NameFull",
+            //        UINN = "INN",
+            //        URN = "OGRN",
+            //        Email = ""
             //    },
-            //    Email = "12@123.ru"
+            //    Attorney = new ApplicantAttorney
+            //    {
+            //        Name = new ApplicantAttorneyName
+            //        {
+            //            First = "фамилия",
+            //            Last = "имя",
+            //            Middle = "отчество"
+            //        },
+            //        BirthDate = DateTime.Now,
+            //        Authority = "основания полномочий",
+            //        PersonDocument = new ApplicantAttorneyPersonDocument
+            //        {
+            //            Code = 21,
+            //            Name = "Паспорт",
+            //            SeriesNumber = "1234567890"
+            //        },
+            //        PersonAddress = new ApplicantAttorneyPersonAddress
+            //        {
+            //            AddressRF = new ApplicantAttorneyPersonAddressAddressRF
+            //            {
+            //                registration = true,
+            //                Region = "Москва",
+            //                District = "район",
+            //                City = "Москва",
+            //                Locality = "Нас. пункт",
+            //                Street = "улица",
+            //                House = "Дом",
+            //                Building = "строение",
+            //                Apartment = "квартира",
+            //            }
+            //        }
+            //    }
             //};
 
             //#region Конструкция чтения хранилища сертификатов и сохранения их перечня в коллекции
@@ -89,9 +132,9 @@ namespace Ruzdi_6.ViewModel_DesignData
                 {
                     Name = new ApplicantAttorneyName
                     {
-                        First = "First",
-                        Last = "Last",
-                        Middle = "Middle"
+                        First = "фамилия",
+                        Last = "имя",
+                        Middle = "отчество"
                     },
                     BirthDate = DateTime.Now,
                     Authority = "основания полномочий",
@@ -121,49 +164,9 @@ namespace Ruzdi_6.ViewModel_DesignData
 
 
 
-            DisplayApplicant = new NotificationApplicant
-            {
-                Role = 2,
-                Organization = new ApplicantOrganization
-                {
-                    NameFull = "NameFull",
-                    UINN = "INN",
-                    URN = "OGRN",
-                    Email = ""
-                },
-                Attorney = new ApplicantAttorney
-                {
-                    Name = new ApplicantAttorneyName
-                    {
-                        First = "First",
-                        Last = "Last",
-                        Middle = "Middle"
-                    },
-                    BirthDate = DateTime.Now,
-                    Authority = "основания полномочий",
-                    PersonDocument = new ApplicantAttorneyPersonDocument
-                    {
-                        Code = 21,
-                        Name = "Паспорт",
-                        SeriesNumber = "1234567890"
-                    },
-                    PersonAddress = new ApplicantAttorneyPersonAddress
-                    {
-                        AddressRF = new ApplicantAttorneyPersonAddressAddressRF
-                        {
-                            registration = true,
-                            Region = "Москва",
-                            District = "район",
-                            City = "Москва",
-                            Locality = "Нас. пункт",
-                            Street = "улица",
-                            House = "Дом",
-                            Building = "строение",
-                            Apartment = "квартира",
-                        }
-                    }
-                }
-            };
+           
+
+
 
         }
 
