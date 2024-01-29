@@ -11,8 +11,8 @@ using Ruzdi_DB.Context;
 namespace Ruzdi_DB.Migrations
 {
     [DbContext(typeof(DB_Ruzdi))]
-    [Migration("20230703144652_crate_db")]
-    partial class crate_db
+    [Migration("20240129132651_creation_db")]
+    partial class creation_db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,6 +66,10 @@ namespace Ruzdi_DB.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("CertInfo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("ContractsID")
                         .HasColumnType("int");
 
@@ -86,10 +90,6 @@ namespace Ruzdi_DB.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ThumbprintCert")
                         .IsRequired()
                         .HasColumnType("longtext");
 

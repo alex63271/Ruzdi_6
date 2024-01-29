@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ruzdi_DB.Migrations
 {
-    public partial class crate_db : Migration
+    public partial class creation_db : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -132,7 +132,7 @@ namespace Ruzdi_DB.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Error = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ThumbprintCert = table.Column<string>(type: "longtext", nullable: false)
+                    CertInfo = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     registrationCertificateId = table.Column<int>(type: "int", nullable: true)
                 },
