@@ -13,9 +13,7 @@ namespace Ruzdi_DB.Entityes
         public string Region { get; set; }
         [Key]     
         
-        public string CodeRegion { get; set; }
-        
-        //public string Id { get; set; }
+        public string CodeRegion { get; set; }       
 
         public List<Persons>? Persons { get; set; } = new();
 

@@ -4,7 +4,7 @@ namespace Ruzdi_DB.Entityes
 {
     public class Contracts
     {        
-        public string Id { get; set; }        
+        public int Id { get; set; }        
 
         public DateOnly Data { get; set; }
         public string Number { get; set; }

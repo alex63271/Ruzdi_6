@@ -15,6 +15,13 @@
     d:DesignWidth="882"
     DataContext="{Binding VM_Applicant, Source={StaticResource Locator}}"
     mc:Ignorable="d">
+    <!--<UserControl.Resources>
+        <DataTemplate>
+            <DataTemplate.Triggers Binding="{Binding DataContext.TaskResultOK, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Value="True" >
+            </DataTemplate.Triggers>
+
+        </DataTemplate>
+    </UserControl.Resources>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -50,6 +57,8 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
+
+
         </Grid.Resources>
 
         <Label
@@ -64,7 +73,7 @@
             Grid.Column="3"
             VerticalAlignment="Center"
             Command="{Binding DataContext.SendNotification, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
-            Content="Подписать и отправить"
+            Content="{Binding DataContext.Textsendbutton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
             FontSize="16"
             Style="{StaticResource ButtonNavigation}" />
 
@@ -125,7 +134,6 @@
             Grid.ColumnSpan="3"
             Content="{Binding DisplayApplicant}">
             <ContentControl.Resources>
-
                 <DataTemplate DataType="{x:Type modelApplicant:ApplicantPrivatePerson}">
                     <GroupBox
                         Margin="120,0"
@@ -428,8 +436,7 @@
                                         Grid.Column="1"
                                         Margin="0,0,150,0"
                                         ItemsSource="{Binding DataContext.ListCert, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                                        SelectedIndex="{Binding DataContext.IndexSelectedCert, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                                        />
+                                        SelectedIndex="{Binding DataContext.IndexSelectedCert, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                                 </Grid>
                             </StackPanel>
                         </GroupBox>

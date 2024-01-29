@@ -4,7 +4,7 @@ namespace Ruzdi_DB.Entityes
 {
     public class Persons : Pledgor
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string Last { get; set; }
         public string First { get; set; }

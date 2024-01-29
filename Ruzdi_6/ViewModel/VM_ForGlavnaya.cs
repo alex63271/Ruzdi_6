@@ -113,7 +113,7 @@ namespace Ruzdi_6.ViewModel
                             {
                                 documentAndSignature = mystr
                             };
-                            registrationCertificate.Id = registrationCertificate.GetHashCode().ToString();
+                            //registrationCertificate.Id = registrationCertificate.GetHashCode().ToString();
                             not.registrationCertificate = registrationCertificate;
                         }
                         //распаковка zip-архива

@@ -9,11 +9,7 @@ namespace Ruzdi_6.Services
 {
     public class  ServiceWindow : IWindowService
     {
-
-        public event Action OnCloseWindow;
         
-        
-
         public void CloseWindowDialog(object p)
         {           
             if (p is PersonalProperty)

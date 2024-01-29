@@ -22,10 +22,10 @@ namespace Ruzdi_DB.Migrations
             modelBuilder.Entity("NotificationPledgor", b =>
                 {
                     b.Property<string>("NotificationsId")
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<string>("PledgorsId")
-                        .HasColumnType("varchar(95)");
+                    b.Property<int>("PledgorsId")
+                        .HasColumnType("int");
 
                     b.HasKey("NotificationsId", "PledgorsId");
 
@@ -36,8 +36,9 @@ namespace Ruzdi_DB.Migrations
 
             modelBuilder.Entity("Ruzdi_DB.Entityes.Contracts", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(95)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
                     b.Property<DateOnly>("Data")
                         .HasColumnType("date");
@@ -61,10 +62,10 @@ namespace Ruzdi_DB.Migrations
             modelBuilder.Entity("Ruzdi_DB.Entityes.Notification", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<string>("ContractsID")
-                        .HasColumnType("varchar(95)");
+                    b.Property<int?>("ContractsID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DataTime")
                         .HasColumnType("datetime(6)");
@@ -98,8 +99,8 @@ namespace Ruzdi_DB.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("registrationCertificateId")
-                        .HasColumnType("varchar(95)");
+                    b.Property<int?>("registrationCertificateId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -112,8 +113,9 @@ namespace Ruzdi_DB.Migrations
 
             modelBuilder.Entity("Ruzdi_DB.Entityes.Pledgor", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(95)");
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -129,7 +131,7 @@ namespace Ruzdi_DB.Migrations
             modelBuilder.Entity("Ruzdi_DB.Entityes.Regions", b =>
                 {
                     b.Property<string>("CodeRegion")
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Region")
                         .IsRequired()
@@ -574,8 +576,9 @@ namespace Ruzdi_DB.Migrations
 
             modelBuilder.Entity("Ruzdi_DB.Entityes.RegistrationCertificate", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(95)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
                     b.Property<string>("documentAndSignature")
                         .IsRequired()
@@ -607,7 +610,7 @@ namespace Ruzdi_DB.Migrations
 
                     b.Property<string>("RegionCodeRegion")
                         .IsRequired()
-                        .HasColumnType("varchar(95)")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("Organizations_RegionCodeRegion");
 
                     b.HasIndex("RegionCodeRegion");
@@ -639,7 +642,7 @@ namespace Ruzdi_DB.Migrations
 
                     b.Property<string>("RegionCodeRegion")
                         .IsRequired()
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasIndex("RegionCodeRegion");
 

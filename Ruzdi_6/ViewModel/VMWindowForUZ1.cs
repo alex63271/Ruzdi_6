@@ -109,6 +109,12 @@ namespace Ruzdi_6.ViewModel
         }
         #endregion
 
+        Task<uploadNotificationPackageResponse> TaskSend { get; set; }
+
+
+        public bool TaskResultOK => TaskSend.IsCompleted;
+
+
         Contracts contract;
         Notification Notification;
         List<Ruzdi_DB.Entityes.Pledgor> Pledgors = new();
@@ -123,6 +129,13 @@ namespace Ruzdi_6.ViewModel
             set => Set(ref currentContentVM, value);
         }
         #endregion
+
+        private string textsendbutton = "Подписать и отправить";
+        public string Textsendbutton
+        {
+            get => textsendbutton;
+            set => Set(ref textsendbutton, value);
+        }
 
         #region Команды навигации
 
@@ -333,12 +346,12 @@ namespace Ruzdi_6.ViewModel
                 if (pledgor.PrivatePerson != null) //если это физ. лицо
                 {
                     #region Поиск залогодателя в БД
-                    Persons person = await contextNotification.Persons.Include(p => p.Region)
+                    Persons person = await Task.Run(()=> contextNotification.Persons.Include(p => p.Region)
                                       .FirstOrDefaultAsync(p => p.First == pledgor.PrivatePerson.Name.First
                                       && p.Last == pledgor.PrivatePerson.Name.Last
                                       && p.Middle == pledgor.PrivatePerson.Name.Middle
                                       && p.BirthDate == DateOnly.FromDateTime(pledgor.PrivatePerson.BirthDate)
-                                      && p.Region.Region == pledgor.PrivatePerson.PersonAddress.AddressRF.Region);
+                                      && p.Region.Region == pledgor.PrivatePerson.PersonAddress.AddressRF.Region));
                     #endregion
 
                     #region Поиск региона в БД
@@ -361,7 +374,6 @@ namespace Ruzdi_6.ViewModel
                             Region = pledgor.PrivatePerson.PersonAddress.AddressRF.Region
                         }
                     };
-                    pledgorentity.Id = pledgorentity.GetHashCode().ToString();
 
                     Pledgors.Add(pledgorentity); //внесение в список Notification
                 }
@@ -393,7 +405,6 @@ namespace Ruzdi_6.ViewModel
                         }
 
                     };
-                    pledgorentity.Id = pledgorentity.GetHashCode().ToString();
                     Pledgors.Add(pledgorentity);
                 }
             }
@@ -405,7 +416,6 @@ namespace Ruzdi_6.ViewModel
         {
             contract = new Contracts
             {
-                Id = PledgeContract.GetHashCode().ToString(),
                 Data = DateOnly.FromDateTime(PledgeContract.Date),
                 Name = PledgeContract.Name,
                 Number = PledgeContract.Number,
@@ -495,6 +505,7 @@ namespace Ruzdi_6.ViewModel
 
         public async void OnSendNotificationCommandExecuteAsync(object p)
         {
+            Textsendbutton = "Идет отправка уведомления...";
 
             #region Вызов метода создания объекта договора залога Entity для БД
             CreateObj_Contract(VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Contract>().Contract);
@@ -567,7 +578,7 @@ namespace Ruzdi_6.ViewModel
             #endregion
 
             #region Вызов метода проверки наличия в БД залогодателя 
-            await CheckAndSavePledgorDBAsync(VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>().Pledgors);
+            await Task.Run(()=> CheckAndSavePledgorDBAsync(VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Pledgor>().Pledgors));
             #endregion
 
             #region преобразование коллекции залогодержателей
@@ -750,15 +761,19 @@ namespace Ruzdi_6.ViewModel
             #endregion
 
             #region Создаем запрос и ожидаем выполнения данного запроса
+
             ruzdiUploadNotificationPackageService_v1_1PortTypeClient request = new ruzdiUploadNotificationPackageService_v1_1PortTypeClient(ruzdiUploadNotificationPackageService_v1_1PortTypeClient.EndpointConfiguration.ruzdiUploadNotificationPackageService_v1_1HttpSoap11Endpoint);
 
-            uploadNotificationPackageResponse response = await request.uploadNotificationPackageAsync(package);
+            //TaskSend =  request.uploadNotificationPackageAsync(package);
+            //await TaskSend;
+            uploadNotificationPackageResponse response = await Task.Run(() => request.uploadNotificationPackageAsync(package));
             #endregion
 
             #region Выводим результат отправки
 
             if (!string.IsNullOrEmpty(response.registrationId))
             {
+                Textsendbutton = "Уведомление успешно отправлено";
                 MessageBox.Show("Уведомление успешно отправлено");
             }
             else

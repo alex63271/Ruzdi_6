@@ -4,7 +4,7 @@ namespace Ruzdi_DB.Entityes
 {
     public class Organizations : Pledgor
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string NameFull { get; set; }
         public string OGRN { get; set; }

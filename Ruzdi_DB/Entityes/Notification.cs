@@ -17,7 +17,7 @@ namespace Ruzdi_DB.Entityes
         public List<Pledgor>? Pledgors { get; set; } 
 
         #region свойства связи один-ко многим PledgeContract
-        public string? ContractsID { get; set; }
+        public int? ContractsID { get; set; }
 
         public Contracts? PledgeContract { get; set; }
         #endregion
