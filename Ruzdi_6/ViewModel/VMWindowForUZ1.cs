@@ -744,7 +744,7 @@ namespace Ruzdi_6.ViewModel
                     PledgeContract = contract,
                     Pledgors = Pledgors,
                     Status = "Первичная отправка",
-                    CertInfo = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListThumbprint[VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().IndexSelectedCert].ToString()
+                    CertInfo = VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().ListCert[VM_Locator.scopeUZ1.ServiceProvider.GetRequiredService<VM_Applicant>().IndexSelectedCert].ToString()
                 };
 
                 contextNotification.Add(Notification);
