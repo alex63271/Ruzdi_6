@@ -17,6 +17,16 @@ namespace Ruzdi_6.ViewModel_DesignData
                 },
                 Email = "12@123.ru"
             };
+            SelectedApplicant = new ApplicantPrivatePerson
+            {
+                Name = new PrivatePersonName
+                {
+                    Last = "Last",
+                    First = "First",
+                    Middle = "Middle"
+                },
+                Email = "12@123.ru"
+            };
             //DisplayApplicant = new NotificationApplicant
             //{
             //    Role = 2,
@@ -61,44 +71,7 @@ namespace Ruzdi_6.ViewModel_DesignData
             //    }
             //};
 
-            //#region Конструкция чтения хранилища сертификатов и сохранения их перечня в коллекции
-            //using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser))
-            //{
-            //    List = new ArrayList();
-            //    ListThumbprint = new ArrayList();
-            //    store.Open(OpenFlags.ReadOnly);
-            //    // Проходим по всем сертификатам 
-            //    foreach (X509Certificate2 cert in store.Certificates)
-            //    {
-            //        if (cert.NotAfter > DateTime.Now) // выбираем сертификаты с действующим сроком
-            //        {
-            //            string zap = ",";
-            //            string otvet = cert.SubjectName.Name + zap; //добавляем запятую в конец чтобы искался последний элемент в строке
-            //            if (otvet.Contains("CN=") && otvet.Contains("SN=") && otvet.Contains("G="))  //отсеиваем сертификаты без нужных атрибутов
-            //            {
-            //                if (otvet.Contains("ОГРН="))//если есть ОГРН. значит юр лицо
-            //                {
-            //                    string s = "CN=";
-            //                    string CN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-            //                    s = "SN=";
-            //                    string SN = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-            //                    s = "G=";
-            //                    string G = otvet.Substring(otvet.IndexOf(s) + s.Length, otvet.IndexOf(zap, otvet.IndexOf(s)) - (otvet.IndexOf(s) + s.Length));
-            //                    string stroka = CN + ", " + SN + " " + G;    //создаем строку для записи её в лист
-            //                    List.Add(stroka);   //записываем строку в лист для отображения в интерфейсе
-            //                    ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
-            //                }
-            //                else //если физ. лицо
-            //                {
-            //                    string CN = otvet.Substring(otvet.IndexOf("CN=") + "CN=".Length, otvet.IndexOf(zap, otvet.IndexOf("CN=")) - (otvet.IndexOf("CN=") + "CN=".Length));
-            //                    List.Add(CN);   //записываем строку в лист для отображения в интерфейсе
-            //                    ListThumbprint.Add(cert.Thumbprint);  // лист2 для программного выбора сертификата(содержит отпечатки сертификатов)
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-            //#endregion
+
 
             #region ApplicantList - список возможных заявителей
             /*
@@ -161,13 +134,7 @@ namespace Ruzdi_6.ViewModel_DesignData
                     }
                 }
             };
-
-
-
-           
-
-
-
+          
         }
 
         public NotificationApplicant DisplayApplicant { get; set; }
